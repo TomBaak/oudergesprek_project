@@ -5,20 +5,23 @@
     <div class="container w-75 m-auto">
         <div class="row">
             <div class="col-sm-8">
-                <h1 class="text-center p-3">Actieve uitnodigingen</h1>
-                <table class="table table-striped">
+                <h1 class="text-center p-3"><i class="fas fa-calendar-alt"></i> Actieve uitnodigingen</h1>
+                <table class="table table-bordered table-striped">
                     <tr>
                         <td>20-02-2020</td>
-                        <td><a href="#">Bekijk inschrijvingen</a></td>
+                        <td><a href="{{path('inschrijvingen')}}">Bekijk inschrijvingen</a></td>
                     </tr>
                     <tr>
                         <td>20-01-2020</td>
-                        <td><a href="#">Bekijk inschrijvingen</a></td>
+                        <td><a href="{{path('inschrijvingen')}}">Bekijk inschrijvingen</a></td>
                     </tr>
                 </table>
             </div>
             <div class="col">
-                <a href="{{ path('nieuwe_uitnodiging') }}" class="btn btn-outline-success m-3">Nieuwe uitnodiging</a>
+                <h1 class="text-center p-3"><i class="fas fa-cog"></i> Opties</h1>
+                <div class="border w-100 p-3">
+                    <a href="#" class="btn btn-success w-100"><i class="fas fa-plus"></i>&nbsp;&nbsp;Nieuwe uitnodiging</a>
+                </div>
             </div>
         </div>
     </div>

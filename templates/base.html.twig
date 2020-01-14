@@ -9,48 +9,55 @@
               crossorigin="anonymous">
         <link rel="icon" href="{{ asset ('img/icon.ico') }}">
         <link href="https://fonts.googleapis.com/css?family=Public+Sans|Roboto+Slab&display=swap" rel="stylesheet">
-        <link href="{{ asset('css/index.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/base.css') }}" rel="stylesheet">
         <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/a75c1f8dda.js" crossorigin="anonymous"></script>
     {% endblock %}
 </head>
 
-<body class="min-vh-100">
+<body>
+<div class="container h-100" id="wrapper">
 
-<div class="container">
+    <div class="container min-vh-100">
 
-    <nav class="navbar navbar-light bg-light bg-transparent row">
-        <a class="navbar-brand col text-center" href="#">
-            <img src="{{ asset('img/ROC-logo.png') }}" height="65" alt="ROC Mondriaan">
-        </a>
-        <a class="navbar-link col text-center" href="{{ path('home') }}">Home</a>
-        <a class="navbar-link col text-center" href="{{ path('login') }}">Inloggen</a>
-    </nav>
-    <hr class="m-0">
 
-    {% block body %}{% endblock %}
+        <nav class="navbar navbar-light bg-light bg-transparent row">
+            <a class="navbar-brand text-center col" href="#">
+                <img src="{{ asset('img/ROC-logo.png') }}" height="65" alt="ROC Mondriaan">
+            </a>
+            <a class="navbar-link text-center col" href="{{ path('home') }}"><i class="fas fa-home"></i> Home</a>
+            <a class="navbar-link text-center col" href="{{ path('login') }}"><i class="fas fa-user"></i> Inloggen</a>
+        </nav>
+        <hr class="m-0">
+
+        {% block body %}
+        {% endblock %}
+
+    </div>
 
     {% block footer %}
-        <footer class="bg-transparent text-center mt-4">
+        <footer class="bg-transparent text-center">
             <hr class="m-0 p-0">
-            <p class="text-secondary p-3">Ontwikkeld door: <a target="_blank" href="https://www.linkedin.com/in/tom-baak/">Tom
+            <p class="text-secondary p-3">Ontwikkeld door: <a target="_blank"
+                                                              href="https://www.linkedin.com/in/tom-baak/">Tom
                     Baak</a></p>
         </footer>
-    {% endblock %}
-
-    {% block javascripts %}
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-                crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-                crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-                crossorigin="anonymous"></script>
     {% endblock %}
 
 </div>
 
 </body>
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+{% endblock %}
 
 </html>
