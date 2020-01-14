@@ -1,16 +1,6 @@
 {% extends ('base.html.twig') %}
 
 {% block body %}
-    <div class="container">
-        <nav class="navbar navbar-light bg-light bg-transparent">
-            <a class="navbar-brand" href="#">
-                <img src="img/ROC-logo.png" height="65" alt="ROC Mondriaan">
-            </a>
-            <a class="navbar-link" href="#">Inloggen</a>
-        </nav>
-        <hr class="m-0">
         <h1 class="rocmon-font text-center w-100 mt-5">SimplyPlan</h1>
-        <p class="text-center">Welkom bij SimplyPlan van ROC Mondriaan. <a href="/login.html">Log in</a> om de applicatie te gebruiken.</p>
-
-    </div>
+        <p class="text-center">Welkom bij SimplyPlan van ROC Mondriaan. <a href="{{ path('login') }}">Log in</a> om de applicatie te gebruiken.</p>
 {% endblock %}

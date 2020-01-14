@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container w-75 m-auto">
+        <div class="row">
+            <div class="col-sm-8">
+                <h1 class="text-center p-3">Actieve uitnodigingen</h1>
+                <table class="table table-striped">
+                    <tr>
+                        <td>20-02-2020</td>
+                        <td><a href="#">Bekijk inschrijvingen</a></td>
+                    </tr>
+                    <tr>
+                        <td>20-01-2020</td>
+                        <td><a href="#">Bekijk inschrijvingen</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col">
+                <a href="{{ path('nieuwe_uitnodiging') }}" class="btn btn-outline-success m-3">Nieuwe uitnodiging</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
