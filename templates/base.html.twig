@@ -26,9 +26,20 @@
                 <img src="{{ asset('img/ROC-logo.png') }}" height="65" alt="ROC Mondriaan">
             </a>
             <a class="navbar-link text-center col" href="{{ path('home') }}"><i class="fas fa-home"></i> Home</a>
-            <a class="navbar-link text-center col" href="{{ path('slb') }}"><i class="far fa-calendar-alt"></i> Uitnodigingen</a>
-            <a class="navbar-link text-center col" href="{{ path('administrator') }}"><i class="fas fa-user-cog"></i> Administratie</a>
-            <a class="navbar-link text-center col" href="{{ path('login') }}"><i class="fas fa-user"></i> Inloggen</a>
+            {% if app.user %}
+                {% if "ROLE_SLB" in app.user.getRoles %}
+                    <a class="navbar-link text-center col" href="{{ path('slb') }}"><i class="far fa-calendar-alt"></i>
+                        Uitnodigingen</a>
+                {% elseif "ROLE_ADMIN" in app.user.getRoles %}
+                    <a class="navbar-link text-center col" href="{{ path('administrator') }}"><i
+                                class="fas fa-user-cog"></i> Administratie</a>
+                {% endif %}
+            {% endif %}
+            {% if app.user %}
+                <a class="navbar-link text-center col text-danger" href="{{ path('logout') }}"><i class="fas fa-user-slash"></i> Uitloggen</a>
+            {% else %}
+                <a class="navbar-link text-center col" href="{{ path('login') }}"><i class="fas fa-user"></i> Inloggen</a>
+            {% endif %}
         </nav>
         <hr class="m-0">
 

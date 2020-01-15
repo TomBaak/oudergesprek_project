@@ -33,6 +33,11 @@ class Klas
      */
     private $uitnodiging;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $naam;
+
     public function __construct()
     {
         $this->uitnodiging = new ArrayCollection();
@@ -94,6 +99,18 @@ class Klas
                 $uitnodiging->setKlas(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNaam(): ?string
+    {
+        return $this->naam;
+    }
+
+    public function setNaam(string $naam): self
+    {
+        $this->naam = $naam;
 
         return $this;
     }

@@ -54,6 +54,16 @@ class User implements UserInterface
      */
     private $username;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isAdmin;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPwChanged;
+
     public function __construct()
     {
         $this->klas = new ArrayCollection();
@@ -78,6 +88,8 @@ class User implements UserInterface
 
     public function getPassword(): ?string
     {
+    	
+    	
         return $this->password;
     }
 
@@ -158,9 +170,9 @@ class User implements UserInterface
 	 * @return (Role|string)[] The user roles
 	 */
 	public function getRoles()
-            	{
-            		return $this->roles;
-            	}
+                              	{
+                              		return $this->roles;
+                              	}
 	
 	/**
 	 * Returns the salt that was originally used to encode the password.
@@ -170,9 +182,9 @@ class User implements UserInterface
 	 * @return string|null The salt
 	 */
 	public function getSalt()
-            	{
-            		// TODO: Implement getSalt() method.
-            	}
+                              	{
+                              		// TODO: Implement getSalt() method.
+                              	}
 	
 	/**
 	 * Returns the username used to authenticate the user.
@@ -180,9 +192,9 @@ class User implements UserInterface
 	 * @return string The username
 	 */
 	public function getUsername()
-            	{
-            		return $this->username;
-            	}
+                              	{
+                              		return $this->username;
+                              	}
 	
 	/**
 	 * Removes sensitive data from the user.
@@ -191,9 +203,9 @@ class User implements UserInterface
 	 * the plain-text password is stored on this object.
 	 */
 	public function eraseCredentials()
-            	{
-            		// TODO: Implement eraseCredentials() method.
-            	}
+                              	{
+                              		// TODO: Implement eraseCredentials() method.
+                              	}
 
     public function setRoles(array $roles): self
     {
@@ -205,6 +217,30 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function getIsAdmin(): ?bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(bool $isAdmin): self
+    {
+        $this->isAdmin = $isAdmin;
+
+        return $this;
+    }
+
+    public function getIsPwChanged(): ?bool
+    {
+        return $this->isPwChanged;
+    }
+
+    public function setIsPwChanged(bool $isPwChanged): self
+    {
+        $this->isPwChanged = $isPwChanged;
 
         return $this;
     }
