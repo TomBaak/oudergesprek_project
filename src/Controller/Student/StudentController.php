@@ -10,11 +10,11 @@
 	class StudentController extends AbstractController
 	{
 		/**
-		 * @Route("/student/inschrijving", name="inschrijven")
+		 * @Route("/student/afspraak", name="afspraak")
 		 */
-		public function inschrijving(){
+		public function afspraak(){
 		
-			return $this->render('student/inschrijven.html.twig');
+			return $this->render('student/student_afspraak.html.twig');
 			
 		}
 		

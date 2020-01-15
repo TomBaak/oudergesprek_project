@@ -25,7 +25,7 @@
         {
 
 
-            return $this->render('slb/slb_inschrijvingen.html.twig');
+            return $this->render('slb/slb_afspraken.html.twig');
         }
 		
 		/**

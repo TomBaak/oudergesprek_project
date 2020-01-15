@@ -1,19 +1,45 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}: Inloggen{% endblock %}
+
 {% block body %}
     <h1 class="text-center p-3"><i class="fas fa-lock-open"></i> Inloggen</h1>
-    <form class="w-50 m-auto">
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="alert alert-danger">
+            U bent ingelogd als {{ app.user.username }}, <a href="{{ path('logout') }}">Uitloggen</a>
+        </div>
+    {% endif %}
+
+    <form class="w-50 m-auto" method="post">
         <div class="row mt-3">
             <div class="col-sm-4"><label for="email">Email:</label></div>
-            <div class="col-sm-8"><input class="form-control" type="email" id="email" placeholder="Email"></div>
+            <div class="col-sm-8"><input class="form-control" value="{{ last_username }}" type="email" id="email" name="email" placeholder="Email"></div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-4"><label for="pw">Wachtwoord:</label></div>
-            <div class="col-sm-8"><input class="form-control" type="email" id="pw" placeholder="Wachtwoord"></div>
+            <div class="col-sm-8"><input class="form-control" type="password" id="pw" name="password" placeholder="Wachtwoord"></div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-4"></div>
             <div class="col-sm-8"><input class="form-control btn btn-outline-primary" type="submit" value="Log in"></div>
         </div>
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}">
     </form>
+
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    #}
 {% endblock %}
