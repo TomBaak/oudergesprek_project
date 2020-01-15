@@ -11,7 +11,7 @@
 	{
 		
 		/**
-		 * @Route("/slb/overzicht", name="slber")
+		 * @Route("/slb/overzicht", name="slb")
 		 */
 		public function home()
 		{
@@ -27,5 +27,15 @@
 
             return $this->render('slb/slb_inschrijvingen.html.twig');
         }
+		
+		/**
+		 * @Route("/slb/uitnodiging/nieuw", name="uitnodiging")
+		 */
+		public function uitnodiging()
+		{
+			
+			
+			return $this->render('slb/slb_nieuwe_uitnodiging.html.twig');
+		}
 	
 	}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="mt-2 mb-4">Nieuwe uitnodiging</h1>
+
+    <form method="post" action="{{ path('slb') }}">
+
+        <div class="form-group row mt-3 ">
+            <label class="col-sm-3">Klas:</label>
+            <select class="form-control col">
+                <option>2J</option>
+                <option>2H</option>
+            </select>
+        </div>
+        <div class="form-group row mt-3 ">
+            <label class="col-sm-3">Datum:</label>
+            <input type="date" class="form-control col">
+        </div>
+        <div class="form-group row mt-3 ">
+            <label class="col-sm-3">Start tijd:</label>
+            <input type="time" class="form-control col">
+        </div>
+        <div class="form-group row mt-3 ">
+            <label class="col-sm-3">Eind tijd:</label>
+            <input type="time" class="form-control col">
+        </div>
+        <div class="form-group row mt-3 ">
+            <label class="col-sm-3"></label>
+            <input type="submit" class="form-control col btn btn-outline-success" value="Verstuur uitnodiging">
+        </div>
+
+
+    </form>
+{% endblock %}
