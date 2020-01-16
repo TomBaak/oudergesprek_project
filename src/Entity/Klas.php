@@ -49,11 +49,26 @@ class Klas
     }
 
     public function getLeerlingen(): ?array
-    {
-        return $this->leerlingen;
+	{
+  
+		$decoded_leerlingen = [];
+		
+		for($i = 0; $i < count($this->leerlingen); $i++){
+			
+			array_push($decoded_leerlingen, json_decode($this->leerlingen[$i]));
+			
+		}
+		
+        return $decoded_leerlingen;
     }
-
-    public function setLeerlingen(array $leerlingen): self
+	
+	public function addLeerling($leerling)
+	{
+		array_push($this->leerlingen, $leerling);
+	}
+	
+	
+	public function setLeerlingen(array $leerlingen): self
     {
         $this->leerlingen = $leerlingen;
 

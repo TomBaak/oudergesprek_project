@@ -7,6 +7,7 @@
 	use Doctrine\ORM\EntityManagerInterface;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+	use Symfony\Component\HttpFoundation\Session\SessionInterface;
 	use Symfony\Component\Routing\Annotation\Route;
 	use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 	use UserType;
@@ -15,10 +16,12 @@
 	{
 		
 		private $passwordEncoder;
+		private $session;
 		
-		public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+		public function __construct(UserPasswordEncoderInterface $passwordEncoder, SessionInterface $session)
 		{
 			
+			$this->session = $session;
 			$this->passwordEncoder = $passwordEncoder;
 			
 		}
@@ -26,7 +29,7 @@
 		/**
 		 * @Route("/adimistrator/slb/nieuw", name="administrator_nieuwe_sbler")
 		 */
-		public function administratorNieuweSbler(Request $request, EntityManagerInterface $em, RandomPassword $randomPassword)
+		public function administratorNieuweSbler(Request $request, EntityManagerInterface $em, RandomPassword $randomPassword, SessionInterface $session)
 		{
 			$form = $this->createForm(UserType::class);
 			
@@ -41,18 +44,17 @@
 				
 				$user->setIsAdmin(false);
 				
-				$user->setIsPwChanged(false);
+				$randomSetPw = $randomPassword->getRandomPassword();
 				
-				$user->setPassword($randomPassword->getRandomPassword());
-				
-				dd($user);
+				$user->setPassword($this->passwordEncoder->encodePassword($user  ,$randomSetPw));
 				
 				$em->persist($user);
 				
 				$em->flush();
 				
+				$this->addFlash('success', 'Nieuw SLB account aan gemaakt met wachtwoord: '. $randomSetPw);
 				
-				return $this->redirectToRoute('task_success');
+				return $this->redirectToRoute('administrator');
 			}
 			
 			return $this->render('administrator/SLB/administrator_nieuwe_slber.html.twig', [

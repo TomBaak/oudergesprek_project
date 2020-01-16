@@ -36,12 +36,41 @@
                 {% endif %}
             {% endif %}
             {% if app.user %}
-                <a class="navbar-link text-center col text-danger" href="{{ path('logout') }}"><i class="fas fa-user-slash"></i> Uitloggen</a>
+                <a class="navbar-link text-center col text-danger" href="{{ path('logout') }}"><i
+                            class="fas fa-user-slash"></i> Uitloggen</a>
             {% else %}
-                <a class="navbar-link text-center col" href="{{ path('login') }}"><i class="fas fa-user"></i> Inloggen</a>
+                <a class="navbar-link text-center col" href="{{ path('login') }}"><i class="fas fa-user"></i>
+                    Inloggen</a>
             {% endif %}
         </nav>
         <hr class="m-0">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
 
         {% block body %}
         {% endblock %}
@@ -62,9 +91,8 @@
 </body>
 
 {% block javascripts %}
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
+    <script src="{{ asset('js\add-collection-widget.js') }}" type="javascript"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>

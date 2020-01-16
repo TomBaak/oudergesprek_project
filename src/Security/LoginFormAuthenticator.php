@@ -56,7 +56,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             Security::LAST_USERNAME,
             $credentials['email']
         );
-
+        
         return $credentials;
     }
 

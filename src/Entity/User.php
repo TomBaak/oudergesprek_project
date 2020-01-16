@@ -20,7 +20,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
@@ -58,11 +58,6 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isAdmin;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isPwChanged;
 
     public function __construct()
     {
@@ -232,16 +227,9 @@ class User implements UserInterface
 
         return $this;
     }
-
-    public function getIsPwChanged(): ?bool
-    {
-        return $this->isPwChanged;
-    }
-
-    public function setIsPwChanged(bool $isPwChanged): self
-    {
-        $this->isPwChanged = $isPwChanged;
-
-        return $this;
-    }
+    
+    public function getDisplayname() : string
+	{
+		return $this->getFirstname() . ' ' . $this->getLastname();
+	}
 }

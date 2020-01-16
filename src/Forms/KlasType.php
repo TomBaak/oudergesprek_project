@@ -2,11 +2,14 @@
 	
 	
 	use App\Entity\Klas;
+	use App\Entity\LeerlingType;
 	use App\Entity\User;
 	use Doctrine\ORM\EntityRepository;
 	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+	use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+	use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 	use Symfony\Component\Form\Extension\Core\Type\TextType;
 	use Symfony\Component\Form\FormBuilderInterface;
 	use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +21,7 @@
 		{
 			parent::buildForm($builder, $options);
 			$builder
-				->add('naam', TextType::class, ['label' => 'Email'])
+				->add('naam', TextType::class, ['label' => 'Klas naam'])
 				->add('slb', EntityType::class, [
 					
 					'class' => User::class,
@@ -27,7 +30,7 @@
 							->where('u.isAdmin = 0')
 							->orderBy('u.firstname', 'ASC');
 					},
-					'choice_label' => 'Klas',
+					'choice_label' => 'displayname',
 					'label' => 'SLBer'
 				
 				]);

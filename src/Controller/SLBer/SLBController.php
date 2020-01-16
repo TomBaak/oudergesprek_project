@@ -4,6 +4,7 @@
 	namespace App\Controller\SLBer;
 	
 	
+	use App\Entity\Klas;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\Routing\Annotation\Route;
 	
@@ -15,27 +16,8 @@
 		 */
 		public function home()
 		{
+			
 			return $this->render('slb/slb.html.twig');
-		}
-
-        /**
-         * @Route("/slb/uitnodiging/inschrijvingen", name="inschrijvingen")
-         */
-        public function inschrijvingen()
-        {
-
-
-            return $this->render('slb/slb_afspraken.html.twig');
-        }
-		
-		/**
-		 * @Route("/slb/uitnodiging/nieuw", name="uitnodiging")
-		 */
-		public function uitnodiging()
-		{
-			
-			
-			return $this->render('slb/slb_nieuwe_uitnodiging.html.twig');
 		}
 	
 	}
