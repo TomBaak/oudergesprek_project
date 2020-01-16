@@ -4,7 +4,7 @@
 	namespace App\Classes;
 	
 	
-	class RandomPassword
+	class Randomizer
 	{
 		
 		public function getRandomPassword ($length = 10) {

@@ -3,7 +3,7 @@
 	
 	namespace App\Controller\Administrator\SLB;
 	
-	use App\Classes\RandomPassword;
+	use App\Classes\Randomizer;
 	use Doctrine\ORM\EntityManagerInterface;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +29,7 @@
 		/**
 		 * @Route("/adimistrator/slb/nieuw", name="administrator_nieuwe_sbler")
 		 */
-		public function administratorNieuweSbler(Request $request, EntityManagerInterface $em, RandomPassword $randomPassword, SessionInterface $session)
+		public function administratorNieuweSbler(Request $request, EntityManagerInterface $em, Randomizer $randomPassword, SessionInterface $session)
 		{
 			$form = $this->createForm(UserType::class);
 			

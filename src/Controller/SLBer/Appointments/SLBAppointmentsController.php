@@ -17,7 +17,7 @@
 		{
 			
 			
-			return $this->render('slb/slb_afspraken.html.twig');
+			return $this->render('slb/appointments/slb_afspraken.html.twig');
 		}
 		
 	}

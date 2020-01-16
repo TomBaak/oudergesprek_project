@@ -1,22 +1,29 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="mt-2 mb-4">Nieuwe leerling <span class="text-muted">in klas {{ klas.naam }}</span></h1>
-
-    <div class="alert_js">
-
-    </div>
-
+    <h1 class="mt-2 mb-4">Leerlingen <span class="text-muted">in klas {{ klas.naam }}</span></h1>
 
     <div class="form-group row mt-3 ">
-        <label class="col-sm-2">Leerlingen: </label>
-        <div class="col-sm-7 p-3">
+        <div class="col-sm-9">
             {% if klas.leerlingen %}
-                <ul id="s_list">
+                <table class="table table-bordered table-striped rounded text-center">
+
+                    <thead>
+                    <tr>
+                        <th>Naam student</th>
+                        <th>Student nummer</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
                     {% for leerling in klas.leerlingen %}
-                        <li>{{ leerling.naam }} - {{ leerling.studentId }}</li>
+                        <tr>
+                            <td>{{ leerling.naam }}</td>
+                            <td>{{ leerling.studentId }}</td>
+                        </tr>
                     {% endfor %}
-                </ul>
+                    </tbody>
+                </table>
             {% else %}
                 <h3><i class="fas fa-exclamation-triangle text-warning"></i> Er zijn nog geen leerlingen toegevoegd</h3>
             {% endif %}
@@ -24,47 +31,22 @@
 
         <div class="col-sm-3 border p-2 rounded">
 
-            <form>
-                <input class="form-control mb-2" type="text" id="naam" placeholder="Naam leerling">
-                <input class="form-control mb-2" type="text" id="studentId" placeholder="Leerlingnummer">
+            <form method="post" action="{{ path('administrator_nieuwe_student_toevoegen', {id:klas.id}) }}">
+                <input class="form-control mb-2" type="text" name="naam" placeholder="Naam leerling">
+                <input class="form-control mb-2" type="text" name="studentId" placeholder="Leerlingnummer">
                 <button type="submit" class="add-student btn btn-outline-success w-100"><i class="fas fa-user-plus"></i>
                     Leerling
                     toevoegen
                 </button>
             </form>
+
+            <a href="{{ path('administrator') }}" class="form-control col btn btn-outline-success mt-3">Gereed</a>
+
         </div>
 
     </div>
-    <div class="form-group row mt-3 ">
-        <label class="col-sm-2"></label>
-        <a href="{{ path('administrator') }}" class="form-control col btn btn-outline-success">Gereed</a>
-    </div>
 
 
 
-{% endblock %}
-
-{% block javascripts %}
-
-    {{ parent() }}
-
-    <script>
-
-        $(document).ready(function () {
-            $('.add-student').on('click', function (e) {
-                e.preventDefault();
-                var $link = $(e.currentTarget);
-
-                $.ajax({
-                    method: 'POST',
-                    url: $link.attr('href')
-                }).done(function (data) {
-                    location.reload(true);
-                })
-
-            });
-        });
-
-    </script>
 
 {% endblock %}

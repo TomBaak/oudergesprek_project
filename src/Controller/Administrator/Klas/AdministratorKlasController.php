@@ -95,7 +95,7 @@
 			
 			$em->flush();
 			
-			return new JsonResponse(['leerling' => $nieuweStudent ]);
+			return $this->redirectToRoute('administrator_nieuwe_student', ['id' => $id]);
 		}
 		
 		

@@ -17,8 +17,7 @@
                     <tr>
                         <td class="col-sm-2">{{ class.naam }}</td>
                         <td class="col-sm-5"><i class="fas fa-users"></i>&nbsp;&nbsp;Aantal studenten: {{ class.leerlingen|length }}</td>
-                        <td class="col-sm-5"><a href="{{path('administrator_nieuwe_student')}}" class="w-100"><i class="fas fa-plus"></i>&nbsp;&nbsp;Student(en)
-                                toevoegen</a></td>
+                        <td class="col-sm-5"><a href="{{path('administrator_nieuwe_student',{id:class.id})}}" class="w-100"><i class="fas fa-users"></i>&nbsp;&nbsp;Student(en)</a></td>
                     </tr>
 
                     {% endfor %}
