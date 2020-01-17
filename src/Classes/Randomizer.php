@@ -7,7 +7,7 @@
 	class Randomizer
 	{
 		
-		public function getRandomPassword ($length = 10) {
+		public function getRandomPassword($length = 10) {
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$charactersLength = strlen($characters);
 			$randomString = '';
@@ -15,6 +15,12 @@
 				$randomString .= $characters[rand(0, $charactersLength - 1)];
 			}
 			return $randomString;
+		}
+		
+		public function getInvitationCode($startTime, $endTime, $date, $slbId) {
+			$invitationCode = $startTime . $endTime . $date . $slbId;
+			
+			return $invitationCode;
 		}
 		
 	}

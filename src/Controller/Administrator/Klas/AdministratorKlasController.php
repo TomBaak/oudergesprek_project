@@ -42,7 +42,7 @@
 				
 				$em->flush();
 				
-				$this->addFlash('success', 'TODO: FIX ALERT MESSAGE');
+				$this->addFlash('success', 'Klas ' . $klas->getNaam() . ' toegevoegd');
 				
 				return $this->redirectToRoute('administrator');
 			}

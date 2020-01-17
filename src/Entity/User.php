@@ -127,23 +127,23 @@ class User implements UserInterface
         return $this->klas;
     }
 
-    public function addKla(klas $kla): self
+    public function addKlas(klas $klas): self
     {
-        if (!$this->klas->contains($kla)) {
-            $this->klas[] = $kla;
-            $kla->setSlb($this);
+        if (!$this->klas->contains($klas)) {
+            $this->klas[] = $klas;
+            $klas->setSlb($this);
         }
 
         return $this;
     }
 
-    public function removeKla(klas $kla): self
+    public function removeKlas(klas $klas): self
     {
-        if ($this->klas->contains($kla)) {
-            $this->klas->removeElement($kla);
+        if ($this->klas->contains($klas)) {
+            $this->klas->removeElement($klas);
             // set the owning side to null (unless already changed)
-            if ($kla->getSlb() === $this) {
-                $kla->setSlb(null);
+            if ($klas->getSlb() === $this) {
+                $klas->setSlb(null);
             }
         }
 

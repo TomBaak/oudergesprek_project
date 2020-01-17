@@ -6,21 +6,33 @@
         <div class="row">
             <div class="col-sm-8">
                 <h1 class="text-center p-3"><i class="fas fa-calendar-alt"></i> Actieve uitnodigingen</h1>
-                <table class="table table-bordered table-striped text-center">
-                    <tr>
-                        <td>20-02-2020</td>
-                        <td><a href="{{path('inschrijvingen')}}">Bekijk gemaakte afspraken</a></td>
-                    </tr>
-                    <tr>
-                        <td>20-01-2020</td>
-                        <td><a href="{{path('inschrijvingen')}}">Bekijk gemaakte afspraken</a></td>
-                    </tr>
-                </table>
+                {% if invitations %}
+                    <table class="table table-bordered table-striped text-center">
+                        <thead>
+                        <th>Klas</th>
+                        <th>Datum</th>
+                        <th>Afspraken</th>
+                        </thead>
+                        <tbody>
+                        {% for invitation in invitations %}
+                            <tr>
+                                <td>{{ invitation.klas.naam }}</td>
+                                <td>{{ invitation.date|date('j-M-Y') }}</td>
+                                <td><a href="#">Bekijk gemaakte afspraken</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h3 class="text-danger text-center"><i class="fas fa-exclamation-triangle text-warning"></i> Er zijn
+                        nog geen uitnodigingen aangemaakt</h3>
+                {% endif %}
             </div>
             <div class="col">
                 <h1 class="text-center p-3"><i class="fas fa-cog"></i> Opties</h1>
                 <div class="border w-100 p-3">
-                    <a href="{{ path('uitnodiging') }}" class="btn btn-success w-100"><i class="fas fa-plus"></i>&nbsp;&nbsp;Nieuwe uitnodiging</a>
+                    <a href="{{ path('uitnodiging') }}" class="btn btn-success w-100"><i class="fas fa-plus"></i>&nbsp;&nbsp;Nieuwe
+                        uitnodiging</a>
                 </div>
             </div>
         </div>

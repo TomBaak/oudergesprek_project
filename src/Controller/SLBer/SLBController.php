@@ -5,6 +5,7 @@
 	
 	
 	use App\Entity\Klas;
+	use App\Entity\Uitnodiging;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\Routing\Annotation\Route;
 	
@@ -17,7 +18,15 @@
 		public function home()
 		{
 			
-			return $this->render('slb/slb.html.twig');
+			$klassen = $this->getDoctrine()->getRepository(Klas::class)->findBy(['slb' => $this->getUser()->getId()]);
+			
+			$uitnodigingen = $this->getDoctrine()->getRepository(Uitnodiging::class)->findBy(['klas' => $klassen ]);
+			
+			return $this->render('slb/slb.html.twig',[
+				
+				'invitations' => $uitnodigingen
+				
+			]);
 		}
 	
 	}
