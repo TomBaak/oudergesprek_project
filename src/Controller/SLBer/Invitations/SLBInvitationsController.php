@@ -65,7 +65,7 @@
 				}else{
 					$this->addFlash('error', 'De klas die u heeft gebruikt bevat geen studenten. Probeer het nog eens of neem contact op met de servicedesk');
 					
-					return $this->redirectToRoute('administrator');
+					return $this->redirectToRoute('slb');
 				}
 				
 				for($i = 0; $i < count($leerlingen); $i++){

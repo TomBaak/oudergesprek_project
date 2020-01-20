@@ -36,8 +36,14 @@
                 {% endif %}
             {% endif %}
             {% if app.user %}
-                <a class="navbar-link text-center col text-danger" href="{{ path('logout') }}"><i
-                            class="fas fa-user-slash"></i> Uitloggen</a>
+                <div class="navbar-link text-center col">
+                    <span class="text-primary"><i class="fas fa-user"></i> Ingelogd als: {{ app.user.firstname }}</span>
+                </div>
+                <div class="navbar-link text-center col">
+                    <a title="Uitloggen" class=" text-danger clear-fix" href="{{ path('logout') }}"><i
+                                class="fas fa-user-slash"></i> Uitloggen</a>
+                </div>
+
             {% else %}
                 <a class="navbar-link text-center col" href="{{ path('login') }}"><i class="fas fa-user"></i>
                     Inloggen</a>
@@ -46,7 +52,7 @@
         <hr class="m-0">
 
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
                 {{ message }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -55,7 +61,7 @@
         {% endfor %}
 
         {% for message in app.flashes('error') %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
                 {{ message }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -64,7 +70,7 @@
         {% endfor %}
 
         {% for message in app.flashes('warning') %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
                 {{ message }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

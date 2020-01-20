@@ -17,7 +17,6 @@
 		 */
 		public function home()
 		{
-			
 			$klassen = $this->getDoctrine()->getRepository(Klas::class)->findBy(['slb' => $this->getUser()->getId()]);
 			
 			$uitnodigingen = $this->getDoctrine()->getRepository(Uitnodiging::class)->findBy(['klas' => $klassen ]);
