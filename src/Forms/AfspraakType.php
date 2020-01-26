@@ -33,6 +33,7 @@
         public function buildForm(FormBuilderInterface $builder, array $options)
         {
             $uitnodiging = json_decode($this->session->get('invitation'));
+            $usedDates = json_decode($this->session->get('usedDates'));
 
             $stopTimeDateTime = new DateTime($uitnodiging->stopTime->date);
 
@@ -55,6 +56,7 @@
                     $times[] = $time;
 
                 } else {
+
                     $timeObj = new DateTime($uitnodiging->startTime->date);
 
                     array_push($times, $timeObj);
