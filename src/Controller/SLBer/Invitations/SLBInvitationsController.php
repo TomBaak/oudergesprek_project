@@ -40,8 +40,8 @@
 					$this->getUser()->getId()
 					
 				));
-				
-				$invitationLink = "http://127.0.0.1:8000/student/afspraak?id=" . $uitnodiging->getInvitationCode();
+
+                $invitationLink = 'http://127.0.0.1:8000/student/afspraak?id=' . $uitnodiging->getInvitationCode();
 				
 				$email = (new Email())
 					->from('tomdevelop@gmail.com')

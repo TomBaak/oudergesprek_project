@@ -4,4 +4,9 @@
 
     <h1 class="mt-2 mb-4">Afspraak maken <span class="text-muted">voor {{ uitnodiging.date|date('j F Y') }}</span></h1>
 
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" class="form-control col btn btn-outline-success" value="Maak afspraak">
+    {{ form_end(form) }}
+
 {% endblock %}

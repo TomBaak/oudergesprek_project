@@ -16,27 +16,27 @@ class Uitnodiging
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $invitationCode;
+    public $invitationCode;
 
     /**
      * @ORM\Column(type="time")
      */
-    private $startTime;
+    public $startTime;
 
     /**
      * @ORM\Column(type="time")
      */
-    private $stopTime;
+    public $stopTime;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $date;
+    public $date;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Klas", inversedBy="uitnodiging")
