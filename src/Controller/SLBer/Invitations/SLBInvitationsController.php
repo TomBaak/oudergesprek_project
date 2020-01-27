@@ -3,7 +3,6 @@
 	
 	namespace App\Controller\SLBer\Invitations;
 	
-	
 	use App\Classes\Randomizer;
 	use App\Entity\Klas;
 	use App\Forms\UitnodigingType;
