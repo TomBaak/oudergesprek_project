@@ -23,7 +23,7 @@
                             <tr>
                                 <td>{{ invitation.klas.naam }}</td>
                                 <td>{{ invitation.date|date('j-M-Y') }}</td>
-                                <td><a href="#">Bekijk gemaakte afspraken</a></td>
+                                <td><a href="{{path('inschrijvingen',{id: invitation.id})}}">Bekijk gemaakte afspraken</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
