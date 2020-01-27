@@ -4,10 +4,12 @@
 	namespace App\Controller\Student;
 	
 	use App\Entity\Afspraak;
+	use App\Entity\Student;
 	use App\Entity\Uitnodiging;
 	use App\Forms\AfspraakType;
 	use DateTime;
 	use Doctrine\ORM\EntityManagerInterface;
+	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -45,7 +47,6 @@
 			
 			]);
 			
-			
 			if ($uitnodiging === NULL) {
 				
 				$this->addFlash('error', 'Er ging iets mis probeer het opnieuw. Als dit probleem zich herhaalt neem dan contact op met je SLBer');
@@ -66,15 +67,10 @@
 				
 			}
 			
-			$leerlingen = $uitnodiging->getKlas()->getLeerlingen();
-			
 			$times = [];
 			
 			//creates an array of times with interval of 15 minutes between the start time and end time
 //            in probably the most inefficient way possible
-			
-			$i = 0;
-			
 			do {
 				
 				if (count($times) > 0) {
@@ -89,10 +85,9 @@
 						$times[] = $time;
 					}
 					
-					$i++;
 				} else {
 					
-					$timeObj = new DateTime($uitnodiging->getStartTime()->format('H:i'));
+					$timeObj = new DateTime($uitnodiging->getStopTime()->format('Ymd') . $uitnodiging->getStartTime()->format('H:i'));
 					
 					while (array_search($timeObj, $pickedTimes) !== false) {
 						$timeObj->modify('+15 minutes');
@@ -115,14 +110,10 @@
 					},
 					'label' => 'Tijd'
 				])
-				->add('student_number', ChoiceType::class, [
-					'choices' => $leerlingen,
-					'choice_value' =>function ($choice) {
-						dd($choice->studentId);
-						return $choice->studentId;
-					},
+				->add('student', EntityType::class, [
+					'class' => Student::class,
 					'choice_label' => function ($choice) {
-						return $choice->naam . ' - ' . $choice->studentId;
+						return $choice->getNaam() . ' - ' . $choice->getStudentId();
 					}
 				])
 				->add('phoneNumber', TextType::class, [
@@ -137,7 +128,7 @@
 				])
 				->getForm();
 			
-			if (count($uitnodiging->getKlas()->getLeerlingen()) == count($pickedTimes)) {
+			if (count($uitnodiging->getKlas()->getStudents()) == count($pickedTimes)) {
 				$this->addFlash('error', 'Er zijn meer plaatsen beschikbaar op deze datum. Neem contact op met je SLBer');
 				
 				return $this->redirectToRoute('home');
@@ -148,9 +139,9 @@
 				
 				$afspraak = $form->getData();
 				
-				dd($afspraak);
+				$this->
 				
-				$this->addFlash('success', 'Afspraak is gemaakt, u kunt de pagina nu verlaten');
+				$afspraak->setUitnodiging($uitnodiging);
 				
 				$em->persist($afspraak);
 				$em->flush();
@@ -158,16 +149,18 @@
 				$email = (new Email())
 					->from('tomdevelop@gmail.com')
 					->priority(Email::PRIORITY_HIGH)
-					->subject('Uitnodiging ouder gesprek')
+					->subject('Afspraak ouder gesprek')
 					->html('<h1 style="font-weight: bold">Afspraak ouder gesprek</h1>' . '<p>U heeft een afspraak gemaakt op '
-						. $uitnodiging->getDate->format('d M Y') . ' om ' . $afspraak->getTime()->format('H:i')
-						. 'met meneer/mevrouw' . $uitnodiging->getKlas()->getSLB()->getLastname());
+						. $uitnodiging->getDate()->format('d M Y') . ' om ' . $afspraak->getTime()->format('H:i')
+						. ' met meneer/mevrouw ' . $uitnodiging->getKlas()->getSLB()->getLastname());
 				
-				$email->addTo($afspraak->getStudentNumber() . '@student.rocmondriaan.nl');
+				$email->addTo($afspraak->getStudent()->getStudentId() . '@student.rocmondriaan.nl');
 				
 				$transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
 				$mailer = new Mailer($transport);
 				$mailer->send($email);
+				
+				$this->addFlash('success', 'Afspraak is gemaakt, u kunt de pagina nu verlaten');
 				
 				return $this->redirectToRoute('home');
 				

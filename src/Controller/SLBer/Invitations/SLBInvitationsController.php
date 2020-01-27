@@ -57,18 +57,16 @@
 					
 				]);
 				
-				$leerlingen = [];
+				$leerlingen = $klas->getStudents();
 				
-				if(count($klas->getLeerlingen()) !== 0){
-					$leerlingen = $klas->getLeerlingen();
-				}else{
+				if(count($klas->getStudents()) === 0){
 					$this->addFlash('error', 'De klas die u heeft gebruikt bevat geen studenten. Probeer het nog eens of neem contact op met de servicedesk');
 					
 					return $this->redirectToRoute('slb');
-				}
-				
-				for($i = 0; $i < count($leerlingen); $i++){
-					$email->addTo($leerlingen[$i]->studentEmail);
+				}else {
+					for ($i = 0; $i < count($klas->getStudents()); $i++) {
+						$email->addTo($leerlingen[$i]->getStudentId() . '@student.rocmondriaan.nl');
+					}
 				}
 				
 				$transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');

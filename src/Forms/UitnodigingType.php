@@ -3,7 +3,6 @@
 	
 	namespace App\Forms;
 	
-	use App\Classes\Student;
 	use App\Entity\Klas;
 	use App\Entity\Uitnodiging;
 	use Doctrine\ORM\EntityRepository;

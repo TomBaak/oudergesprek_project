@@ -17,11 +17,6 @@ class Afspraak
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $studentNumber;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $withParents;
@@ -41,23 +36,16 @@ class Afspraak
      */
     private $uitnodiging;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="afspraken")
+     */
+    private $Student;
+
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    public function getStudentNumber(): ?string
-    {
-        return $this->studentNumber;
-    }
-
-    public function setStudentNumber(string $studentNumber): self
-    {
-        $this->studentNumber = $studentNumber;
-
-        return $this;
-    }
-
+    
     public function getWithParents(): ?bool
     {
         return $this->withParents;
@@ -102,6 +90,18 @@ class Afspraak
     public function setUitnodiging(?Uitnodiging $uitnodiging): self
     {
         $this->uitnodiging = $uitnodiging;
+
+        return $this;
+    }
+
+    public function getStudent(): ?Student
+    {
+        return $this->Student;
+    }
+
+    public function setStudent(?Student $Student): self
+    {
+        $this->Student = $Student;
 
         return $this;
     }

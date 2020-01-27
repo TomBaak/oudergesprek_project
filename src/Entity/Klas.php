@@ -19,11 +19,6 @@ class Klas
     private $id;
 
     /**
-     * @ORM\Column(type="array")
-     */
-    private $leerlingen = [];
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="klas")
      */
     private $slb;
@@ -32,47 +27,26 @@ class Klas
      * @ORM\OneToMany(targetEntity="App\Entity\Uitnodiging", mappedBy="klas")
      */
     private $uitnodiging;
+	
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 */
+	private $naam;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="klas")
      */
-    private $naam;
+    private $students;
 
     public function __construct()
     {
         $this->uitnodiging = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLeerlingen(): ?array
-	{
-  
-		$decoded_leerlingen = [];
-		
-		for($i = 0; $i < count($this->leerlingen); $i++){
-			
-			array_push($decoded_leerlingen, json_decode($this->leerlingen[$i]));
-			
-		}
-		
-        return $decoded_leerlingen;
-    }
-	
-	public function addLeerling($leerling)
-	{
-		array_push($this->leerlingen, $leerling);
-	}
-	
-	
-	public function setLeerlingen(array $leerlingen): self
-    {
-        $this->leerlingen = $leerlingen;
-
-        return $this;
     }
 
     public function getSlb(): ?User
@@ -126,6 +100,37 @@ class Klas
     public function setNaam(string $naam): self
     {
         $this->naam = $naam;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->setKlas($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
+            // set the owning side to null (unless already changed)
+            if ($student->getKlas() === $this) {
+                $student->setKlas(null);
+            }
+        }
 
         return $this;
     }

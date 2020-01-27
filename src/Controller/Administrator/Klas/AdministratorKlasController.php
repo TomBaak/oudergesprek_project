@@ -3,9 +3,8 @@
 	
 	namespace App\Controller\Administrator\Klas;
 	
-	
-	use App\Classes\Student;
 	use App\Entity\Klas;
+	use App\Forms\StudentType;
 	use Doctrine\ORM\EntityManagerInterface;
 	use http\Env\Response;
 	use KlasType;
@@ -56,47 +55,43 @@
 		}
 		
 		/**
-		 * @Route("/adimistrator/klas/nieuweStudent/{id}", name="administrator_nieuwe_student")
+		 * @Route("/adimistrator/klas/nieuweStudent", name="administrator_nieuwe_student")
 		 */
-		public function administratorNieuweLeerling(Request $request, $id)
+		public function administratorNieuweLeerling(Request $request, EntityManagerInterface $em)
 		{
 			$klas = $this->getDoctrine()->getRepository(Klas::class)->findOneBy([
 				
-				'id' => $id
+				'id' => $request->get('id')
 				
-				]);
+			]);
+			
+			$form = $this->createForm(StudentType::class);
+			
+			$form->handleRequest($request);
+			if ($form->isSubmitted() && $form->isValid()) {
+				
+				$student = $form->getData();
+				
+				$student->setKlas($klas);
+				
+				$em->persist($student);
+				
+				$em->flush();
+				
+				$this->addFlash('success', 'Student ' . $student->getNaam() . ' toegevoegd');
+				
+				return $this->redirectToRoute('administrator_nieuwe_student', array('id' => $request->get('id')));
+			}
 			
 			return $this->render('administrator/Klas/administrator_nieuwe_student.html.twig', [
 				
-				'klas' => $klas
+				'klas' => $klas,
+				'form' => $form->createView()
 				
 			]);
 			
 		}
 		
-		/**
-		 * @Route("/adimistrator/klas/nieuweStudent/{id}/studentToevoegen", methods={"POST"}, name="administrator_nieuwe_student_toevoegen")
-		 */
-		public function administratorNieuweLeerlingToevoegen($id, EntityManagerInterface $em, Request $request)
-		{
-			$nieuweStudent = new Student($request->get('naam'), $request->get('studentId'));
-			
-			$nieuweStudent = json_encode($nieuweStudent);
-			
-			$klas = $this->getDoctrine()->getRepository(Klas::class)->findOneBy([
-				
-				'id' => $id
-				
-			]);
-			
-			$klas->addLeerling($nieuweStudent);
-			
-			$em->persist($klas);
-			
-			$em->flush();
-			
-			return $this->redirectToRoute('administrator_nieuwe_student', ['id' => $id]);
-		}
 		
 		
 	}
