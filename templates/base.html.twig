@@ -37,7 +37,7 @@
             {% endif %}
             {% if app.user %}
                 <div class="navbar-link text-center col">
-                    <span class="text-primary"><i class="fas fa-user"></i> Ingelogd als: {{ app.user.firstname }}</span>
+                    <a href="{{ path('profiel') }}" class="text-primary"><i class="fas fa-user"></i> Ingelogd als: {{ app.user.firstname }}</a>
                 </div>
                 <div class="navbar-link text-center col">
                     <a title="Uitloggen" class=" text-danger clear-fix" href="{{ path('logout') }}"><i

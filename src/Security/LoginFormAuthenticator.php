@@ -73,14 +73,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Geen account gevonden met dit email adres.');
         }
-
+        
         return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-		return true;
-
         return ($this->passwordEncoder->isPasswordValid($user, $credentials['password']));
     }
 

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    <div class="container p-5">
+
+        <h1>Welkom {{ app.user.firstname }}</h1>
+
+        <div class="row mt-3">
+
+            <div class="col-sm-8">
+
+                <h3 class="text-center p-3"><i class="far fa-id-card"></i> Account informatie</h3>
+
+                <table class="table table-bordered text-center">
+                    <tr>
+                        <th>Naam:</th>
+                        <td>{{ app.user.firstname }} {{ app.user.lastname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ app.user.email }}</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="col border p-3 rounded">
+                {% for message in app.flashes('pwError') %}
+                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('pwSuccess') %}
+                    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+                <h3 class="text-center p-3"><i class="fas fa-user-edit"></i> Wachtwoord wijzigen</h3>
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-outline-warning w-100">Wijzig</button>
+                {{ form_end(form) }}
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
