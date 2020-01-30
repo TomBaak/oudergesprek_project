@@ -20,6 +20,7 @@
 	use Symfony\Component\Routing\Annotation\Route;
 	use App\Classes\Utilities as Utils;
 	use Symfony\Component\OptionsResolver\OptionsResolver;
+	use Symfony\Component\Validator\Constraints\Choice;
 	
 	class StudentController extends AbstractController
 	{
@@ -105,6 +106,12 @@
 			
 			$afspraakEmpty = new Afspraak();
 			
+			$student[] = $this->getDoctrine()->getRepository(Student::class)->findOneBy([
+				
+				'studentId' => $request->get('student')
+				
+			]);
+			
 			$form = $this->createFormBuilder($afspraakEmpty)
 				->add('time', ChoiceType::class, [
 					'choices' => $times,
@@ -116,12 +123,13 @@
 					'required' => true,
 					'help' => 'Dit zijn de tijden die nog beschikbaar zijn'
 				])
-				->add('student', EntityType::class, [
-					'class' => Student::class,
+				->add('student', ChoiceType::class, [
+					'choices' => $student,
 					'choice_label' => function ($choice) {
 						return $choice->getNaam() . ' - ' . $choice->getStudentId();
 					},
-					'required' => true
+					'required' => true,
+					'disabled' => 'disabled'
 				])
 				->add('phoneNumber', TextType::class, [
 					'label' => 'Telefoonnummer:',
@@ -167,8 +175,6 @@
 					
 					return $this->redirectToRoute('afspraak',array('id' => $uitnodiging->getInvitationCode()));
 				}
-				
-				
 				
 				$email = (new Email())
 					->from('tomdevelop@gmail.com')
