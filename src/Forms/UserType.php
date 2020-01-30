@@ -17,9 +17,9 @@
 		{
 			parent::buildForm($builder, $options);
 			$builder
-				->add('email', TextType::class, ['label' => 'Email'])
-				->add('firstname', TextType::class, ['label' => 'Voornaam'] )
-				->add('lastname', TextType::class, ['label' => 'Achternaam']);
+				->add('email', TextType::class, ['label' => 'Email','required' => true])
+				->add('firstname', TextType::class, ['label' => 'Voornaam','required' => true] )
+				->add('lastname', TextType::class, ['label' => 'Achternaam','required' => true]);
 		}
 		
 		public function configureOptions(OptionsResolver $resolver)

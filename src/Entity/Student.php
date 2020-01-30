@@ -34,7 +34,7 @@ class Student
     private $klas;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Afspraak", mappedBy="Student")
+     * @ORM\OneToMany(targetEntity="App\Entity\Afspraak", mappedBy="student")
      */
     private $afspraken;
 

@@ -65,6 +65,12 @@
 				
 			}
 			
+			if (count($uitnodiging->getKlas()->getStudents()) == count($pickedTimes)) {
+				$this->addFlash('error', 'Er zijn meer plaatsen beschikbaar op deze datum. Neem contact op met je SLBer');
+				
+				return $this->redirectToRoute('home');
+			}
+			
 			$times = [];
 			
 			//creates an array of times with interval of 15 minutes between the start time and end time
@@ -106,13 +112,16 @@
 						
 						return $choice->format('H:i');
 					},
-					'label' => 'Tijd'
+					'label' => 'Tijd',
+					'required' => true,
+					'help' => 'Dit zijn de tijden die nog beschikbaar zijn'
 				])
 				->add('student', EntityType::class, [
 					'class' => Student::class,
 					'choice_label' => function ($choice) {
 						return $choice->getNaam() . ' - ' . $choice->getStudentId();
-					}
+					},
+					'required' => true
 				])
 				->add('phoneNumber', TextType::class, [
 					'label' => 'Telefoonnummer:',
@@ -126,23 +135,40 @@
 				])
 				->getForm();
 			
-			if (count($uitnodiging->getKlas()->getStudents()) == count($pickedTimes)) {
-				$this->addFlash('error', 'Er zijn meer plaatsen beschikbaar op deze datum. Neem contact op met je SLBer');
-				
-				return $this->redirectToRoute('home');
-			}
-			
 			$form->handleRequest($request);
 			if ($form->isSubmitted() && $form->isValid()) {
 				
 				$afspraak = $form->getData();
 				
-				$this->
+				$gemaakteAfspraak = $this->getDoctrine()->getRepository(Afspraak::class)->findOneBy([
+					
+					'student' => $afspraak->getStudent()->getId(),
+					'uitnodiging' => $uitnodiging
+					
+				]);
+				
+				if($gemaakteAfspraak !== NULL){
+					
+					$this->addFlash('error', 'Deze student heeft al een afspraak gemaakt');
+					
+					return $this->redirectToRoute('afspraak',array('id' => $uitnodiging->getInvitationCode()));
+					
+				}
 				
 				$afspraak->setUitnodiging($uitnodiging);
 				
-				$em->persist($afspraak);
-				$em->flush();
+				try{
+					$em->persist($afspraak);
+					$em->flush();
+				}catch (\Exception $e){
+					error_log($e->getMessage(),0);
+					
+					$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van uw afspraak probeer het alstublieft nog eens');
+					
+					return $this->redirectToRoute('afspraak',array('id' => $uitnodiging->getInvitationCode()));
+				}
+				
+				
 				
 				$email = (new Email())
 					->from('tomdevelop@gmail.com')

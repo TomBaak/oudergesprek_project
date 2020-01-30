@@ -39,7 +39,7 @@ class Afspraak
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="afspraken")
      */
-    private $Student;
+    private $student;
 
     public function getId(): ?int
     {
@@ -96,12 +96,12 @@ class Afspraak
 
     public function getStudent(): ?Student
     {
-        return $this->Student;
+        return $this->student;
     }
 
-    public function setStudent(?Student $Student): self
+    public function setStudent(?Student $student): self
     {
-        $this->Student = $Student;
+        $this->student = $student;
 
         return $this;
     }

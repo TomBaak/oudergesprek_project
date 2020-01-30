@@ -1,7 +1,7 @@
 <?php
 	
 	
-	namespace App\Controller\SLBer\Appointments;
+	namespace App\Controller\slb\Appointments;
 	
 
     use App\Entity\Uitnodiging;
@@ -31,10 +31,12 @@
 		        return $this->redirectToRoute('adminstrator');
 
             }
+		    
+		    $afspraken = $uitnodiging->getAfspraken();
 			
 			return $this->render('slb/appointments/slb_afspraken.html.twig',[
 
-			    'afspraken' => $uitnodiging->getAfspraken()
+			    'afspraken' => $afspraken
 
             ]);
 		}

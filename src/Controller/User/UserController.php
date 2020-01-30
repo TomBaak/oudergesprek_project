@@ -17,7 +17,7 @@
 	{
 		
 		/**
-		 * @Route("/profiel", name="profiel")
+		 * @Route("/user/profiel", name="profiel")
 		 */
 		public function profiel(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
 		{
@@ -40,9 +40,18 @@
 						
 						$user->setPassword($encoder->encodePassword($user, $result['newPassword']));
 						
-						$em->persist($user);
+						try{
+							$em->persist($user);
+							
+							$em->flush();
+						}catch (\Exception $e){
+							error_log($e->getMessage(),0);
+							
+							$this->addFlash('pwError', 'Er ging iets mis probeer het alstublief nog eens');
+							
+							return $this->redirectToRoute('profiel');
+						}
 						
-						$em->flush();
 						
 						$this->addFlash('pwSuccess', 'Wachtwoord gewijzigd');
 						

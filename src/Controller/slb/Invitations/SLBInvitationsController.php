@@ -1,7 +1,7 @@
 <?php
 	
 	
-	namespace App\Controller\SLBer\Invitations;
+	namespace App\Controller\slb\Invitations;
 	
 	use App\Classes\Randomizer;
 	use App\Entity\Klas;
@@ -69,13 +69,23 @@
 					}
 				}
 				
-				$transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
-				$mailer = new Mailer($transport);
-				$mailer->send($email);
 				
-				$em->persist($uitnodiging);
 				
-				$em->flush();
+				try{
+					$transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
+					$mailer = new Mailer($transport);
+					$mailer->send($email);
+					
+					$em->persist($uitnodiging);
+					$em->flush();
+				}catch (\Exception $e){
+					error_log($e->getMessage(),0);
+					
+					$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van uw uitnodiging probeer het alstublieft nog eens');
+					
+					return $this->redirectToRoute('slb');
+				}
+				
 				
 				$this->addFlash('success', 'Uitnoding is verstuurd naar de studenten');
 				

@@ -13,6 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
+use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdministratorKlasController extends AbstractController
@@ -37,10 +39,18 @@ class AdministratorKlasController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $klas = $form->getData();
-
-            $em->persist($klas);
-
-            $em->flush();
+	
+			try{
+				$em->persist($klas);
+				
+				$em->flush();
+			}catch (\Exception $e){
+				error_log($e->getMessage(),0);
+		
+				$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van de klas probeer het alstublieft nog eens');
+		
+				return $this->redirectToRoute('slb');
+			}
 
             $this->addFlash('success', 'Klas ' . $klas->getNaam() . ' toegevoegd');
 
@@ -74,10 +84,19 @@ class AdministratorKlasController extends AbstractController
             $student = $form->getData();
 
             $student->setKlas($klas);
-
-            $em->persist($student);
-
-            $em->flush();
+	
+	
+	
+			try{
+				$em->persist($student);
+				$em->flush();
+			}catch (\Exception $e){
+				error_log($e->getMessage(),0);
+		
+				$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van de student probeer probeer het alstublieft nog eens');
+		
+				return $this->redirectToRoute('slb');
+			}
 
             $this->addFlash('success', 'Student ' . $student->getNaam() . ' toegevoegd');
 

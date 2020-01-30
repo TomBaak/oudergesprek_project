@@ -48,9 +48,17 @@
 				
 				$user->setPassword($this->passwordEncoder->encodePassword($user  ,$randomSetPw));
 				
-				$em->persist($user);
-				
-				$em->flush();
+				try{
+					$em->persist($user);
+					
+					$em->flush();
+				}catch (\Exception $e){
+					error_log($e->getMessage(),0);
+					
+					$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van het account probeer het alstublieft nog eens');
+					
+					return $this->redirectToRoute('administrator');
+				}
 				
 				$this->addFlash('success', 'Nieuw SLB account aan gemaakt met wachtwoord: '. $randomSetPw);
 				

@@ -21,7 +21,7 @@
 		{
 			parent::buildForm($builder, $options);
 			$builder
-				->add('naam', TextType::class, ['label' => 'Klas naam'])
+				->add('naam', TextType::class, ['label' => 'Klas naam','required' => true])
 				->add('slb', EntityType::class, [
 					
 					'class' => User::class,
@@ -31,7 +31,8 @@
 							->orderBy('u.firstname', 'ASC');
 					},
 					'choice_label' => 'displayname',
-					'label' => 'SLBer'
+					'label' => 'SLBer',
+					'required' => true
 				
 				]);
 		}

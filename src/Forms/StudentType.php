@@ -17,11 +17,13 @@
 				->add('naam', TextType::class, [
 					
 					'label' => 'Naam',
+					'required' => true
 				
 				])
 				->add('studentId', TextType::class, [
 					
 					'label' => 'Student Nummer',
+					'required' => true
 				
 				]);
 		}

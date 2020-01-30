@@ -1,7 +1,7 @@
 <?php
 	
 	
-	namespace App\Controller\SLBer;
+	namespace App\Controller\slb;
 	
 	
 	use App\Entity\Klas;

@@ -24,6 +24,7 @@
 				->add('klas', EntityType::class, [
 					
 					'class' => Klas::class,
+					'required' => true,
 					'choice_label' => 'naam',
 					'query_builder' => function (EntityRepository $er) {
 						return $er->createQueryBuilder('u')
@@ -36,11 +37,12 @@
 					
 					
 					'label' => 'Datum',
+					'required' => true
 				
 				
 				])
-				->add('start_time', TimeType::class, ['label' => 'Begin tijd'])
-				->add('stop_time', TimeType::class, ['label' => 'Eind tijd']);
+				->add('start_time', TimeType::class, ['label' => 'Begin tijd','required' => true])
+				->add('stop_time', TimeType::class, ['label' => 'Eind tijd','required' => true]);
 		}
 		
 		public function configureOptions(OptionsResolver $resolver)
