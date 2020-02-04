@@ -178,7 +178,7 @@
 							. '<td style="padding-left: 10px">' . $uitnodiging->getDate()->format('l j F') . '</td>'
 							. '</tr>'
 							. '<tr>'
-							. '<td style="font-weight: bold">Time</td>'
+							. '<td style="font-weight: bold">Tijd</td>'
 							. '<td style="padding-left: 10px">' . $afspraak->getTime()->format('H:i') . '</td>'
 							. '</tr>'
 							. '<tr>'
