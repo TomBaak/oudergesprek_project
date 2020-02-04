@@ -25,7 +25,9 @@
 					
 					'class' => Klas::class,
 					'required' => true,
-					'choice_label' => 'naam',
+					'choice_label' => function ($category) {
+						return $category->getNaam() . ' - ' . $category->getSlb()->getLastname();
+					},
 					'query_builder' => function (EntityRepository $er) {
 						return $er->createQueryBuilder('u')
 //							TODO: Make where query
@@ -41,8 +43,8 @@
 				
 				
 				])
-				->add('start_time', TimeType::class, ['label' => 'Begin tijd','required' => true])
-				->add('stop_time', TimeType::class, ['label' => 'Eind tijd','required' => true]);
+				->add('start_time', TimeType::class, ['label' => 'Begin tijd', 'required' => true])
+				->add('stop_time', TimeType::class, ['label' => 'Eind tijd', 'required' => true]);
 		}
 		
 		public function configureOptions(OptionsResolver $resolver)

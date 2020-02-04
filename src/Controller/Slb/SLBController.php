@@ -1,7 +1,7 @@
 <?php
 	
 	
-	namespace App\Controller\slb;
+	namespace App\Controller\Slb;
 	
 	
 	use App\Entity\Klas;
@@ -23,7 +23,8 @@
 			
 			return $this->render('slb/slb.html.twig',[
 				
-				'invitations' => $uitnodigingen
+				'uitnodigingen' => $uitnodigingen,
+				'klassen' => $klassen
 				
 			]);
 		}

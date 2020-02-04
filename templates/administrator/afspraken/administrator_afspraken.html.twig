@@ -5,9 +5,9 @@
     <div class="container w-75 m-auto">
         <div class="row">
             <div class="col">
-                <h1 class="text-center p-3"><i class="fas fa-calendar-check"></i> Afspraken</h1>
+                <h1 class="text-center p-3"><i class="fas fa-calendar-check"></i> Afspraken <span class="text-muted">op {{ uitnodiging.date|date('d M Y') }}</span></h1>
 
-                {% if afspraken %}
+                {% if afspraken|length > 0 %}
 
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -29,7 +29,7 @@
                 </tbody>
 
                 {% else %}
-                    <h3><i class="fas fa-exclamation-triangle text-warning"></i> Er zijn nog geen afspraken gemaakt
+                    <h3 class="text-center w-100"><i class="fas fa-exclamation-triangle text-warning"></i> Er zijn nog geen afspraken gemaakt
                     </h3>
                 {% endif %}
 

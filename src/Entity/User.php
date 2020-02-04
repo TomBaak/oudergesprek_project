@@ -99,6 +99,11 @@ class User implements UserInterface
     {
         return $this->firstname;
     }
+	
+	public function getFirstLetter(): ?string
+	{
+		return substr($this->firstname, 0, 1) . '.';
+	}
 
     public function setFirstname(string $firstname): self
     {

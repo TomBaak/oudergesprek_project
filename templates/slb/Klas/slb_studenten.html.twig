@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+
+            <div class="row">
+
+                <div class="col-sm-8">
+                    <h1 class="mt-2 mb-4">Leerlingen <span class="text-muted">in klas {{ klas.naam }}</span></h1>
+                    {% if klas.students|length != 0 %}
+                        <table class="table table-bordered table-striped rounded text-center">
+
+                            <thead>
+                            <tr>
+                                <th>Naam student</th>
+                                <th>Student nummer</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for student in klas.students %}
+                                <tr>
+                                    <td>{{ student.naam }}</td>
+                                    <td>{{ student.studentId }}</td>
+                                    <td>
+                                        <a href="{{ path('administrator_student_verwijderen',{id: student.id, klasId: student.klas.id}) }}">
+                                            <i class="fas fa-user-minus text-danger"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <h3><i class="fas fa-exclamation-triangle text-warning"></i> Er zijn nog geen leerlingen
+                            toegevoegd
+                        </h3>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <h1 class="text-center p-3"><i class="fas fa-cog"></i> Opties</h1>
+                    <div class="border p-3 rounded">
+                    <a href="#" class="btn btn-success w-100"><i
+                                class="fas fa-user-plus"></i> Studenten toevoegen</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+{% endblock %}

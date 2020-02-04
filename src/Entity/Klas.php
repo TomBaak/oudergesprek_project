@@ -38,6 +38,12 @@ class Klas
      */
     private $students;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="klas")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $location;
+
     public function __construct()
     {
         $this->uitnodiging = new ArrayCollection();
@@ -131,6 +137,18 @@ class Klas
                 $student->setKlas(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

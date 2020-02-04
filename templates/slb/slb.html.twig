@@ -1,49 +1,43 @@
-{% extends 'base.html.twig' %}
+    {% extends 'base.html.twig' %}
 
 {% block body %}
 
     <div class="container w-75 m-auto">
-
-    {% if app.user.klas|length == 0 %}
-        <h1 class="text-danger text-center mt-5"><i class="fas fa-exclamation-triangle text-warning"></i> U ben niet gekoppeld aan een klas neem contact op met een administrator</h1>
-        {% else %}
-
         <div class="row">
             <div class="col-sm-8">
-                <h1 class="text-center p-3"><i class="fas fa-calendar-alt"></i> Actieve uitnodigingen</h1>
-                {% if invitations %}
-                    <table class="table table-bordered table-striped text-center">
-                        <thead>
-                        <th><i class="fas fa-users"></i> Klas</th>
-                        <th><i class="far fa-calendar-alt"></i> Datum</th>
-                        <th><i class="far fa-calendar-check"></i> Afspraken</th>
-                        </thead>
-                        <tbody>
-                        {% for invitation in invitations %}
-                            <tr>
-                                <td>{{ invitation.klas.naam }}</td>
-                                <td>{{ invitation.date|date('j-M-Y') }}</td>
-                                <td><a href="{{path('inschrijvingen',{id: invitation.id})}}">Bekijk gemaakte afspraken</a></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+
+                <h1 class="text-center p-3"><i class="fas fa-users"></i> Klassen</h1>
+
+                {% if klassen %}
+
+                <table class="table table-striped table-bordered overflow-auto text-center">
+
+                    {% for klas in klassen %}
+
+                    <tr>
+                        <td class="col-sm-2">{{ klas.naam }}</td>
+                        <td class="col-sm-5"><i class="fas fa-users"></i>&nbsp;&nbsp;Aantal studenten: {{ klas.students|length }}</td>
+                        <td class="col-sm-5"><a href="{{path('slb_studenten',{id:klas.id})}}" class="w-100"><i class="fas fa-users"></i>&nbsp;&nbsp;Student(en)</a></td>
+                    </tr>
+
+                    {% endfor %}
+
+                </table>
+
                 {% else %}
-                    <h3 class="text-center"><i class="far fa-calendar-times"></i> U heeft
-                        nog geen uitnodigingen aangemaakt</h3>
+                    <h3 class="text-danger text-center"><i class="fas fa-exclamation-triangle text-warning"></i> Er zijn nog geen klassen aangemaakt</h3>
                 {% endif %}
+
             </div>
             <div class="col">
+
                 <h1 class="text-center p-3"><i class="fas fa-cog"></i> Opties</h1>
                 <div class="border w-100 p-3">
-                    <a href="{{ path('uitnodiging') }}" class="btn btn-success w-100"><i class="fas fa-plus"></i>&nbsp;&nbsp;Nieuwe
-                        uitnodiging</a>
+                    <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success w-100"><i class="fas fa-user-plus"></i> Klas toevoegen</a>
                 </div>
+
             </div>
         </div>
-
-        {% endif %}
-
     </div>
 
 {% endblock %}

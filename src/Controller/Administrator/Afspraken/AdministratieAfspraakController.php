@@ -1,7 +1,7 @@
 <?php
 	
 	
-	namespace App\Controller\slb\Appointments;
+	namespace App\Controller\Administrator\Afspraken;
 	
 
     use App\Entity\Uitnodiging;
@@ -9,11 +9,11 @@
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Annotation\Route;
 	
-	class SLBAppointmentsController extends AbstractController
+	class AdministratieAfspraakController extends AbstractController
 	{
 		
 		/**
-		 * @Route("/slb/uitnodiging/inschrijvingen", name="inschrijvingen")
+		 * @Route("/adimistrator/uitnodiging/inschrijvingen", name="inschrijvingen")
 		 */
 		public function inschrijvingen(Request $request)
 		{
@@ -28,15 +28,16 @@
 
 		        $this->addFlash('error', 'Er ging iets mis probeer het opnieuw');
 
-		        return $this->redirectToRoute('adminstrator');
+		        return $this->redirectToRoute('administrator');
 
             }
 		    
 		    $afspraken = $uitnodiging->getAfspraken();
-			
-			return $this->render('slb/appointments/slb_afspraken.html.twig',[
+		    
+			return $this->render('administrator/afspraken/administrator_afspraken.html.twig',[
 
-			    'afspraken' => $afspraken
+			    'afspraken' => $afspraken,
+				'uitnodiging' => $uitnodiging
 
             ]);
 		}

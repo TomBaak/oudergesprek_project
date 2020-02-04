@@ -1,10 +1,11 @@
 <?php
-
+	
 	namespace App\Controller\Student;
 	
 	use App\Entity\Afspraak;
 	use App\Entity\Student;
 	use App\Entity\Uitnodiging;
+	use App\Repository\StudentRepository;
 	use DateTime;
 	use Doctrine\ORM\EntityManagerInterface;
 	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,8 +14,8 @@
 	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 	use Symfony\Component\Form\Extension\Core\Type\TextType;
 	use Symfony\Component\HttpFoundation\Request;
-    use Symfony\Component\HttpFoundation\Session\SessionInterface;
-    use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
+	use Symfony\Component\HttpFoundation\Session\SessionInterface;
+	use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 	use Symfony\Component\Mailer\Mailer;
 	use Symfony\Component\Mime\Email;
 	use Symfony\Component\Routing\Annotation\Route;
@@ -26,6 +27,7 @@
 	{
 		
 		private $session;
+		private $request;
 		
 		public function __construct(SessionInterface $session)
 		{
@@ -61,13 +63,13 @@
 			for ($i = 0; $i < count($afpraken); $i++) {
 				
 				if (array_search($afpraken[$i], $pickedTimes) === false) {
-					array_push($pickedTimes, $afpraken[$i]->getTime());
+					array_push($pickedTimes, $afpraken[$i]->getTijd());
 				}
 				
 			}
 			
 			if (count($uitnodiging->getKlas()->getStudents()) == count($pickedTimes)) {
-				$this->addFlash('error', 'Er zijn meer plaatsen beschikbaar op deze datum. Neem contact op met je SLBer');
+				$this->addFlash('error', 'Er zijn geen plaatsen beschikbaar meer op deze datum. Neem contact op met je SLBer');
 				
 				return $this->redirectToRoute('home');
 			}
@@ -106,10 +108,10 @@
 			
 			$afspraakEmpty = new Afspraak();
 			
-			$student[] = $this->getDoctrine()->getRepository(Student::class)->findOneBy([
+			$student = $this->getDoctrine()->getRepository(Student::class)->findOneBy([
 				
 				'studentId' => $request->get('student')
-				
+			
 			]);
 			
 			$form = $this->createFormBuilder($afspraakEmpty)
@@ -123,18 +125,10 @@
 					'required' => true,
 					'help' => 'Dit zijn de tijden die nog beschikbaar zijn'
 				])
-				->add('student', ChoiceType::class, [
-					'choices' => $student,
-					'choice_label' => function ($choice) {
-						return $choice->getNaam() . ' - ' . $choice->getStudentId();
-					},
-					'required' => true,
-					'disabled' => 'disabled'
-				])
 				->add('phoneNumber', TextType::class, [
 					'label' => 'Telefoonnummer:',
 					'required' => true
-					
+				
 				])
 				->add('with_parents', CheckboxType::class, [
 					'label' => 'Ik kom met mijn ouders',
@@ -144,55 +138,84 @@
 				->getForm();
 			
 			$form->handleRequest($request);
+			
 			if ($form->isSubmitted() && $form->isValid()) {
 				
 				$afspraak = $form->getData();
+				
+				$afspraak->setStudent($student);
 				
 				$gemaakteAfspraak = $this->getDoctrine()->getRepository(Afspraak::class)->findOneBy([
 					
 					'student' => $afspraak->getStudent()->getId(),
 					'uitnodiging' => $uitnodiging
-					
+				
 				]);
 				
-				if($gemaakteAfspraak !== NULL){
+				if ($gemaakteAfspraak !== NULL) {
 					
 					$this->addFlash('error', 'Deze student heeft al een afspraak gemaakt');
 					
-					return $this->redirectToRoute('afspraak',array('id' => $uitnodiging->getInvitationCode()));
+					return $this->redirectToRoute('afspraak', array('id' => $uitnodiging->getInvitationCode()));
 					
 				}
 				
 				$afspraak->setUitnodiging($uitnodiging);
 				
-				try{
+				try {
+					
+					$email = (new Email())
+						->from('tomdevelop@gmail.com')
+						->priority(Email::PRIORITY_HIGH)
+						->subject('Afspraak ouder gesprek')
+						->html('<div style="font-size:10pt;font-family:Segoe UI,sans-serif;">'
+							. '<h1 style="font-size:24pt;font-family:Times New Roman,serif;font-weight:bold;margin-right:0;margin-left:0;">Afspraakbevestiging ouderavond</h1>'
+							. '<p>Geachte heer, mevrouw en beste ' . $student->getNaam() . '</p>'
+							. '<p>Hierbij ontvangt u de afspraak bevestiging.</p>'
+							. '<table>'
+							. '<tr>'
+							. '<td style="font-weight: bold">Datum</td>'
+							. '<td style="padding-left: 10px">' . $uitnodiging->getDate()->format('l j F') . '</td>'
+							. '</tr>'
+							. '<tr>'
+							. '<td style="font-weight: bold">Time</td>'
+							. '<td style="padding-left: 10px">' . $afspraak->getTime()->format('H:i') . '</td>'
+							. '</tr>'
+							. '<tr>'
+							. '<td style="font-weight: bold">Mentor</td>'
+							. '<td style="padding-left: 10px">' . $uitnodiging->getKlas()->getSlb()->getFirstLetter() . ' ' . $uitnodiging->getKlas()->getSlb()->getLastname() . '</td>'
+							. '</tr>'
+							. '<tr>'
+							. '<td style="font-weight: bold">Locatie</td>'
+							. '<td style="padding-left: 10px">' . $uitnodiging->getKlas()->getLocation()->getAdres() . '</td>'
+							. '</tr>'
+							. '</table>'
+							. '<p>U mag zich aanmelden bij de administratie van de School voor Commerciële economie.</p>'
+							. '<p>Met vriendelijke groet,<br> Administratie '
+							. $uitnodiging->getKlas()->getLocation()->getNaam()
+							. '</p>'
+							. '</div>');
+					
+					$email->addTo($afspraak->getStudent()->getStudentId() . '@student.rocmondriaan.nl');
+					
+					$transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
+					$mailer = new Mailer($transport);
+					$mailer->send($email);
+					
 					$em->persist($afspraak);
 					$em->flush();
-				}catch (\Exception $e){
-					error_log($e->getMessage(),0);
+					
+					$this->addFlash('success', 'Afspraak is gemaakt, u kunt de pagina nu verlaten');
+					
+					return $this->redirectToRoute('home');
+				} catch (\Exception $e) {
+					error_log($e->getMessage(), 0);
 					
 					$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van uw afspraak probeer het alstublieft nog eens');
 					
-					return $this->redirectToRoute('afspraak',array('id' => $uitnodiging->getInvitationCode()));
+					return $this->redirectToRoute('afspraak', array('id' => $uitnodiging->getInvitationCode()));
 				}
 				
-				$email = (new Email())
-					->from('tomdevelop@gmail.com')
-					->priority(Email::PRIORITY_HIGH)
-					->subject('Afspraak ouder gesprek')
-					->html('<h1 style="font-weight: bold">Afspraak ouder gesprek</h1>' . '<p>U heeft een afspraak gemaakt op '
-						. $uitnodiging->getDate()->format('d M Y') . ' om ' . $afspraak->getTime()->format('H:i')
-						. ' met meneer/mevrouw ' . $uitnodiging->getKlas()->getSLB()->getLastname());
-				
-				$email->addTo($afspraak->getStudent()->getStudentId() . '@student.rocmondriaan.nl');
-				
-				$transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
-				$mailer = new Mailer($transport);
-				$mailer->send($email);
-				
-				$this->addFlash('success', 'Afspraak is gemaakt, u kunt de pagina nu verlaten');
-				
-				return $this->redirectToRoute('home');
 				
 			}
 			
@@ -200,7 +223,8 @@
 			return $this->render('student/student_afspraak.html.twig', [
 				
 				'uitnodiging' => $uitnodiging,
-				'form' => $form->createView()
+				'form' => $form->createView(),
+				'student' => $student->getNaam() . ' - ' . $student->getStudentId()
 			
 			]);
 			

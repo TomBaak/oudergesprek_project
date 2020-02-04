@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller\Administrator\Klas;
+namespace App\Controller\Slb\Klas;
 
 use App\Entity\Klas;
 use App\Entity\Student;
@@ -17,7 +17,7 @@ use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdministratorKlasController extends AbstractController
+class SlbKlasController extends AbstractController
 {
 
     private $session;
@@ -28,7 +28,7 @@ class AdministratorKlasController extends AbstractController
     }
 
     /**
-     * @Route("/adimistrator/klas/nieuw", name="administrator_nieuwe_klas")
+     * @Route("/slb/klas/nieuw", name="slb_nieuwe_klas")
      */
     public function administratorNieuweKlas(Request $request, EntityManagerInterface $em, SessionInterface $session)
     {
@@ -40,6 +40,8 @@ class AdministratorKlasController extends AbstractController
 
             $klas = $form->getData();
 	
+            $klas->setSlb($this->getUser());
+            
 			try{
 				$em->persist($klas);
 				
@@ -54,10 +56,10 @@ class AdministratorKlasController extends AbstractController
 
             $this->addFlash('success', 'Klas ' . $klas->getNaam() . ' toegevoegd');
 
-            return $this->redirectToRoute('administrator');
+            return $this->redirectToRoute('slb');
         }
 
-        return $this->render('administrator/Klas/administrator_nieuwe_klas.html.twig', [
+        return $this->render('slb/Klas/slb_nieuwe_klas.html.twig', [
 
             'form' => $form->createView()
 
@@ -66,7 +68,7 @@ class AdministratorKlasController extends AbstractController
     }
 
     /**
-     * @Route("/adimistrator/klas/nieuweStudent", name="administrator_nieuwe_student")
+     * @Route("/slb/klas/studenten", name="slb_studenten")
      */
     public function administratorNieuweLeerling(Request $request, EntityManagerInterface $em)
     {
@@ -76,44 +78,16 @@ class AdministratorKlasController extends AbstractController
 
         ]);
 
-        $form = $this->createForm(StudentType::class);
+        return $this->render('slb/Klas/slb_studenten.html.twig', [
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $student = $form->getData();
-
-            $student->setKlas($klas);
-	
-	
-	
-			try{
-				$em->persist($student);
-				$em->flush();
-			}catch (\Exception $e){
-				error_log($e->getMessage(),0);
-		
-				$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van de student probeer probeer het alstublieft nog eens');
-		
-				return $this->redirectToRoute('slb');
-			}
-
-            $this->addFlash('success', 'Student ' . $student->getNaam() . ' toegevoegd');
-
-            return $this->redirectToRoute('administrator_nieuwe_student', array('id' => $request->get('id')));
-        }
-
-        return $this->render('administrator/Klas/administrator_nieuwe_student.html.twig', [
-
-            'klas' => $klas,
-            'form' => $form->createView()
+            'klas' => $klas
 
         ]);
 
     }
 
     /**
-     * @Route("/adimistrator/klas/studentVerwijderen", name="administrator_student_verwijderen")
+     * @Route("/slb/klas/studentVerwijderen", name="slb_student_verwijderen")
      */
     public function administratorLeerlingVerwijderen(Request $request, EntityManagerInterface $em)
     {
@@ -130,7 +104,7 @@ class AdministratorKlasController extends AbstractController
 
         $this->addFlash('success', 'Student ' . $student->getNaam() . ' verwijderd');
 
-        return $this->redirectToRoute('administrator_nieuwe_student', array('id' => $request->get('klasId')));
+        return $this->redirectToRoute('slb_nieuwe_student', array('id' => $request->get('klasId')));
 
     }
 

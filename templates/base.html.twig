@@ -28,8 +28,8 @@
             <a class="navbar-link text-center col" href="{{ path('home') }}"><i class="fas fa-home"></i> Home</a>
             {% if app.user %}
                 {% if "ROLE_SLB" in app.user.getRoles %}
-                    <a class="navbar-link text-center col" href="{{ path('slb') }}"><i class="far fa-calendar-alt"></i>
-                        Uitnodigingen</a>
+                    <a class="navbar-link text-center col" href="{{ path('slb') }}"><i class="fas fa-users"></i>
+                        Klas</a>
                 {% elseif "ROLE_ADMIN" in app.user.getRoles %}
                     <a class="navbar-link text-center col" href="{{ path('administrator') }}"><i
                                 class="fas fa-user-cog"></i> Administratie</a>

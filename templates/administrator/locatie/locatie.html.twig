@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% if edit %}
+
+        <h1 class="mb-4"><i class="far fa-edit text-warning"></i> Locatie {{ locatie.naam }} wijzigen</h1>
+
+    {% else %}
+
+        <h1 class="mb-4"><i class="far fa-plus-square"></i> Locatie toevoegen</h1>
+
+    {% endif %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" class="form-control col btn btn-outline-success" value="Gereed">
+    {{ form_end(form) }}
+
+{% endblock %}

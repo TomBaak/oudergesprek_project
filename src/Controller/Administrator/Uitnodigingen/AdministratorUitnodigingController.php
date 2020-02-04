@@ -1,7 +1,7 @@
 <?php
 	
 	
-	namespace App\Controller\slb\Invitations;
+	namespace App\Controller\Administrator\Uitnodigingen;
 	
 	use App\Classes\Randomizer;
 	use App\Entity\Klas;
@@ -16,11 +16,11 @@
 	use Symfony\Component\Mailer\Mailer;
 	use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 	
-	class SLBInvitationsController extends AbstractController
+	class AdministratorUitnodigingController extends AbstractController
 	{
 		
 		/**
-		 * @Route("/slb/uitnodiging/nieuw", name="uitnodiging")
+		 * @Route("/administrator/uitnodiging/nieuw", name="uitnodiging")
 		 */
 		public function uitnodiging(Request $request, Randomizer $randomizer, EntityManagerInterface $em)
 		{
@@ -71,10 +71,20 @@
 							
 							$email->to($leerlingen[$i]->getStudentId() . '@student.rocmondriaan.nl');
 							
-							$email->html('<h1 style="font-weight: bold">Uitnodiging ouder gesprek</h1>' . '<p>U bent uitgenodigd voor een ouder gesprek met meneer/mevrouw '
-								. $this->getUser()->getLastName() . ' op ' . $uitnodiging->getDate()->format('j-n-Y') . '</p>'
-								. '<p>U kunt met <span><a href="' . $invitationLink . '">deze link</a></span> een afspraak op de door uw gewenste tijd kiezen.</p>'
-								. '<br><p>Met vriendelijke groet,</p>' . '<p>SimplyPlan</p>');
+							$email->html('<div style="font-size:10pt;font-family:Segoe UI,sans-serif;">'
+								. '<h1 style="font-size:24pt;font-family:Times New Roman,serif;font-weight:bold;margin-right:0;margin-left:0;">Uitnodiging ouderavond</h1>'
+								. '<p>Geachte heer, mevrouw en beste ' . $leerlingen[$i]->getNaam()  . '</p>'
+								. '<p>Op <span>' . $uitnodiging->getDate()->format('l j F') . '</span>  a.s. willen wij u graag in de gelegenheid stellen het studieverloop'
+								. '<br>van ' . $leerlingen[$i]->getNaam() . ' met de studieloopbaanbegeleider, ' . $uitnodiging->getKlas()->getSlb()->getFirstLetter() . ' ' . $uitnodiging->getKlas()->getSlb()->getLastname() . ', te bespreken.</p>'
+								. $uitnodiging->getKlas()->getSlb()->getFirstLetter() . ' ' . $uitnodiging->getKlas()->getSlb()->getLastname() . ' is vanaf ' . $uitnodiging->getStartTime()->format('H:i') . ' uur beschikbaar voor individuele gesprekken met een tijdsduur van ca. 15 minuten.'
+								. '<p>Wij verzoeken u via <a href="' . $invitationLink . '">deze link</a> een afspraak te maken op het voor u gewenste tijdstip.<br>
+									De administratie is bereikbaar voor vragen van maandag t/m vrijdag tussen 08.00 uur tot 17.00 uur op 088 - 666 3360.</p>'
+								. '<p>Wij hopen u op ' . $uitnodiging->getDate()->format('l j F') . ' a.s. te mogen begroeten.</p>'
+								. '<p>Met vriendelijke groet,</p>'
+								. '<p>'
+								. $uitnodiging->getKlas()->getLocation()->getDirecteur()
+								. '<br> Schooldirecteur School voor Commerciële economie</p>'
+								. '</div>');
 							
 							$mailer->send($email);
 						}
@@ -86,16 +96,16 @@
 					
 					$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van uw uitnodiging probeer het alstublieft nog eens');
 					
-					return $this->redirectToRoute('slb');
+					return $this->redirectToRoute('administrator');
 				}
 				
 				
 				$this->addFlash('success', 'Uitnoding is verstuurd naar de studenten');
 				
-				return $this->redirectToRoute('slb');
+				return $this->redirectToRoute('administrator');
 			}
 			
-			return $this->render('slb/invitations/slb_nieuwe_uitnodiging.html.twig', [
+			return $this->render('administrator/uitnodigingen/administrator_nieuwe_uitnodiging.html.twig', [
 				
 				'form' => $form->createView()
 			
