@@ -7,7 +7,8 @@
     use App\Entity\Klas;
     use App\Entity\Location;
     use App\Forms\UitnodigingType;
-    use Doctrine\ORM\EntityManagerInterface;
+	use DateTime;
+	use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\Asset\Package;
     use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +27,9 @@
         public function uitnodiging(Request $request, Randomizer $randomizer, EntityManagerInterface $em)
         {
             if (!$this->getDoctrine()->getRepository(Klas::class)->findAll()) {
-                $this->addFlash('error', 'Er zijn geen klassen om Uitnodigingen aan te maken. Neem contact op met de SLBer');
+                $this->addFlash('error', 'Er is een fout onstaan probeer het nog eens');
 
-                return $this->redirectToRoute('administrator');
+                return $this->redirectToRoute('uitnodiging');
             }
 
             $form = $this->createForm(UitnodigingType::class);
@@ -37,6 +38,12 @@
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $uitnodiging = $form->getData();
+                
+                if($uitnodiging->getDate() < new DateTime()){
+					$this->addFlash('error', 'U kunt geen uitnodiging voor het verleden maken. Probeer het nog eens');
+	
+					return $this->redirectToRoute('uitnodiging');
+				}
 
                 $uitnodiging->setInvitationCode($randomizer->getInvitationCode(
 
@@ -59,6 +66,7 @@
                     $transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
                     $mailer = new Mailer($transport);
 
+                    $uitnodiging->setGemaaktOp(new DateTime());
                     $em->persist($uitnodiging);
                     $em->flush();
 
@@ -68,7 +76,7 @@
                         ->subject('Uitnodiging ouder gesprek');
 
                     if (count($klas->getStudents()) === 0) {
-                        $this->addFlash('error', 'De klas die u heeft gebruikt bevat geen studenten. Probeer het nog eens of neem contact op met de servicedesk');
+                        $this->addFlash('error', 'De klas die u heeft gebruikt bevat geen studenten. Probeer het nog eens of neem contact op met de SLBer');
 
                         return $this->redirectToRoute('slb');
                     } else {
@@ -106,10 +114,10 @@
 
                     $emailSLBer->html('<div style="font-size:10pt;font-family:Segoe UI,sans-serif;">'
                         . '<h1 style="font-size:24pt;font-family:Times New Roman,serif;font-weight:bold;margin-right:0;margin-left:0;">Nieuwe uitnodiging voor uw klas</h1>'
-                        . '<p>Geachte heer, mevrouw ' . $uitnodiging->getKlas()->getSlb()->getFirstLetter() . ' ' . $uitnodiging->getKlas()->getSlb()->getLastname() . '</p>'
+                        . '<p>Beste ' . $uitnodiging->getKlas()->getSlb()->getFirstLetter() . ' ' . $uitnodiging->getKlas()->getSlb()->getLastname() . '</p>'
                         . '<p>Op <span>' . $uitnodiging->getDate()->format('l j F') . '</span>  a.s. is er voor u een uitnodiging verstuurt voor de oudergesprekken met de studieloopbaanbegeleider, '
-                        . 'de gesprekken zullen plaats vinen vanaf ' . $uitnodiging->getStartTime()->format('H:i') . ' tot ' . $uitnodiging->getStopTime()->format('H:i') .  ' </p>'
-                        . '<p>U kunt de gemaakte afspraken door us SLB studenten bekijken op <a href="http://127.0.0.1:8000">simplyplan.nl</a></p>'
+                        . 'de gesprekken zullen plaats vinen vanaf ' . $uitnodiging->getStartTime()->format('H:i') . ' tot ' . $uitnodiging->getStopTime()->format('H:i') .  '.</p>'
+                        . '<p>U kunt de gemaakte afspraken door uw SLB studenten bekijken op <a href="http://127.0.0.1:8000">simplyplan.nl</a>.</p>'
                         . '<p>Met vriendelijke groet,<br> Administratie '
                         . $uitnodiging->getKlas()->getLocation()->getNaam()
                         . '</p>'

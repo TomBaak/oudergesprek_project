@@ -27,7 +27,8 @@
 
             </div>
 
-            <div class="col border p-3 rounded">
+            <div class="col">
+
                 {% for message in app.flashes('pwError') %}
                     <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
                         {{ message }}
@@ -44,11 +45,13 @@
                         </button>
                     </div>
                 {% endfor %}
-                <h3 class="text-center p-3"><i class="fas fa-user-edit"></i> Wachtwoord wijzigen</h3>
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button type="submit" class="btn btn-outline-warning w-100">Wijzig</button>
-                {{ form_end(form) }}
+                <div class="rounded border p-3">
+                    <h3 class="text-center p-3"><i class="fas fa-user-edit"></i> Wachtwoord wijzigen</h3>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-outline-warning w-100">Wijzig</button>
+                    {{ form_end(form) }}
+                </div>
             </div>
 
         </div>

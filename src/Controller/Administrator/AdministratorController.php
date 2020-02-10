@@ -6,6 +6,7 @@
 	
 	use App\Entity\Klas;
 	use App\Entity\Uitnodiging;
+	use DateTime;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\Routing\Annotation\Route;
 	
@@ -21,7 +22,8 @@
 			
 			return $this->render('administrator/administrator.html.twig',[
 				
-				'Uitnodigingen' => $uitnodigingen,
+				'uitnodigingen' => $uitnodigingen,
+				'vandaag' => new DateTime()
 			
 			]);
 			

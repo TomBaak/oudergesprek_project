@@ -16,11 +16,13 @@
                         </thead>
                         <tbody>
                         {% for uitnodiging in uitnodigingen %}
+                            {% if uitnodiging.date > vandaag %}
                             <tr>
                                 <td>{{ uitnodiging.klas.naam }}</td>
                                 <td>{{ uitnodiging.date|date('j-M-Y') }}</td>
                                 <td><a href="{{path('inschrijvingen',{id: uitnodiging.id})}}">Bekijk gemaakte afspraken</a></td>
                             </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>

@@ -15,6 +15,7 @@
                             <tr>
                                 <th>Naam student</th>
                                 <th>Student nummer</th>
+                                <th>Student verwijderen</th>
                             </tr>
                             </thead>
 
@@ -41,7 +42,7 @@
                 <div class="col">
                     <h1 class="text-center p-3"><i class="fas fa-cog"></i> Opties</h1>
                     <div class="border p-3 rounded">
-                    <a href="#" class="btn btn-success w-100"><i
+                    <a href="{{ path('slb_studenten_toevoegen',{id: klas.id}) }}" class="btn btn-success w-100"><i
                                 class="fas fa-user-plus"></i> Studenten toevoegen</a>
                     </div>
                 </div>

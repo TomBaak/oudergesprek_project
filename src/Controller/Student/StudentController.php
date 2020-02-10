@@ -133,7 +133,7 @@
 				->add('with_parents', CheckboxType::class, [
 					'label' => 'Ik kom met mijn ouders',
 					'required' => false,
-					'help' => 'Studenten onder de 18 zijn verplicht met hun ouders aanwezig te zijn!'
+					'help' => 'Studenten onder de 18 zijn verplicht met hun ouders aanwezig te zijn'
 				])
 				->getForm();
 			

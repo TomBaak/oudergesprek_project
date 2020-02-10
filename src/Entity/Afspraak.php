@@ -37,7 +37,7 @@ class Afspraak
     private $uitnodiging;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="afspraken")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="afspraken", onDelete="CASCADE")
      */
     private $student;
 

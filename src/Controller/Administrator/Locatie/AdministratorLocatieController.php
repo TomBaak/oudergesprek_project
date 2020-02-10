@@ -79,7 +79,34 @@
             ]);
 
         }
-
+		
+		/**
+		 * @Route("/adimistrator/locatie/verwijderen", name="administrator_locatie_verwijderen")
+		 */
+		public function administratorLocatieVerwijderen(Request $request, EntityManagerInterface $em)
+		{
+			$locatie = $this->getDoctrine()->getRepository(Location::class)->findOneBy(['id' => $request->get('id')]);
+			
+			if($locatie != NULL){
+				
+				$em->remove($locatie);
+				$em->flush();
+				
+				$this->addFlash('success', 'Locatie is verwijderd');
+				
+				return $this->redirectToRoute('administrator_locatie_lijst');
+				
+			}else{
+				
+				$this->addFlash('error', 'Er is een fout onstaan probeer het nog eens');
+				
+				return $this->redirectToRoute('administrator_locatie_lijst');
+				
+			}
+			
+			
+		}
+  
 		/**
 		 * @Route("/adimistrator/locatie/lijst", name="administrator_locatie_lijst")
 		 */

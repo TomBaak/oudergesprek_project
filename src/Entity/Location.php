@@ -34,7 +34,7 @@ class Location
     private $directeur;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Klas", mappedBy="Location")
+     * @ORM\OneToMany(targetEntity="App\Entity\Klas", mappedBy="location")
      */
     private $klas;
 
