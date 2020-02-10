@@ -45,7 +45,41 @@
 			]);
 			
 		}
-		
+
+        /**
+         * @Route("/adimistrator/locatie/wijzigen", name="administrator_locatie_wijzigen")
+         */
+        public function administratorLocatieWijzigen(Request $request, EntityManagerInterface $em)
+        {
+            $locatie = $this->getDoctrine()->getRepository(Location::class)->findOneBy(['id' => $request->get('id')]);
+
+            $form = $this->createForm(LocationType::class, $locatie);
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+
+                $locatie = $form->getData();
+
+                $em->persist($locatie);
+                $em->flush();
+
+                $this->addFlash('success', 'Locatie ' . $locatie->getNaam() . ' gewijzigd');
+
+                return $this->redirectToRoute('administrator');
+
+            }
+
+            return $this->render('administrator/locatie/locatie.html.twig',[
+
+                'form' => $form->createView(),
+                'edit' => true,
+                'locatie' => $locatie
+
+            ]);
+
+        }
+
 		/**
 		 * @Route("/adimistrator/locatie/lijst", name="administrator_locatie_lijst")
 		 */

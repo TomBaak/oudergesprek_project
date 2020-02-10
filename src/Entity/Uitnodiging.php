@@ -48,6 +48,11 @@ class Uitnodiging
      */
     private $afspraken;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $gemaaktOp;
+
     public function __construct()
     {
         $this->afspraken = new ArrayCollection();
@@ -145,6 +150,18 @@ class Uitnodiging
                 $afspraken->setUitnodiging(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGemaaktOp(): ?\DateTimeInterface
+    {
+        return $this->gemaaktOp;
+    }
+
+    public function setGemaaktOp(\DateTimeInterface $gemaaktOp): self
+    {
+        $this->gemaaktOp = $gemaaktOp;
 
         return $this;
     }

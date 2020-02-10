@@ -7,7 +7,7 @@
             <div class="row">
 
                 <div class="col-sm-8">
-                    <h1 class="mt-2 mb-4">Leerlingen <span class="text-muted">in klas {{ klas.naam }}</span></h1>
+                    <h1 class="mt-2 mb-4"><i class="fas fa-users"></i> Leerlingen <span class="text-muted">in klas {{ klas.naam }}</span></h1>
                     {% if klas.students|length != 0 %}
                         <table class="table table-bordered table-striped rounded text-center">
 
@@ -24,7 +24,7 @@
                                     <td>{{ student.naam }}</td>
                                     <td>{{ student.studentId }}</td>
                                     <td>
-                                        <a href="{{ path('administrator_student_verwijderen',{id: student.id, klasId: student.klas.id}) }}">
+                                        <a href="{{ path('slb_student_verwijderen',{id: student.id, klasId: student.klas.id}) }}">
                                             <i class="fas fa-user-minus text-danger"></i>
                                         </a>
                                     </td>

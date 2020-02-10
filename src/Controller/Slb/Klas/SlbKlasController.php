@@ -4,7 +4,9 @@
 namespace App\Controller\Slb\Klas;
 
 use App\Entity\Klas;
+use App\Entity\Location;
 use App\Entity\Student;
+use App\Entity\Uitnodiging;
 use App\Forms\StudentType;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Env\Response;
@@ -32,6 +34,12 @@ class SlbKlasController extends AbstractController
      */
     public function administratorNieuweKlas(Request $request, EntityManagerInterface $em, SessionInterface $session)
     {
+
+        if(!$this->getDoctrine()->getRepository(Location::class)->findAll()){
+            $this->addFlash('error', 'Er zijn geen locaties om klassen voor aan te maken. Neem contact op met de administratie');
+
+            return $this->redirectToRoute('slb');
+        }
 
         $form = $this->createForm(KlasType::class);
 
@@ -87,6 +95,26 @@ class SlbKlasController extends AbstractController
     }
 
     /**
+     * @Route("/slb/klas/{id}/uitnodigingen", name="slb_uitnodigingen")
+     */
+    public function slb_uitnodigingen($id, EntityManagerInterface $em)
+    {
+
+        $uitnodigingen = $this->getDoctrine()->getRepository(Uitnodiging::class)->findBy([
+
+            'klas' => $id
+
+        ]);
+
+        return $this->render('slb/uitnodigingen/slb_uitnodigingen.html.twig', [
+
+            'uitnodigingen' => $uitnodigingen
+
+        ]);
+
+    }
+
+    /**
      * @Route("/slb/klas/studentVerwijderen", name="slb_student_verwijderen")
      */
     public function administratorLeerlingVerwijderen(Request $request, EntityManagerInterface $em)
@@ -104,7 +132,7 @@ class SlbKlasController extends AbstractController
 
         $this->addFlash('success', 'Student ' . $student->getNaam() . ' verwijderd');
 
-        return $this->redirectToRoute('slb_nieuwe_student', array('id' => $request->get('klasId')));
+        return $this->redirectToRoute('slb_studenten', array('id' => $request->get('klasId')));
 
     }
 

@@ -23,7 +23,7 @@
 			
 			return $this->render('slb/slb.html.twig',[
 				
-				'uitnodigingen' => $uitnodigingen,
+				'Uitnodigingen' => $uitnodigingen,
 				'klassen' => $klassen
 				
 			]);

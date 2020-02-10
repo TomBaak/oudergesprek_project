@@ -1,4 +1,4 @@
-    {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
 
@@ -10,22 +10,36 @@
 
                 {% if klassen %}
 
-                <table class="table table-striped table-bordered overflow-auto text-center">
+                    <table class="table table-striped table-bordered overflow-auto text-center">
 
-                    {% for klas in klassen %}
+                        <thead>
+                        <tr>
+                            <th>Klas naam:</th>
+                            <th>Aantal studenten:</th>
+                            <th>Student(en):</th>
+                            <th>Uitnodigingen:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for klas in klassen %}
 
-                    <tr>
-                        <td class="col-sm-2">{{ klas.naam }}</td>
-                        <td class="col-sm-5"><i class="fas fa-users"></i>&nbsp;&nbsp;Aantal studenten: {{ klas.students|length }}</td>
-                        <td class="col-sm-5"><a href="{{path('slb_studenten',{id:klas.id})}}" class="w-100"><i class="fas fa-users"></i>&nbsp;&nbsp;Student(en)</a></td>
-                    </tr>
+                            <tr class="">
+                                <td class="col">{{ klas.naam }}</td>
+                                <td class="col">{{ klas.students|length }}</td>
+                                <td class="col"><a href="{{ path('slb_studenten',{id:klas.id}) }}" class="w-100"><i
+                                                class="fas fa-users"></i></a></td>
+                                <td class="col"><a href="{{ path('slb_uitnodigingen',{id:klas.id}) }}" class="w-100"><i
+                                                class="fas fa-envelope-open-text"></i></a></td>
+                            </tr>
 
-                    {% endfor %}
+                        {% endfor %}
+                        </tbody>
 
-                </table>
+                    </table>
 
                 {% else %}
-                    <h3 class="text-danger text-center"><i class="fas fa-exclamation-triangle text-warning"></i> Er zijn nog geen klassen aangemaakt</h3>
+                    <h3 class="text-danger text-center"><i class="fas fa-exclamation-triangle text-warning"></i> Er zijn
+                        nog geen klassen aangemaakt</h3>
                 {% endif %}
 
             </div>
@@ -33,7 +47,8 @@
 
                 <h1 class="text-center p-3"><i class="fas fa-cog"></i> Opties</h1>
                 <div class="border w-100 p-3">
-                    <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success w-100"><i class="fas fa-user-plus"></i> Klas toevoegen</a>
+                    <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success w-100"><i
+                                class="fas fa-user-plus"></i> Klas toevoegen</a>
                 </div>
 
             </div>

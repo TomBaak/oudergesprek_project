@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200204105247 extends AbstractMigration
+final class Version20200205161157 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -24,10 +24,8 @@ final class Version20200204105247 extends AbstractMigration
 
         $this->addSql('ALTER TABLE afspraak CHANGE uitnodiging_id uitnodiging_id INT DEFAULT NULL, CHANGE student_id student_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE klas CHANGE slb_id slb_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE klas ADD CONSTRAINT FK_3944E73A64D218E FOREIGN KEY (location_id) REFERENCES location (id)');
-        $this->addSql('CREATE INDEX IDX_3944E73A64D218E ON klas (location_id)');
         $this->addSql('ALTER TABLE student CHANGE klas_id klas_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE uitnodiging CHANGE klas_id klas_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE uitnodiging ADD gemaakt_op DATETIME NOT NULL, CHANGE klas_id klas_id INT DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -36,10 +34,8 @@ final class Version20200204105247 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE afspraak CHANGE uitnodiging_id uitnodiging_id INT DEFAULT NULL, CHANGE student_id student_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE klas DROP FOREIGN KEY FK_3944E73A64D218E');
-        $this->addSql('DROP INDEX IDX_3944E73A64D218E ON klas');
         $this->addSql('ALTER TABLE klas CHANGE slb_id slb_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE student CHANGE klas_id klas_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE uitnodiging CHANGE klas_id klas_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE uitnodiging DROP gemaakt_op, CHANGE klas_id klas_id INT DEFAULT NULL');
     }
 }

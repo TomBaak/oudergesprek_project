@@ -21,7 +21,7 @@
 			
 			return $this->render('administrator/administrator.html.twig',[
 				
-				'uitnodigingen' => $uitnodigingen,
+				'Uitnodigingen' => $uitnodigingen,
 			
 			]);
 			

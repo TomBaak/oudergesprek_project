@@ -2,13 +2,17 @@
 
 {% block body %}
 
-    <h1 class="mt-2 mb-4">Nieuwe klas</h1>
+    <div class="container w-75">
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" class="form-control btn btn-outline-success" value="Maak klas aan">
-    {{ form_end(form) }}
+        <h1 class="mt-2 mb-4 text-center"><i class="fas fa-user-plus"></i> Nieuwe klas</h1>
 
-    </form>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" class="form-control btn btn-outline-success" value="Maak klas aan">
+        {{ form_end(form) }}
+
+        </form>
+
+    </div>
 
 {% endblock %}
