@@ -50,6 +50,12 @@
 				
 				$klas = $form->getData();
 				
+				if($this->getDoctrine()->getRepository(Klas::class)->findOneBy(['naam' => $klas->getNaam()]) !== NULL){
+					$this->addFlash('error', 'Er bestaat al een klas met deze naam');
+					
+					return $this->redirectToRoute('slb');
+				}
+				
 				$klas->setSlb($this->getUser());
 				
 				try {
@@ -237,6 +243,28 @@
 			$this->addFlash('success', 'Student ' . $student->getNaam() . ' verwijderd');
 			
 			return $this->redirectToRoute('slb_studenten', array('id' => $request->get('klasId')));
+			
+		}
+		
+		/**
+		 * @Route("/slb/klas/verwijderen", name="slb_klas_verwijderen")
+		 */
+		public function administratorKlasVerwijderen(Request $request, EntityManagerInterface $em)
+		{
+			
+			$klas = $this->getDoctrine()->getRepository(Klas::class)->findOneBy([
+				
+				'id' => $request->get('id')
+			
+			]);
+			
+			$em->remove($klas);
+			
+			$em->flush();
+			
+			$this->addFlash('success', 'Klas ' . $klas->getNaam() . ' verwijderd');
+			
+			return $this->redirectToRoute('slb');
 			
 		}
 		

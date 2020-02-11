@@ -24,7 +24,7 @@ class Klas
     private $slb;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Uitnodiging", mappedBy="klas")
+     * @ORM\OneToMany(targetEntity="App\Entity\Uitnodiging", mappedBy="klas", orphanRemoval=true)
      */
     private $uitnodiging;
 	
@@ -34,7 +34,7 @@ class Klas
 	private $naam;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="klas")
+     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="klas", orphanRemoval=true)
      */
     private $students;
 

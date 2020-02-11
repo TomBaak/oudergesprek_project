@@ -11,6 +11,7 @@
 	use Symfony\Component\Routing\Annotation\Route;
 	use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 	use UserType;
+	use App\Entity\User;
 	
 	class AdministratorSLBController extends AbstractController
 	{
@@ -37,6 +38,12 @@
 			if ($form->isSubmitted() && $form->isValid()) {
 				
 				$user = $form->getData();
+				
+				if($this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]) !== NULL){
+					$this->addFlash('error', 'Er bestaat al een account met dit email adres');
+					
+					return $this->redirectToRoute('administrator_nieuwe_sbler');
+				}
 				
 				$user->setUsername($user->getEmail());
 				

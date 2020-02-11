@@ -44,7 +44,7 @@ class Uitnodiging
     private $klas;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Afspraak", mappedBy="uitnodiging")
+     * @ORM\OneToMany(targetEntity="App\Entity\Afspraak", mappedBy="uitnodiging", orphanRemoval=true)
      */
     private $afspraken;
 

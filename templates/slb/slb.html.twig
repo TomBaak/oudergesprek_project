@@ -23,6 +23,7 @@
                             <th><i class="fas fa-list-ol"></i> Student(en):</th>
                             <th><i class="fas fa-envelope-open-text"></i> Uitnodigingen:</th>
                             <th><i class="fas fa-map-marked"></i> Locatie:</th>
+                            <th><i class="fas fa-trash"></i> Verwijderen:</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,9 +34,12 @@
                                 <td class="col-sm-1">{{ klas.students|length }}</td>
                                 <td class="col-sm-1"><a href="{{ path('slb_studenten',{id:klas.id}) }}" class="w-100"><i
                                                 class="fas fa-list-ol"></i></a></td>
-                                <td class="col-sm-1"><a href="{{ path('slb_uitnodigingen',{id:klas.id}) }}" class="w-100"><i
+                                <td class="col-sm-1"><a href="{{ path('slb_uitnodigingen',{id:klas.id}) }}"
+                                                        class="w-100"><i
                                                 class="fas fa-envelope-open-text"></i></a></td>
-                                <td class="col">{{ klas.location.naam }}</td>
+                                <td class="col-sm-6">{{ klas.location.naam }}</td>
+                                <td class="col-sm-1"><a href="{{ path('slb_klas_verwijderen',{id:klas.id}) }}" class="w-100"><i
+                                                class="fas fa-trash text-danger"></i></a></td>
                             </tr>
 
                         {% endfor %}
@@ -58,10 +62,10 @@
                     <a href="{{ path('slb_studenten_toevoegen') }}" class="btn btn-success w-100"><i
                                 class="fas fa-user-plus"></i> Studenten toevoegen</a>
                 </div>
-                </div>
-
             </div>
+
         </div>
+    </div>
     </div>
 
 {% endblock %}
