@@ -12,6 +12,7 @@
 	use Doctrine\ORM\EntityManagerInterface;
 	use http\Env\Response;
 	use KlasType;
+	use SimpleXLSX;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\Request;
@@ -110,42 +111,82 @@
 				
 				$uploadedFile = $result['studentFile'];
 				
-				$originalFilename = pathinfo($uploadedFile, PATHINFO_FILENAME);
+				$originalFilename = $_FILES['studenten']['name']['studentFile'];
+				
+				if (substr($originalFilename, strpos($originalFilename, '.'), strlen($originalFilename) - strpos($originalFilename, '.')) != '.xlsx') {
+					$this->addFlash('error', 'Het geuploadde bestand was geen .xlsx bestand, probeer het nog eens');
+					return $this->redirectToRoute('slb_studenten_toevoegen');
+				}
 				
 				$tempFilePath = $_FILES['studenten']['tmp_name']['studentFile'];
 				
-				$studentFile = fopen($tempFilePath, 'r');
-				$file = fopen($tempFilePath,'r');
-				
 				$studenten = [];
 				
-				while (($data = fgetcsv($file, 1000, ",")) !== FALSE)
-				{
-					// Each individual array is being pushed into the nested array
-					$studenten[] = $data;
+				if ($xlsx = SimpleXLSX::parse($tempFilePath)) {
+					$studenten = $xlsx->rows();
+				} else {
+					
+					$this->addFlash('error', 'Er is een fout opgetreden probeer het opnieuw');
+					return $this->redirectToRoute('slb_studenten_toevoegen');
+					
 				}
 				
-				// Close the file
-				fclose($file);
-				
-				$klas = $this->getDoctrine()->getRepository(Klas::class)->findOneBy(['id' => $request->get('id')]);
-				
-				for($i = 0; $i < count($studenten); $i++){
-					
-					$student = new Student();
-					
-					$student->setNaam($studenten[$i][0] . $studenten[$i][1]);
-					$student->setStudentId($studenten[$i][2]);
-					$student->setKlas($klas);
-					
-					$em->persist();
+				if (count($studenten[0]) !== 6) {
+					$this->addFlash('error', 'Het geuploadde bestand had niet het juiste format, probeer het nog eens');
+					return $this->redirectToRoute('slb_studenten_toevoegen');
 				}
 				
+				$warningNoClass = false;
+				
+				
+				for ($i = 1; $i < count($studenten); $i++) {
+					
+					$klas = $this->getDoctrine()->getRepository(Klas::class)->findOneBy([
+						
+						'naam' => $studenten[$i][0]
+					
+					]);
+					
+					if ($klas) {
+						
+						$student = $this->getDoctrine()->getRepository(Student::class)->findOneBy([
+							'emailAdres' => $studenten[$i][4]]);
+						
+						if($student === NULL){
+							$student = new Student();
+						}
+						
+						if ($student === NULL || $result['update']) {
+							$student->setVoornaam($studenten[$i][1]);
+							$student->setTussenVoegsel($studenten[$i][2]);
+							$student->setAchternaam($studenten[$i][3]);
+							$student->setKlas($klas);
+							$student->setEmailAdres($studenten[$i][4]);
+							$em->persist($student);
+							
+							dump($student);
+							
+						}
+						
+						
+					} else {
+						if (!$warningNoClass) {
+							$this->addFlash('warning', 'Er zijn voor enkele studenten niet de bijbehoorende klassen gevonden. Controleert u alstublieft de lijst');
+							$warningNoClass = true;
+						}
+					}
+					
+				}
+
 				$em->flush();
 				
-				$this->addFlash('success', 'Leerlingen toegevoegd');
+				if($result['update']){
+					$this->addFlash('success', 'Leerlingen toegevoegd en gewijzigd');
+				}else{
+					$this->addFlash('success', 'Leerlingen toegevoegd');
+				}
 				
-				return $this->redirectToRoute('slb_studenten',['id' => $request->get('id')]);
+				return $this->redirectToRoute('slb');
 				
 			}
 			

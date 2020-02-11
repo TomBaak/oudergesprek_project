@@ -82,9 +82,9 @@
                     } else {
                         for ($i = 0; $i < count($klas->getStudents()); $i++) {
 
-                            $invitationLink = 'http://127.0.0.1:8000/student/afspraak?id=' . $uitnodiging->getInvitationCode() . '&student=' . $leerlingen[$i]->getStudentId();
+                            $invitationLink = 'http://127.0.0.1:8000/student/afspraak?id=' . $uitnodiging->getInvitationCode() . '&student=' . $leerlingen[$i]->getEmailAdres();
 
-                            $email->to($leerlingen[$i]->getStudentId() . '@student.rocmondriaan.nl');
+                            $email->to($leerlingen[$i]->getEmailAdres());
 
                             $email->html('<div style="font-size:10pt;font-family:Segoe UI,sans-serif;">'
                                 . '<h1 style="font-size:24pt;font-family:Times New Roman,serif;font-weight:bold;margin-right:0;margin-left:0;">Uitnodiging ouderavond</h1>'
@@ -123,7 +123,7 @@
                         . '</p>'
                         . '</div>');
 
-                    $mailer->send($emailSLBer);
+                    
 
                 } catch (\Exception $e) {
                     error_log($e->getMessage(), 0);
@@ -132,7 +132,8 @@
 
                     return $this->redirectToRoute('administrator');
                 }
-
+                
+				$mailer->send($emailSLBer);
 
                 $this->addFlash('success', 'Uitnoding is verstuurd naar de studenten');
 

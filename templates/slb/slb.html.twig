@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block back %}
+{% endblock %}
+
+
 {% block body %}
 
-    <div class="container w-75 m-auto">
+    <div class="container">
         <div class="row">
             <div class="col-sm-8">
 
@@ -14,22 +18,24 @@
 
                         <thead>
                         <tr>
-                            <th>Klas naam:</th>
-                            <th>Aantal studenten:</th>
-                            <th>Student(en):</th>
-                            <th>Uitnodigingen:</th>
+                            <th><i class="fas fa-align-left"></i> Klas naam:</th>
+                            <th><i class="fas fa-users"></i> Aantal studenten:</th>
+                            <th><i class="fas fa-list-ol"></i> Student(en):</th>
+                            <th><i class="fas fa-envelope-open-text"></i> Uitnodigingen:</th>
+                            <th><i class="fas fa-map-marked"></i> Locatie:</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for klas in klassen %}
 
                             <tr class="">
-                                <td class="col">{{ klas.naam }}</td>
-                                <td class="col">{{ klas.students|length }}</td>
-                                <td class="col"><a href="{{ path('slb_studenten',{id:klas.id}) }}" class="w-100"><i
-                                                class="fas fa-users"></i></a></td>
-                                <td class="col"><a href="{{ path('slb_uitnodigingen',{id:klas.id}) }}" class="w-100"><i
+                                <td class="col-sm-2 font-weight-bold">{{ klas.naam }}</td>
+                                <td class="col-sm-1">{{ klas.students|length }}</td>
+                                <td class="col-sm-1"><a href="{{ path('slb_studenten',{id:klas.id}) }}" class="w-100"><i
+                                                class="fas fa-list-ol"></i></a></td>
+                                <td class="col-sm-1"><a href="{{ path('slb_uitnodigingen',{id:klas.id}) }}" class="w-100"><i
                                                 class="fas fa-envelope-open-text"></i></a></td>
+                                <td class="col">{{ klas.location.naam }}</td>
                             </tr>
 
                         {% endfor %}
@@ -47,8 +53,11 @@
 
                 <h1 class="text-center p-3"><i class="fas fa-cog"></i> Opties</h1>
                 <div class="border w-100 p-3">
-                    <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success w-100"><i
+                    <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success w-100 mb-2"><i
                                 class="fas fa-user-plus"></i> Klas toevoegen</a>
+                    <a href="{{ path('slb_studenten_toevoegen') }}" class="btn btn-success w-100"><i
+                                class="fas fa-user-plus"></i> Studenten toevoegen</a>
+                </div>
                 </div>
 
             </div>
