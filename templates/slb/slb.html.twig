@@ -29,7 +29,7 @@
                         <tbody>
                         {% for klas in klassen %}
 
-                            <tr class="">
+                            <tr>
                                 <td class="col-sm-2 font-weight-bold">{{ klas.naam }}</td>
                                 <td class="col-sm-1">{{ klas.students|length }}</td>
                                 <td class="col-sm-1"><a href="{{ path('slb_studenten',{id:klas.id}) }}" class="w-100"><i

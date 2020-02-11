@@ -1,14 +1,80 @@
 {% extends ('base.html.twig') %}
 
 {% block body %}
-    <h1 class="rocmon-font text-center w-100 mt-5"><i class="far fa-calendar-check"></i> SimplyPlan</h1>
-
+    <h1 class="rocmon-font w-100 mt-5"><i class="far fa-calendar-check"></i> Dashboard</h1>
     {% if app.user %}
-            <p class="text-center">Welkom {{ app.user.firstname }} bij SimplyPlan van ROC Mondriaan.</p>
+        <p>Welkom {{ app.user.firstname }} bij SimplyPlan van ROC Mondriaan.</p>
     {% else %}
-        <p class="text-center">Welkom bij SimplyPlan van ROC Mondriaan. <a href="{{ path('login') }}">Log in</a> om de
+        <p>Welkom bij SimplyPlan van ROC Mondriaan. <a href="{{ path('login') }}">Log in</a> om de
             applicatie te gebruiken.</p>
     {% endif %}
+    <hr class="bg-primary">
 
+    <div>
+
+        <div class="row">
+
+            <div class="{% if app.user %}col-sm-8{% else %}col{% endif %}">
+
+                <h1 class="pt-3 pb-3"><i class="fas fa-calendar-alt"></i> Actieve uitnodigingen</h1>
+
+                {% if uitnodigingen|length > 0 %}
+
+                    <table class="table table-bordered table-striped text-center">
+                        <thead>
+                        <th><i class="far fa-calendar-alt"></i> Klas</th>
+                        <th><i class="far fa-calendar-alt"></i> Wanneer</th>
+                        <th><i class="far fa-calendar-check"></i> Aantal afspraken</th>
+                        </thead>
+                        <tbody>
+                        {% for uitnodiging in uitnodigingen %}
+                            <tr>
+                                <td>{{ uitnodiging.klas.naam }}</td>
+                                <td>{{ uitnodiging.date|date('j F Y') }} vanaf {{ uitnodiging.startTime|date('H:i') }} </td>
+                                <td><span class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                {% else %}
+
+                    <h2>Er zijn momenteel geen uitnodigingen</h2>
+
+                {% endif %}
+
+            </div>
+            {% if app.user %}
+                <div class="col">
+
+                        <h1 class="pt-3 pb-3"><i class="fas fa-cog"></i> Opties</h1>
+                    <div class="border p-3">
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+                            <a href="{{ path('uitnodiging') }}" class="btn btn-success w-100 mb-3"><i
+                                        class="far fa-calendar-plus"></i>&nbsp;&nbsp;Nieuwe
+                                uitnodiging</a>
+                            <a href="{{ path('administrator_nieuwe_sbler') }}" class="btn btn-success w-100"><i
+                                        class="fas fa-user-plus"></i> Nieuw
+                                SLB account aanmaken</a>
+                            <hr>
+                            <a href="{{ path('administrator_locatie_nieuw') }}" class="btn btn-success w-100 mb-3"><i
+                                        class="far fa-plus-square"></i>
+                                Locatie toevoegen</a>
+                            <a href="{{ path('administrator_locatie_lijst') }}" class="btn btn-primary w-100"><i
+                                        class="fas fa-list"></i>
+                                Overzicht Locaties</a>
+                        {% elseif 'ROLE_SLB' in app.user.roles %}
+                                <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success w-100 mb-2"><i
+                                            class="fas fa-user-plus"></i> Klas toevoegen</a>
+                                <a href="{{ path('slb_studenten_toevoegen') }}" class="btn btn-success w-100"><i
+                                            class="fas fa-user-plus"></i> Studenten toevoegen</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
 
 {% endblock %}
