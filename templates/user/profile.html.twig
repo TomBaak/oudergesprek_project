@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block backLink %}
+    {{ path('home') }}
+{% endblock %}
+
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
@@ -12,18 +16,12 @@
 
             <div class="col-sm-8">
 
-                <h3 class="p-3"><i class="far fa-id-card"></i> Account informatie</h3>
+                <h3><i class="far fa-id-card"></i> Account informatie</h3>
 
-                <table class="table table-bordered text-center">
-                    <tr>
-                        <th>Naam:</th>
-                        <td>{{ app.user.firstname }} {{ app.user.lastname }}</td>
-                    </tr>
-                    <tr>
-                        <th>Email:</th>
-                        <td>{{ app.user.email }}</td>
-                    </tr>
-                </table>
+                {{ form_start(formProfile) }}
+                {{ form_widget(formProfile) }}
+                <button type="submit" class="btn btn-outline-warning w-100">Wijzig</button>
+                {{ form_end(formProfile) }}
 
             </div>
 

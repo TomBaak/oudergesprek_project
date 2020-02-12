@@ -32,8 +32,8 @@
 
             }
 		    
-		    $afspraken = $uitnodiging->getAfspraken();
-			
+		    $afspraken = $uitnodiging->getAfspraken()->toArray();
+		    
 			usort($afspraken, function($a, $b){
 				
 				if($a->getTime() > $b->getTime()){
@@ -45,7 +45,7 @@
 				}
 				
 			});
-		 
+			
 			return $this->render('administrator/Afspraken/administrator_afspraken.html.twig',[
 
 			    'afspraken' => $afspraken,

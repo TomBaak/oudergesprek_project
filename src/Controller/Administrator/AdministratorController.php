@@ -22,7 +22,7 @@
 			
 			return $this->render('administrator/administrator.html.twig',[
 				
-				'Uitnodigingen' => $uitnodigingen,
+				'uitnodigingen' => $uitnodigingen,
 				'vandaag' => new DateTime()
 			
 			]);

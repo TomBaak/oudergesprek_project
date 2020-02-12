@@ -144,6 +144,7 @@
 				
 				$warningNoClass = false;
 				
+				$missendeKlassen = [];
 				
 				for ($i = 1; $i < count($studenten); $i++) {
 					
@@ -158,32 +159,29 @@
 						$student = $this->getDoctrine()->getRepository(Student::class)->findOneBy([
 							'emailAdres' => $studenten[$i][4]]);
 						
-						if($student === NULL){
-							$student = new Student();
-						}
-						
 						if ($student === NULL || $result['update']) {
+							if($student === NULL){
+								$student = new Student();
+							}
 							$student->setVoornaam($studenten[$i][1]);
 							$student->setTussenVoegsel($studenten[$i][2]);
 							$student->setAchternaam($studenten[$i][3]);
 							$student->setKlas($klas);
 							$student->setEmailAdres($studenten[$i][4]);
 							$em->persist($student);
-							
-							dump($student);
-							
 						}
 						
 						
 					} else {
-						if (!$warningNoClass) {
-							$this->addFlash('warning', 'Er zijn voor enkele studenten niet de bijbehoorende klassen gevonden. Controleert u alstublieft de lijst');
-							$warningNoClass = true;
-						}
+							$missendeKlassen[] = $studenten[$i][0];
 					}
 					
 				}
-
+				
+				if(count($missendeKlassen) > 0){
+					$this->addFlash('warning', 'Er zijn voor enkele studenten niet de bijbehoorende klassen gevonden. Controleert u alstublieft de lijst. Het gaat om de klas(en): ' . implode(", ",$missendeKlassen));
+				}
+				
 				$em->flush();
 				
 				if($result['update']){

@@ -8,7 +8,7 @@
 
 
 
-    <div class="container m-auto">
+    <div class="">
 
         <div class="row">
             <div class="col-sm-9">
@@ -26,7 +26,8 @@
                             <tr>
                                 <td>{{ uitnodiging.klas.naam }}</td>
                                 <td>{{ uitnodiging.date|date('j-M-Y') }}</td>
-                                <td><a href="{{path('inschrijvingen',{id: uitnodiging.id})}}">Bekijk gemaakte afspraken</a></td>
+                                <td><a href="{{ path('inschrijvingen',{id: uitnodiging.id}) }}">Bekijk gemaakte
+                                        afspraken <span class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a></td>
                             </tr>
                             {% endif %}
                         {% endfor %}

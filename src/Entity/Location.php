@@ -38,9 +38,15 @@ class Location
      */
     private $klas;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="location")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->klas = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +115,37 @@ class Location
             // set the owning side to null (unless already changed)
             if ($kla->getLocation() === $this) {
                 $kla->setLocation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getLocation() === $this) {
+                $user->setLocation(null);
             }
         }
 

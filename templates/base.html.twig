@@ -15,10 +15,10 @@
     {% endblock %}
 </head>
 
-<body>
-<div class="container h-100" id="wrapper">
+<body class="pt-0 shadow-lg" style="background-image: url({{ asset('img/bg.jpg') }}); background-attachment: fixed; background-position: center; background-repeat: no-repeat;">
+<div class="container h-100 min-vh-100 bg-white" id="wrapper" style="box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.75);">
 
-    <div class="container min-vh-100">
+    <div class="container min-vh-100 bg-white">
 
 
         <nav class="navbar navbar-light bg-light bg-transparent row">
@@ -29,7 +29,7 @@
             {% if app.user %}
                 {% if "ROLE_SLB" in app.user.getRoles %}
                     <a class="navbar-link text-center col" href="{{ path('slb') }}"><i class="fas fa-users"></i>
-                        Klas</a>
+                        Klassen</a>
                 {% elseif "ROLE_ADMIN" in app.user.getRoles %}
                     <a class="navbar-link text-center col" href="{{ path('administrator') }}"><i
                                 class="fas fa-user-cog"></i> Administratie</a>
@@ -94,7 +94,7 @@
 
     {% block footer %}
         <footer class="bg-transparent text-center">
-            <hr class="m-0 p-0">
+            <hr class="m-0 p-0 w-100">
             <p class="text-secondary p-3">Ontwikkeld door: <a target="_blank"
                                                               href="https://www.linkedin.com/in/tom-baak/">Tom
                     Baak</a></p>

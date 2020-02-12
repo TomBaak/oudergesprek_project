@@ -16,16 +16,13 @@
     {% if app.user %}
         <p>Welkom {{ app.user.firstname }} bij SimplyPlan van ROC Mondriaan.</p>
     {% else %}
-        <p>Welkom bij SimplyPlan van ROC Mondriaan. <a href="{{ path('login') }}">Log in</a> om de
-            applicatie te gebruiken.</p>
+        <p>Welkom bij SimplyPlan van ROC Mondriaan. Log in om de applicatie te gebruiken.</p>
     {% endif %}
     <hr class="bg-primary">
 
-    <div>
-
         <div class="row">
 
-            <div class="{% if app.user %}col-sm-8{% else %}col{% endif %}">
+            <div class="{% if app.user %}col-sm-8{% else %}col-sm-9{% endif %}">
 
                 <h1 class="pt-3 pb-3"><i class="fas fa-calendar-alt"></i> Actieve uitnodigingen</h1>
 
@@ -44,7 +41,7 @@
                                 <td>{{ uitnodiging.date|date('j F Y') }}
                                     vanaf {{ uitnodiging.startTime|date('H:i') }} </td>
                                 <td>
-                                    {% if app.user.roles %}
+                                    {% if app.user %}
                                         {% if 'ROLE_SLB' in app.user.roles %}
                                             <a href="{{ path('slb_afspraken',{id: uitnodiging.id}) }}"><i
                                                         class="fas fa-list"></i> Bekijk <span
@@ -78,15 +75,14 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 {% if 'ROLE_ADMIN' in app.user.roles %}
-                                    <a href="{{ path('uitnodiging') }}" class="btn btn-success btn-lg"><p
+                                    <a href="{{ path('uitnodiging') }}" class="btn btn-success btn-lg mb-3"><p
                                                 class="far fa-calendar-plus text-white iconsize"></p><br>
                                         <p>Nieuwe
                                             uitnodiging</p></a>
                                     <a href="{{ path('administrator_nieuwe_sbler') }}"
-                                       class="btn btn-success btn-lg float-right"><p
+                                       class="btn btn-success btn-lg float-right mb-3"><p
                                                 class="fas fa-user-plus text-white iconsize"></p><br>
                                         <p>Nieuw SLB account</p></a>
-                                    <hr>
                                     <a href="{{ path('administrator_locatie_nieuw') }}"
                                        class="btn btn-success btn-lg"><p
                                                 class="far fa-plus-square text-white iconsize"></p><br>
@@ -109,21 +105,46 @@
                                         <p class="btn-text">Studenten toevoegen</p></a>
                                     <a href="{{ path('slb') }}"
                                        class="btn btn-primary btn-lg mt-3"><p
-                                                class="fas fa-envelope-open-text text-white iconsize"></p><br>
+                                                class="fas fa-list text-white iconsize"></p><br>
                                         <p>Overzicht klassen</p></a>
                                     <a href="{{ path('slb_uitnodigingen') }}"
                                        class="btn btn-primary btn-lg mt-3 float-right">
-                                        <p class="fas fa-list text-white iconsize"></p><br>
+                                        <p class="fas fa-envelope-open-text text-white iconsize"></p><br>
                                         <p>Overzicht uitnodigingen</p></a>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
+            {% else %}
+                <div class="col">
+                    <h1 class="text-center p-3"><i class="fas fa-lock-open"></i> Inloggen</h1>
+
+                    <div class="border rounded p-3">
+                        <form class="w-75 m-auto" method="post" action="{{ path('login') }}">
+                            <div class="row">
+                                <div class="col-sm-12"><label for="email">Email:</label></div>
+                                <div class="col-sm-12"><input class="form-control" type="email"
+                                                              id="email" name="email" placeholder="Email"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-12"><label for="pw">Wachtwoord:</label></div>
+                                <div class="col-sm-12"><input class="form-control" type="password" id="pw"
+                                                              name="password"
+                                                              placeholder="Wachtwoord"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-12"></div>
+                                <div class="col-sm-12"><input class="form-control btn btn-outline-primary" type="submit"
+                                                              value="Log in"></div>
+                            </div>
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}">
+                        </form>
+                    </div>
+                </div>
             {% endif %}
 
         </div>
-
-    </div>
 
 {% endblock %}

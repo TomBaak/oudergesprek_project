@@ -45,7 +45,7 @@
 			
 			return $this->render('index.html.twig',[
 				
-				'Uitnodigingen' => $uitnodigingen
+				'uitnodigingen' => $uitnodigingen
 				
 			]);
 		}
@@ -56,22 +56,8 @@
 		public function test()
 		{
 			
-			$startTime = new DateTime('12:00');
-			$stopTime = new DateTime('13:00');
+			return $this->redirectToRoute('home');
 			
-			$times = [];
-			
-			$period = new DatePeriod(
-				$startTime,
-				new DateInterval('PT15M'),
-				$stopTime->modify('+15 minutes')
-			);
-			
-			foreach ($period as $key => $value) {
-				$times[] = $value;
-			}
-			
-			die();
 		}
 		
 		
