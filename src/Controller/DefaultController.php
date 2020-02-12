@@ -6,6 +6,10 @@
 	
 	use App\Entity\Uitnodiging;
 	use App\Entity\User;
+	use Cassandra\Timestamp;
+	use DateInterval;
+	use DatePeriod;
+	use DateTime;
 	use Doctrine\ORM\EntityManagerInterface;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\Routing\Annotation\Route;
@@ -14,13 +18,6 @@
 	
 	class DefaultController extends AbstractController
 	{
-		
-		private $passwordEncoder;
-		
-		public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-		{
-			$this->passwordEncoder = $passwordEncoder;
-		}
 		
 		/**
 		 * @Route("/", name="home")
@@ -51,6 +48,30 @@
 				'uitnodigingen' => $uitnodigingen
 				
 			]);
+		}
+		
+		/**
+		 * @Route("/test", name="test")
+		 */
+		public function test()
+		{
+			
+			$startTime = new DateTime('12:00');
+			$stopTime = new DateTime('13:00');
+			
+			$times = [];
+			
+			$period = new DatePeriod(
+				$startTime,
+				new DateInterval('PT15M'),
+				$stopTime->modify('+15 minutes')
+			);
+			
+			foreach ($period as $key => $value) {
+				$times[] = $value;
+			}
+			
+			die();
 		}
 		
 		

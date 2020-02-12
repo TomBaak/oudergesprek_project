@@ -6,10 +6,13 @@
 	use App\Entity\Student;
 	use App\Entity\Uitnodiging;
 	use App\Repository\StudentRepository;
+	use DateInterval;
+	use DatePeriod;
 	use DateTime;
 	use Doctrine\ORM\EntityManagerInterface;
 	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+	use Symfony\Component\Asset\Package;
 	use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 	use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -60,12 +63,9 @@
 			
 			$afspraken = $uitnodiging->getAfspraken();
 			
-			for ($i = 0; $i < count($afspraken); $i++) {
+			foreach ($afspraken as $afspraak => $value){
 				
-				
-				if (array_search($afspraken[$i], $pickedTimes) === false) {
-					array_push($pickedTimes, $afspraken[$i]->getTime());
-				}
+				$pickedTimes[] = $value->getTime();
 				
 			}
 			
@@ -75,39 +75,27 @@
 				return $this->redirectToRoute('home');
 			}
 			
+			$startTime = $uitnodiging->getStartTime();
+			$stopTime = $uitnodiging->getStopTime();
+			
 			$times = [];
 			
 			//creates an array of times with interval of 15 minutes between the start time and end time
-//            in probably the most inefficient way possible
-			do {
-				
-				if (count($times) > 0) {
-					
-					$index = count($times) - 1;
-					
-					$lastTime = new DateTime($uitnodiging->getStopTime()->format('Ymd') . $times[$index]->format('His'));
-					
-					$time = $lastTime->modify('+15 minutes');
-					
-					if (array_search($time, $pickedTimes) === false) {
-						$times[] = $time;
-					}
-					
-				} else {
-					
-					$timeObj = new DateTime($uitnodiging->getStopTime()->format('Ymd') . $uitnodiging->getStartTime()->format('H:i'));
-					
-					while (array_search($timeObj, $pickedTimes) !== false) {
-						$timeObj->modify('+15 minutes');
-					}
-					
-					array_push($times, $timeObj);
-					
-				}
-				
-			} while ($times[count($times) - 1] < $uitnodiging->getStopTime());
 			
-			dd($times);
+			
+			$period = new DatePeriod(
+				$startTime,
+				new DateInterval('PT15M'),
+				$stopTime->modify('+15 minutes')
+			);
+			
+			
+			
+			foreach ($period as $key => $value) {
+				if(array_search($value, $pickedTimes) === false){
+					$times[] = $value;
+				}
+			}
 			
 			$afspraakEmpty = new Afspraak();
 			
@@ -116,6 +104,16 @@
 				'emailAdres' => $request->get('student')
 			
 			]);
+			
+			
+			foreach($afspraken as $afspraak => $value){
+				if($value->getStudent() === $student){
+					$this->addFlash('error', 'U heeft al een afspraak gemaakt check uw email inbox van email adres: ' . $student->getEmailAdres());
+					
+					return $this->redirectToRoute('home');
+				}
+				
+			}
 			
 			$form = $this->createFormBuilder($afspraakEmpty)
 				->add('time', ChoiceType::class, [
@@ -126,7 +124,7 @@
 					},
 					'label' => 'Tijd',
 					'required' => true,
-					'help' => 'Dit zijn de tijden die nog beschikbaar zijn'
+					'help' => 'Beschikbare tijden'
 				])
 				->add('phoneNumber', TextType::class, [
 					'label' => 'Telefoonnummer:',
@@ -221,7 +219,6 @@
 				
 				
 			}
-			
 			
 			return $this->render('student/student_afspraak.html.twig', [
 				
