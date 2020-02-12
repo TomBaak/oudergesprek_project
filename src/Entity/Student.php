@@ -70,18 +70,6 @@ class Student
         return $this->id;
     }
 
-    public function getStudentId(): ?string
-    {
-        return $this->studentId;
-    }
-
-    public function setStudentId(string $studentId): self
-    {
-        $this->studentId = $studentId;
-
-        return $this;
-    }
-
     public function getKlas(): ?Klas
     {
         return $this->klas;

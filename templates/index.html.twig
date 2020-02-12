@@ -1,5 +1,16 @@
 {% extends ('base.html.twig') %}
 
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+
+{% endblock %}
+
+{% block back %}
+{% endblock %}
+
 {% block body %}
     <h1 class="rocmon-font w-100 mt-5"><i class="far fa-calendar-check"></i> Dashboard</h1>
     {% if app.user %}
@@ -30,8 +41,11 @@
                         {% for uitnodiging in uitnodigingen %}
                             <tr>
                                 <td>{{ uitnodiging.klas.naam }}</td>
-                                <td>{{ uitnodiging.date|date('j F Y') }} vanaf {{ uitnodiging.startTime|date('H:i') }} </td>
-                                <td><span class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a></td>
+                                <td>{{ uitnodiging.date|date('j F Y') }}
+                                    vanaf {{ uitnodiging.startTime|date('H:i') }} </td>
+                                <td>
+                                    <span class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -47,28 +61,43 @@
             {% if app.user %}
                 <div class="col">
 
-                        <h1 class="pt-3 pb-3"><i class="fas fa-cog"></i> Opties</h1>
-                    <div class="border p-3">
-                        {% if 'ROLE_ADMIN' in app.user.roles %}
-                            <a href="{{ path('uitnodiging') }}" class="btn btn-success w-100 mb-3"><i
-                                        class="far fa-calendar-plus"></i>&nbsp;&nbsp;Nieuwe
-                                uitnodiging</a>
-                            <a href="{{ path('administrator_nieuwe_sbler') }}" class="btn btn-success w-100"><i
-                                        class="fas fa-user-plus"></i> Nieuw
-                                SLB account aanmaken</a>
-                            <hr>
-                            <a href="{{ path('administrator_locatie_nieuw') }}" class="btn btn-success w-100 mb-3"><i
-                                        class="far fa-plus-square"></i>
-                                Locatie toevoegen</a>
-                            <a href="{{ path('administrator_locatie_lijst') }}" class="btn btn-primary w-100"><i
-                                        class="fas fa-list"></i>
-                                Overzicht Locaties</a>
-                        {% elseif 'ROLE_SLB' in app.user.roles %}
-                                <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success w-100 mb-2"><i
-                                            class="fas fa-user-plus"></i> Klas toevoegen</a>
-                                <a href="{{ path('slb_studenten_toevoegen') }}" class="btn btn-success w-100"><i
-                                            class="fas fa-user-plus"></i> Studenten toevoegen</a>
-                        {% endif %}
+                    <h1 class="pt-3 pb-3"><i class="fas fa-cog"></i> Opties</h1>
+                    <div class="border p-3 panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {% if 'ROLE_ADMIN' in app.user.roles %}
+                                    <a href="{{ path('uitnodiging') }}" class="btn btn-success btn-lg"><p
+                                                class="far fa-calendar-plus text-white iconsize"></p><br>
+                                        <p>Nieuwe
+                                            uitnodiging</p></a>
+                                    <a href="{{ path('administrator_nieuwe_sbler') }}"
+                                       class="btn btn-success btn-lg float-right"><p
+                                                class="fas fa-user-plus text-white iconsize"></p><br>
+                                        <p>Nieuw SLB account</p></a>
+                                    <hr>
+                                    <a href="{{ path('administrator_locatie_nieuw') }}"
+                                       class="btn btn-success btn-lg"><p
+                                                class="far fa-plus-square text-white iconsize"></p><br><p>Locatie toevoegen</p></a>
+                                    <a href="{{ path('administrator_locatie_lijst') }}"
+                                       class="btn btn-primary btn-lg float-right"><p
+                                                class="fas fa-list text-white iconsize"></p><br><p>Overzicht locaties</p></a>
+                                    <a href="{{ path('administrator') }}"
+                                       class="btn btn-primary btn-lg mt-3"><p
+                                                class="fas fa-envelope-open-text text-white iconsize"></p><br><p>Overzicht uitnodigingen</p></a>
+                                {% elseif 'ROLE_SLB' in app.user.roles %}
+                                    <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success btn-lg"><p
+                                                class="fas fa-user-plus text-white iconsize"></p><br>
+                                        <p class="btn-text">Klas toevoegen</p></a>
+                                    <a href="{{ path('slb_studenten_toevoegen') }}"
+                                       class="btn btn-success btn-lg float-right"><p
+                                                class="fas fa-user-plus text-white iconsize"></p>
+                                        <p class="btn-text">Studenten toevoegen</p></a>
+                                    <a href="{{ path('slb') }}"
+                                       class="btn btn-primary btn-lg mt-3"><p
+                                                class="fas fa-envelope-open-text text-white iconsize"></p><br><p>Overzicht klassen</p></a>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% endif %}

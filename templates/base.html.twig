@@ -37,7 +37,8 @@
             {% endif %}
             {% if app.user %}
                 <div class="navbar-link text-center col">
-                    <a href="{{ path('profiel') }}" class="text-primary"><i class="fas fa-user"></i> Ingelogd als: {{ app.user.firstname }}</a>
+                    <a href="{{ path('profiel') }}" class="text-primary"><i class="fas fa-user"></i> Ingelogd
+                        als: {{ app.user.firstname }}</a>
                 </div>
                 <div class="navbar-link text-center col">
                     <a title="Uitloggen" class=" text-danger clear-fix" href="{{ path('logout') }}"><i
@@ -77,6 +78,14 @@
                 </button>
             </div>
         {% endfor %}
+
+        {% block back %}
+            <a href="{% block backLink %}
+                {{ app.request.headers.get('referer') }}
+            {% endblock %}" class="btn btn-outline-primary bg-transparent text-primary mt-3 mb-2"><i
+                        class="fas fa-undo-alt"></i>
+                Terug</a>
+        {% endblock %}
 
         {% block body %}
         {% endblock %}

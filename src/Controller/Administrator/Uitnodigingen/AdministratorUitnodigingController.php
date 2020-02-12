@@ -98,7 +98,7 @@
                                 . '<p>Met vriendelijke groet,</p>'
                                 . '<p>'
                                 . $uitnodiging->getKlas()->getLocation()->getDirecteur()
-                                . '<br> Schooldirecteur School voor Commerciële economie</p>'
+                                . '<br> Schooldirecteur ' . $uitnodiging->getKlas()->getLocation()->getNaam() . '</p>'
                                 . '</div>');
 
                             $mailer->send($email);

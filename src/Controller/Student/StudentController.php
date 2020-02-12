@@ -63,7 +63,7 @@
 			for ($i = 0; $i < count($afpraken); $i++) {
 				
 				if (array_search($afpraken[$i], $pickedTimes) === false) {
-					array_push($pickedTimes, $afpraken[$i]->getTijd());
+					array_push($pickedTimes, $afpraken[$i]->getTime());
 				}
 				
 			}
@@ -110,7 +110,7 @@
 			
 			$student = $this->getDoctrine()->getRepository(Student::class)->findOneBy([
 				
-				'studentId' => $request->get('student')
+				'emailAdres' => $request->get('student')
 			
 			]);
 			
@@ -190,13 +190,13 @@
 							. '<td style="padding-left: 10px">' . $uitnodiging->getKlas()->getLocation()->getAdres() . '</td>'
 							. '</tr>'
 							. '</table>'
-							. '<p>U mag zich aanmelden bij de administratie van de School voor Commerciële economie.</p>'
+							. '<p>U mag zich aanmelden bij de administratie van de ' . $uitnodiging->getKlas()->getLocation()->getNaam() . '.</p>'
 							. '<p>Met vriendelijke groet,<br> Administratie '
 							. $uitnodiging->getKlas()->getLocation()->getNaam()
 							. '</p>'
 							. '</div>');
 					
-					$email->addTo($afspraak->getStudent()->getStudentId() . '@student.rocmondriaan.nl');
+					$email->addTo($afspraak->getStudent()->getEmailAdres());
 					
 					$transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
 					$mailer = new Mailer($transport);
@@ -224,7 +224,7 @@
 				
 				'uitnodiging' => $uitnodiging,
 				'form' => $form->createView(),
-				'student' => $student->getNaam() . ' - ' . $student->getStudentId()
+				'student' => $student->getNaam() . ' - ' . $student->getEmailAdres()
 			
 			]);
 			
