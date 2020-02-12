@@ -45,7 +45,7 @@
 			
 			return $this->render('index.html.twig',[
 				
-				'uitnodigingen' => $uitnodigingen
+				'Uitnodigingen' => $uitnodigingen
 				
 			]);
 		}

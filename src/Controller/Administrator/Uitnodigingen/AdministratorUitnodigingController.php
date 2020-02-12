@@ -117,7 +117,7 @@
                         . '<p>Beste ' . $uitnodiging->getKlas()->getSlb()->getFirstLetter() . ' ' . $uitnodiging->getKlas()->getSlb()->getLastname() . '</p>'
                         . '<p>Op <span>' . $uitnodiging->getDate()->format('l j F') . '</span>  a.s. is er voor u een uitnodiging verstuurt voor de oudergesprekken met de studieloopbaanbegeleider, '
                         . 'de gesprekken zullen plaats vinen vanaf ' . $uitnodiging->getStartTime()->format('H:i') . ' tot ' . $uitnodiging->getStopTime()->format('H:i') .  '.</p>'
-                        . '<p>U kunt de gemaakte afspraken door uw SLB studenten bekijken op <a href="http://127.0.0.1:8000">simplyplan.nl</a>.</p>'
+                        . '<p>U kunt de gemaakte Afspraken door uw SLB studenten bekijken op <a href="http://127.0.0.1:8000">simplyplan.nl</a>.</p>'
                         . '<p>Met vriendelijke groet,<br> Administratie '
                         . $uitnodiging->getKlas()->getLocation()->getNaam()
                         . '</p>'

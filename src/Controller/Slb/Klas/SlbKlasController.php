@@ -205,7 +205,7 @@
 		}
 		
 		/**
-		 * @Route("/slb/klas/{id}/uitnodigingen", name="slb_uitnodigingen")
+		 * @Route("/slb/klas/{id}/Uitnodigingen", name="slb_klas_uitnodigingen")
 		 */
 		public function slb_uitnodigingen($id, EntityManagerInterface $em)
 		{
@@ -216,9 +216,9 @@
 			
 			]);
 			
-			return $this->render('slb/uitnodigingen/slb_uitnodigingen.html.twig', [
+			return $this->render('slb/Uitnodigingen/slb_uitnodigingen.html.twig', [
 				
-				'uitnodigingen' => $uitnodigingen
+				'Uitnodigingen' => $uitnodigingen
 			
 			]);
 			

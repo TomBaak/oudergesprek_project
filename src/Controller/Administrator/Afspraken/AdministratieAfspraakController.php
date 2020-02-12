@@ -13,7 +13,7 @@
 	{
 		
 		/**
-		 * @Route("/adimistrator/uitnodiging/inschrijvingen", name="inschrijvingen")
+		 * @Route("/adimistrator/uitnodiging/Afspraken", name="inschrijvingen")
 		 */
 		public function inschrijvingen(Request $request)
 		{
@@ -33,8 +33,20 @@
             }
 		    
 		    $afspraken = $uitnodiging->getAfspraken();
-		    
-			return $this->render('administrator/afspraken/administrator_afspraken.html.twig',[
+			
+			usort($afspraken, function($a, $b){
+				
+				if($a->getTime() > $b->getTime()){
+					return 1;
+				}elseif($a->getTime() < $b->getTime()){
+					return -1;
+				}else{
+					return 0;
+				}
+				
+			});
+		 
+			return $this->render('administrator/Afspraken/administrator_afspraken.html.twig',[
 
 			    'afspraken' => $afspraken,
 				'uitnodiging' => $uitnodiging

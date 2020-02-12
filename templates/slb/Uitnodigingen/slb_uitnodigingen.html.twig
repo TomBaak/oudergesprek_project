@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <div class="row">
+    <div>
 
             <h1 class="pb-3 pt-3 w-100"><i class="fas fa-calendar-alt"></i> Uitnodigingen</h1>
 
@@ -18,7 +18,7 @@
                         <tr>
                             <td>{{ uitnodiging.date|date('j-M-Y') }}</td>
                             <td>{{ uitnodiging.gemaaktOp|date('j-M-Y H:i') }}</td>
-                            <td><a href="{{ path('inschrijvingen',{id: uitnodiging.id}) }}">Bekijk gemaakte
+                            <td><a href="{{ path('slb_afspraken',{id: uitnodiging.id}) }}">Bekijk gemaakte
                                     afspraken <span class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a></td>
                         </tr>
                     {% endfor %}

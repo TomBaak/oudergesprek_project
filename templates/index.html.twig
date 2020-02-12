@@ -44,7 +44,19 @@
                                 <td>{{ uitnodiging.date|date('j F Y') }}
                                     vanaf {{ uitnodiging.startTime|date('H:i') }} </td>
                                 <td>
-                                    <span class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a>
+                                    {% if app.user.roles %}
+                                        {% if 'ROLE_SLB' in app.user.roles %}
+                                            <a href="{{ path('slb_afspraken',{id: uitnodiging.id}) }}"><i
+                                                        class="fas fa-list"></i> Bekijk <span
+                                                        class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a>
+                                        {% elseif 'ROLE_ADMIN' in app.user.roles %}
+                                            <a href="{{ path('inschrijvingen',{id: uitnodiging.id}) }}"><i
+                                                        class="fas fa-list"></i> Bekijk <span
+                                                        class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -77,13 +89,16 @@
                                     <hr>
                                     <a href="{{ path('administrator_locatie_nieuw') }}"
                                        class="btn btn-success btn-lg"><p
-                                                class="far fa-plus-square text-white iconsize"></p><br><p>Locatie toevoegen</p></a>
+                                                class="far fa-plus-square text-white iconsize"></p><br>
+                                        <p>Locatie toevoegen</p></a>
                                     <a href="{{ path('administrator_locatie_lijst') }}"
                                        class="btn btn-primary btn-lg float-right"><p
-                                                class="fas fa-list text-white iconsize"></p><br><p>Overzicht locaties</p></a>
+                                                class="fas fa-list text-white iconsize"></p><br>
+                                        <p>Overzicht locaties</p></a>
                                     <a href="{{ path('administrator') }}"
                                        class="btn btn-primary btn-lg mt-3"><p
-                                                class="fas fa-envelope-open-text text-white iconsize"></p><br><p>Overzicht uitnodigingen</p></a>
+                                                class="fas fa-envelope-open-text text-white iconsize"></p><br>
+                                        <p>Overzicht uitnodigingen</p></a>
                                 {% elseif 'ROLE_SLB' in app.user.roles %}
                                     <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success btn-lg"><p
                                                 class="fas fa-user-plus text-white iconsize"></p><br>
@@ -94,7 +109,12 @@
                                         <p class="btn-text">Studenten toevoegen</p></a>
                                     <a href="{{ path('slb') }}"
                                        class="btn btn-primary btn-lg mt-3"><p
-                                                class="fas fa-envelope-open-text text-white iconsize"></p><br><p>Overzicht klassen</p></a>
+                                                class="fas fa-envelope-open-text text-white iconsize"></p><br>
+                                        <p>Overzicht klassen</p></a>
+                                    <a href="{{ path('slb_uitnodigingen') }}"
+                                       class="btn btn-primary btn-lg mt-3 float-right">
+                                        <p class="fas fa-list text-white iconsize"></p><br>
+                                        <p>Overzicht uitnodigingen</p></a>
                                 {% endif %}
                             </div>
                         </div>
