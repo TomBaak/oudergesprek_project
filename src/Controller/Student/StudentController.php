@@ -58,12 +58,13 @@
 			
 			$pickedTimes = [];
 			
-			$afpraken = $uitnodiging->getAfspraken();
+			$afspraken = $uitnodiging->getAfspraken();
 			
-			for ($i = 0; $i < count($afpraken); $i++) {
+			for ($i = 0; $i < count($afspraken); $i++) {
 				
-				if (array_search($afpraken[$i], $pickedTimes) === false) {
-					array_push($pickedTimes, $afpraken[$i]->getTime());
+				
+				if (array_search($afspraken[$i], $pickedTimes) === false) {
+					array_push($pickedTimes, $afspraken[$i]->getTime());
 				}
 				
 			}
@@ -105,6 +106,8 @@
 				}
 				
 			} while ($times[count($times) - 1] < $uitnodiging->getStopTime());
+			
+			dd($times);
 			
 			$afspraakEmpty = new Afspraak();
 			
