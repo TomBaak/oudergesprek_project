@@ -48,7 +48,7 @@
 				
 			});
 			
-			return $this->render('slb/Afspraken/slb_afspraken.html.twig',[
+			return $this->render('user/afspraken/user_afspraken.html.twig',[
 			
 				'afspraken' => $afspraken,
 				'uitnodiging' => $uitnodiging

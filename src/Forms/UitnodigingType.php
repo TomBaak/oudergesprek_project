@@ -26,7 +26,7 @@
 					'class' => Klas::class,
 					'required' => true,
 					'choice_label' => function ($category) {
-						return $category->getNaam() . ' - ' . $category->getSlb()->getLastname();
+						return $category->getNaam() . ' - ' . $category->getSlb()->getLastname() . " - Studenten: " . count($category->getStudents());
 					},
 					'query_builder' => function (EntityRepository $er) {
 						return $er->createQueryBuilder('u')
@@ -37,14 +37,20 @@
 				])
 				->add('date', DateType::class, [
 					
-					'years' => range(date('Y'), date('Y')+5),
+					'years' => range(date('Y'), date('Y') + 5),
 					'label' => 'Datum',
 					'required' => true
 				
 				
 				])
-				->add('start_time', TimeType::class, ['label' => 'Begin tijd', 'required' => true])
-				->add('stop_time', TimeType::class, ['label' => 'Eind tijd', 'required' => true]);
+				->add('start_time', TimeType::class, [
+					'label' => 'Begin tijd',
+					'required' => true,
+					'minutes' => [0, 15, 30, 45]])
+				->add('stop_time', TimeType::class, [
+					'label' => 'Eind tijd',
+					'required' => true,
+					'minutes' => [0, 15, 30, 45]]);
 		}
 		
 		public function configureOptions(OptionsResolver $resolver)

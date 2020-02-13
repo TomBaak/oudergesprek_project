@@ -2,9 +2,14 @@
 
 {% block body %}
 
+    <a href="{{ path('print_afspraken', {id: uitnodiging.id}) }}" class="btn btn-primary float-right mt-3 mb-2" title="Print"><i class="fas fa-print"></i></a>
+
     <div class="row">
+
         <div class="col">
-            <h1 class=""><i class="fas fa-calendar-check"></i> Afspraken <span
+
+
+            <h1 class=""><i class="fas fa-calendar-check mt-4 mb-4"></i> Afspraken <span
                         class="text-muted">op {{ uitnodiging.date|date('d M Y') }}</span></h1>
 
             {% if afspraken|length > 0 %}
@@ -15,6 +20,7 @@
                         <th>Tijd:</th>
                         <th>Naam student:</th>
                         <th>Met ouders of alleen:</th>
+                        <th>Telefoonnummer:</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -23,6 +29,7 @@
                             <td>{{ afspraak.time|date('H:i') }}</td>
                             <td>{{ afspraak.student.naam }}</td>
                             <td>{% if afspraak.withParents %}Met ouders{% else %}Alleen{% endif %}</td>
+                            <td>{{ afspraak.phoneNumber }}</td>
                         </tr>
                     {% endfor %}
                 </table>

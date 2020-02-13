@@ -45,6 +45,16 @@
 					return $this->redirectToRoute('uitnodiging');
 				}
 
+                $diff = $uitnodiging->getStartTime()->diff($uitnodiging->getStopTime());
+                
+                $timeChoices = ((int)$diff->format('%i')/15) + ((int)$diff->format('%h')*4);
+	
+				if($timeChoices < count($uitnodiging->getKlas()->getStudents())){
+					$this->addFlash('warning', 'Binnen de gekozen tijden zullen niet genoeg plekken zijn voor alle leerlingen');
+		
+					return $this->redirectToRoute('uitnodiging');
+				}
+                
                 $uitnodiging->setInvitationCode($randomizer->getInvitationCode(
 
                     $uitnodiging->getStartTime()->format('Hi'),
@@ -53,7 +63,7 @@
                     $this->getUser()->getId()
 
                 ));
-
+                
                 $klas = $this->getDoctrine()->getRepository(Klas::class)->findOneBy([
 
                     'id' => $uitnodiging->getKlas()

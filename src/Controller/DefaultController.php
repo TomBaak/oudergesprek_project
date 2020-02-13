@@ -11,6 +11,7 @@
 	use DatePeriod;
 	use DateTime;
 	use Doctrine\ORM\EntityManagerInterface;
+	use App\Misc\FPDF;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\Routing\Annotation\Route;
 	use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -56,7 +57,16 @@
 		public function test()
 		{
 			
-			return $this->redirectToRoute('home');
+			$pdf = new FPDF();
+			$pdf->AliasNbPages();
+			$pdf->AddPage();
+			$pdf->SetFont('Times','',12);
+			for($i=1;$i<=40;$i++)
+				$pdf->Cell(0,10,'Printing line number '.$i,0,1);
+			$pdf->Output();
+			
+			die();
+			
 			
 		}
 		

@@ -50,8 +50,6 @@
 				
 				$user->setRoles(["ROLE_SLB"]);
 				
-				$user->setIsAdmin(false);
-				
 				$randomSetPw = $randomPassword->getRandomPassword();
 				
 				$user->setPassword($this->passwordEncoder->encodePassword($user  ,$randomSetPw));
