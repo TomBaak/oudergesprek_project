@@ -6,6 +6,7 @@
 	
 	use App\Entity\Uitnodiging;
 	use App\Entity\User;
+	use Cassandra\Date;
 	use Cassandra\Timestamp;
 	use DateInterval;
 	use DatePeriod;
@@ -57,13 +58,11 @@
 		public function test()
 		{
 			
-			$pdf = new FPDF();
-			$pdf->AliasNbPages();
-			$pdf->AddPage();
-			$pdf->SetFont('Times','',12);
-			for($i=1;$i<=40;$i++)
-				$pdf->Cell(0,10,'Printing line number '.$i,0,1);
-			$pdf->Output();
+			$date = new DateTime();
+			
+			setlocale(LC_TIME, 'NL_nl');
+			
+			dd(strftime('%A %e %B', $date->format('U')));
 			
 			die();
 			

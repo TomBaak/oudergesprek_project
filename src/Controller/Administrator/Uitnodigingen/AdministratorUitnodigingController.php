@@ -26,6 +26,9 @@
          */
         public function uitnodiging(Request $request, Randomizer $randomizer, EntityManagerInterface $em)
         {
+	
+			setlocale(LC_TIME, 'NL_nl');
+        	
             if (!$this->getDoctrine()->getRepository(Klas::class)->findAll()) {
                 $this->addFlash('error', 'Er is een fout onstaan probeer het nog eens');
 
@@ -96,15 +99,17 @@
 
                             $email->to($leerlingen[$i]->getEmailAdres());
 
+                            
+                            
                             $email->html('<div style="font-size:10pt;font-family:Segoe UI,sans-serif;">'
                                 . '<h1 style="font-size:24pt;font-family:Times New Roman,serif;font-weight:bold;margin-right:0;margin-left:0;">Uitnodiging ouderavond</h1>'
                                 . '<p>Geachte heer, mevrouw en beste ' . $leerlingen[$i]->getNaam() . '</p>'
-                                . '<p>Op <span>' . $uitnodiging->getDate()->format('l j F') . '</span>  a.s. willen wij u graag in de gelegenheid stellen het studieverloop'
+                                . '<p>Op <span>' .  strftime('%A %e %B',$uitnodiging->getDate()->format('U')) . '</span>  a.s. willen wij u graag in de gelegenheid stellen het studieverloop'
                                 . '<br>van ' . $leerlingen[$i]->getNaam() . ' met de studieloopbaanbegeleider, ' . $uitnodiging->getKlas()->getSlb()->getFirstLetter() . ' ' . $uitnodiging->getKlas()->getSlb()->getLastname() . ', te bespreken.</p>'
                                 . $uitnodiging->getKlas()->getSlb()->getFirstLetter() . ' ' . $uitnodiging->getKlas()->getSlb()->getLastname() . ' is vanaf ' . $uitnodiging->getStartTime()->format('H:i') . ' uur beschikbaar voor individuele gesprekken met een tijdsduur van ca. 15 minuten.'
                                 . '<p>Wij verzoeken u via <a href="' . $invitationLink . '">deze link</a> een afspraak te maken op het voor u gewenste tijdstip.<br>
 									De administratie is bereikbaar voor vragen van maandag t/m vrijdag tussen 08.00 uur tot 17.00 uur op 088 - 666 3360.</p>'
-                                . '<p>Wij hopen u op ' . $uitnodiging->getDate()->format('l j F') . ' a.s. te mogen begroeten.</p>'
+                                . '<p>Wij hopen u op ' . strftime('%A %e %B',$uitnodiging->getDate()->format('U')) . ' a.s. te mogen begroeten.</p>'
                                 . '<p>Met vriendelijke groet,</p>'
                                 . '<p>'
                                 . $uitnodiging->getKlas()->getLocation()->getDirecteur()
@@ -125,7 +130,7 @@
                     $emailSLBer->html('<div style="font-size:10pt;font-family:Segoe UI,sans-serif;">'
                         . '<h1 style="font-size:24pt;font-family:Times New Roman,serif;font-weight:bold;margin-right:0;margin-left:0;">Nieuwe uitnodiging voor uw klas</h1>'
                         . '<p>Beste ' . $uitnodiging->getKlas()->getSlb()->getFirstLetter() . ' ' . $uitnodiging->getKlas()->getSlb()->getLastname() . '</p>'
-                        . '<p>Op <span>' . $uitnodiging->getDate()->format('l j F') . '</span>  a.s. is er voor u een uitnodiging verstuurt voor de oudergesprekken met de studieloopbaanbegeleider, '
+                        . '<p>Op <span>' . strftime('%A %e %B',$uitnodiging->getDate()->format('U')) . '</span>  a.s. is er voor u een uitnodiging verstuurt voor de oudergesprekken met de studieloopbaanbegeleider, '
                         . 'de gesprekken zullen plaats vinen vanaf ' . $uitnodiging->getStartTime()->format('H:i') . ' tot ' . $uitnodiging->getStopTime()->format('H:i') .  '.</p>'
                         . '<p>U kunt de gemaakte Afspraken door uw SLB studenten bekijken op <a href="http://127.0.0.1:8000">simplyplan.nl</a>.</p>'
                         . '<p>Met vriendelijke groet,<br> Administratie '

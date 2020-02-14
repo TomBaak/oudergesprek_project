@@ -14,7 +14,8 @@
 
     <div>
 
-        <h1 class="pb-3 pt-3 w-100"><i class="fas fa-calendar-alt"></i> Uitnodigingen</h1>
+        <h1 class="pb-3 pt-3 w-100"><i class="fas fa-calendar-alt"></i> Uitnodigingen <span
+                    class="text-muted">van klas {{ klas.naam }}</span></h1>
 
         {% if uitnodigingen %}
             <table class="table table-bordered table-striped text-center">
@@ -30,16 +31,15 @@
                         <td>{{ uitnodiging.date|date('j-M-Y') }}</td>
                         <td>{{ uitnodiging.startTime|date('H:i') }} t/m {{ uitnodiging.stopTime|date('H:i') }}</td>
                         <td>{{ uitnodiging.gemaaktOp|date('j-M-Y H:i') }}</td>
-                        {% if 'ROLE_SLB' in app.user.roles %}
-                            <td><a href="{{ path('slb_afspraken',{id: uitnodiging.id}) }}">Bekijk gemaakte
-                                    afspraken <span
-                                            class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a>
-                            </td>
+
+                        <td><a href="{% if 'ROLE_SLB' in app.user.roles %}
+                            {{ path('slb_afspraken',{id: uitnodiging.id}) }}
                         {% elseif 'ROLE_ADMIN' in app.user.roles %}
-                            <td>
-                                <span class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span>
-                            </td>
-                        {% endif %}
+                            {{ path('inschrijvingen',{id: uitnodiging.id}) }}
+                        {% endif %}">Bekijk gemaakte
+                                afspraken <span
+                                        class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

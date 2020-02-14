@@ -36,6 +36,7 @@
 		{
 			
 			$this->session = $session;
+			setlocale(LC_TIME, 'NL_nl');
 			
 		}
 		
@@ -176,7 +177,7 @@
 							. '<table>'
 							. '<tr>'
 							. '<td style="font-weight: bold">Datum</td>'
-							. '<td style="padding-left: 10px">' . $uitnodiging->getDate()->format('l j F') . '</td>'
+							. '<td style="padding-left: 10px">' . strftime('%A %e %B',$uitnodiging->getDate()->format('U')) . '</td>'
 							. '</tr>'
 							. '<tr>'
 							. '<td style="font-weight: bold">Tijd</td>'
