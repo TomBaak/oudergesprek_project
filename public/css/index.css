@@ -43,12 +43,12 @@ body {
 
 .panel-body
 .btn:not(.btn-block) {
-    width: 140px !important;
+    width: 100% !important;
     height: 135px !important;
     vertical-align: middle !important;
     text-align: center !important;
     text-wrap: normal !important;
-    padding: 15px 5px 5px 0 !important;
+    padding: 15px 10px 0 10px !important;
     line-height: 90%;
 }
 
