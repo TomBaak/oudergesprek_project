@@ -94,7 +94,7 @@
 			
 			]);
 			
-			return $this->render('slb/Klas/slb_studenten.html.twig', [
+			return $this->render('user/klas/studenten.html.twig', [
 				
 				'klas' => $klas
 			
@@ -179,15 +179,16 @@
 				}
 				
 				if(count($missendeKlassen) > 0){
-					$this->addFlash('warning', 'Er zijn voor enkele studenten niet de bijbehoorende klassen gevonden. Controleert u alstublieft de lijst. Het gaat om de klas(en): ' . implode(", ",$missendeKlassen));
+					$this->addFlash('warning', 'Er zijn voor enkele studenten niet de bijbehoorende klassen gevonden. Controleert u alstublieft de lijst. Het gaat om de klas(en): '
+						. implode(", ",$missendeKlassen) . '. De studenten waar wel een klas voor is gevonden zijn wel toegevoegd of gewijzigd');
 				}
 				
 				$em->flush();
 				
 				if($result['update']){
-					$this->addFlash('success', 'Leerlingen toegevoegd en gewijzigd');
+					$this->addFlash('success', 'Studenten waar een bijbehoorende klas is gevonden zijn toegevoegd en gewijzigd');
 				}else{
-					$this->addFlash('success', 'Leerlingen toegevoegd');
+					$this->addFlash('success', 'Studenten waar een bijbehoorende klas is gevonden zijn toegevoegd');
 				}
 				
 				return $this->redirectToRoute('slb');
@@ -214,9 +215,9 @@
 			
 			]);
 			
-			return $this->render('slb/Uitnodigingen/slb_uitnodigingen.html.twig', [
+			return $this->render('user/uitnodigingen/uitnodigingen.html.twig', [
 				
-				'Uitnodigingen' => $uitnodigingen
+				'uitnodigingen' => $uitnodigingen
 			
 			]);
 			

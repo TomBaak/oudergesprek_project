@@ -95,6 +95,10 @@
                                        class="btn btn-primary btn-lg mt-3"><p
                                                 class="fas fa-envelope-open-text text-white iconsize"></p><br>
                                         <p>Overzicht uitnodigingen</p></a>
+                                    <a href="{{path('administrator_klassen')}}"
+                                       class="btn btn-primary btn-lg mt-3 float-right"><p
+                                                class="fas fa-list text-white iconsize"></p><br>
+                                        <p>Overzicht klassen</p></a>
                                 {% elseif 'ROLE_SLB' in app.user.roles %}
                                     <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success btn-lg"><p
                                                 class="fas fa-user-plus text-white iconsize"></p><br>

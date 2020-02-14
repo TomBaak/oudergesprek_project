@@ -27,15 +27,6 @@
             </a>
             <a class="navbar-link text-center col" href="{{ path('home') }}"><i class="fas fa-home"></i> Home</a>
             {% if app.user %}
-                {% if "ROLE_SLB" in app.user.getRoles %}
-                    <a class="navbar-link text-center col" href="{{ path('slb') }}"><i class="fas fa-users"></i>
-                        Klassen</a>
-                {% elseif "ROLE_ADMIN" in app.user.getRoles %}
-                    <a class="navbar-link text-center col" href="{{ path('administrator') }}"><i
-                                class="fas fa-user-cog"></i> Administratie</a>
-                {% endif %}
-            {% endif %}
-            {% if app.user %}
                 <div class="navbar-link text-center col">
                     <a href="{{ path('profiel') }}" class="text-primary"><i class="fas fa-user"></i> Ingelogd
                         als: {{ app.user.firstname }}</a>

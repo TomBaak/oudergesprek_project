@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+
+{% block backLink %}
+
+    {% if 'ROLE_SLB' in app.user.roles %}
+        {{ path('slb') }}
+    {% elseif 'ROLE_ADMIN' in app.user.roles %}
+        {{ path('administrator_klassen') }}
+    {% endif %}
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+
+        <div class="row">
+
+            <div class="col p-0">
+                <h1 class="mt-2 mb-4"><i class="fas fa-users"></i> Leerlingen <span
+                            class="text-muted">in klas {{ klas.naam }}</span></h1>
+                {% if klas.students|length != 0 %}
+                    <table class="table table-bordered table-striped rounded text-center">
+
+                        <thead>
+                        <tr>
+                            <th><i class="fas fa-align-left"></i> Naam student</th>
+                            <th><i class="far fa-envelope"></i> Email Adres</th>
+                            {% if 'ROLE_SLB' in app.user.roles %}
+                                <th><i class="fas fa-user-minus"></i> Student verwijderen</th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for student in klas.students %}
+                            <tr>
+                                <td>{{ student.voornaam }} {% if student.tussenVoegsel|length != 0 %}{{ student.tussenVoegsel }}{% endif %} {{ student.achternaam }}</td>
+                                <td><a href="mailto:{{ student.emailAdres }}">{{ student.emailAdres }}</a></td>
+                                {% if 'ROLE_SLB' in app.user.roles %}
+                                    <td>
+                                        <a href="{{ path('slb_student_verwijderen',{id: student.id, klasId: student.klas.id}) }}">
+                                            <i class="fas fa-user-minus text-danger"></i>
+                                        </a>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h3><i class="fas fa-exclamation-triangle text-warning"></i> Er zijn nog geen leerlingen
+                        toegevoegd
+                    </h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

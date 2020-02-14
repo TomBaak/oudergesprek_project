@@ -36,7 +36,7 @@
 				
 			});
 			
-			return $this->render('slb/Uitnodigingen/slb_uitnodigingen.html.twig',[
+			return $this->render('user/uitnodigingen/uitnodigingen.html.twig',[
 				
 				'uitnodigingen' => $uitnodigingen
 			
