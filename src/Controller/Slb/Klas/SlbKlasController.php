@@ -153,7 +153,9 @@
 						'naam' => $studenten[$i][0]
 					
 					]);
-					
+
+					$aantalNieuweStudenten = 0;
+
 					if ($klas) {
 						
 						$student = $this->getDoctrine()->getRepository(Student::class)->findOneBy([
@@ -168,6 +170,7 @@
 							$student->setAchternaam($studenten[$i][3]);
 							$student->setKlas($klas);
 							$student->setEmailAdres($studenten[$i][4]);
+                            $aantalNieuweStudenten += 1;
 							$em->persist($student);
 						}
 						
@@ -179,15 +182,22 @@
 				}
 				
 				if(count($missendeKlassen) > 0){
-					$this->addFlash('warning', 'Er zijn voor enkele studenten niet de bijbehoorende klassen gevonden. Controleert u alstublieft de lijst. Het gaat om de klas(en): '
-						. implode(", ",$missendeKlassen) . '. De studenten waar wel een klas voor is gevonden zijn wel toegevoegd of gewijzigd');
+
+				    $message =  'Er zijn voor enkele studenten niet de bijbehoorende klassen gevonden. Controleert u alstublieft de lijst. Het gaat om de klas(en): '
+                    . implode(", ",$missendeKlassen) . '.';
+
+                    if($aantalNieuweStudenten > 0){
+                        $message = $message . ' De studenten waar wel een klas voor is gevonden zijn wel toegevoegd of gewijzigd';
+                    }
+
+					$this->addFlash('warning', $message);
 				}
 				
 				$em->flush();
 				
-				if($result['update']){
+				if($result['update'] && $aantalNieuweStudenten > 0){
 					$this->addFlash('success', 'Studenten waar een bijbehoorende klas is gevonden zijn toegevoegd en gewijzigd');
-				}else{
+				}elseif($aantalNieuweStudenten > 0){
 					$this->addFlash('success', 'Studenten waar een bijbehoorende klas is gevonden zijn toegevoegd');
 				}
 				
@@ -208,16 +218,23 @@
 		 */
 		public function slb_uitnodigingen($id, EntityManagerInterface $em)
 		{
-			
+
+		    $klas = $this->getDoctrine()->getRepository(Klas::class)->findOneBy([
+
+		        'id' => $id
+
+            ]);
+
 			$uitnodigingen = $this->getDoctrine()->getRepository(Uitnodiging::class)->findBy([
 				
-				'klas' => $id
+				'klas' => $klas
 			
 			]);
 			
 			return $this->render('user/uitnodigingen/uitnodigingen.html.twig', [
 				
-				'uitnodigingen' => $uitnodigingen
+				'uitnodigingen' => $uitnodigingen,
+                'klas' => $klas
 			
 			]);
 			

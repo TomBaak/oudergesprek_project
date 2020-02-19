@@ -14,8 +14,8 @@
 
     <div>
 
-        <h1 class="pb-3 pt-3 w-100"><i class="fas fa-calendar-alt"></i> Uitnodigingen <span
-                    class="text-muted">van klas {{ klas.naam }}</span></h1>
+        <h1 class="pb-3 pt-3 w-100"><i class="fas fa-calendar-alt"></i> Uitnodigingen{% if klas %} <span
+                    class="text-muted">van klas {{ klas.naam }}</span>{% endif %}</h1>
 
         {% if uitnodigingen %}
             <table class="table table-bordered table-striped text-center">

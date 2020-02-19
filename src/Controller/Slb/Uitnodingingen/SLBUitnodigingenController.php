@@ -38,7 +38,8 @@
 			
 			return $this->render('user/uitnodigingen/uitnodigingen.html.twig',[
 				
-				'uitnodigingen' => $uitnodigingen
+				'uitnodigingen' => $uitnodigingen,
+                'klas' => NULL
 			
 			]);
 		}

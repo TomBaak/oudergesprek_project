@@ -70,17 +70,17 @@
         {% if app.user %}
             <div class="col-sm-5">
 
-                <h1 class="pt-3 pb-3"><i class="fas fa-cog"></i> Opties</h1>
-                <div class="border p-3 panel-body">
+                <h1 class="pb-3"><i class="fas fa-cog"></i> Opties</h1>
+                <div class="border pr-3 pl-3 pb-3 panel-body">
                     {% if 'ROLE_ADMIN' in app.user.roles %}
                         <div class="row">
-                            <div class="col-lg-6 col-md-12">
+                            <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('uitnodiging') }}" class="btn btn-success btn-lg "><p
                                             class="far fa-calendar-plus text-white iconsize"></p><br>
                                     <p>Nieuwe
                                         uitnodiging</p></a>
                             </div>
-                            <div class="col-lg-6 col-md-12">
+                            <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('administrator_nieuwe_sbler') }}"
                                    class="btn btn-success btn-lg"><p
                                             class="fas fa-user-plus text-white iconsize"></p><br>
@@ -88,13 +88,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6 col-md-12">
+                            <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('administrator_locatie_nieuw') }}"
                                    class="btn btn-success btn-lg"><p
                                             class="far fa-plus-square text-white iconsize"></p><br>
                                     <p>Locatie toevoegen</p></a>
                             </div>
-                            <div class="col-lg-6 col-md-12">
+                            <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('administrator_locatie_lijst') }}"
                                    class="btn btn-primary btn-lg"><p
                                             class="fas fa-list text-white iconsize"></p><br>
@@ -102,13 +102,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6 col-md-12">
+                            <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('administrator') }}"
                                    class="btn btn-primary btn-lg"><p
                                             class="fas fa-envelope-open-text text-white iconsize"></p><br>
                                     <p>Overzicht uitnodigingen</p></a>
                             </div>
-                            <div class="col-xl-6 col-lg-12">
+                            <div class="col-lg-6 col-lg-12 mt-3">
                                 <a href="{{ path('administrator_klassen') }}"
                                    class="btn btn-primary btn-lg float-right"><p
                                             class="fas fa-list text-white iconsize"></p><br>
@@ -116,26 +116,38 @@
                             </div>
                         </div>
                     {% elseif 'ROLE_SLB' in app.user.roles %}
-                        <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success btn-lg"><p
-                                    class="fas fa-user-plus text-white iconsize"></p><br>
-                            <p class="btn-text">Klas toevoegen</p></a>
-                        <a href="{{ path('slb_studenten_toevoegen') }}"
-                           class="btn btn-success btn-lg float-right"><p
-                                    class="fas fa-user-plus text-white iconsize"></p>
-                            <p class="btn-text">Studenten toevoegen</p></a>
-                        <a href="{{ path('slb') }}"
-                           class="btn btn-primary btn-lg mt-3"><p
-                                    class="fas fa-list text-white iconsize"></p><br>
-                            <p>Overzicht klassen</p></a>
-                        <a href="{{ path('slb_uitnodigingen') }}"
-                           class="btn btn-primary btn-lg mt-3 float-right">
-                            <p class="fas fa-envelope-open-text text-white iconsize"></p><br>
-                            <p>Overzicht uitnodigingen</p></a>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12 mt-3">
+                                <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success btn-lg"><p
+                                            class="fas fa-user-plus text-white iconsize"></p><br>
+                                    <p class="btn-text">Klas toevoegen</p></a>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mt-3">
+                                <a href="{{ path('slb_studenten_toevoegen') }}"
+                                   class="btn btn-success btn-lg float-right"><p
+                                            class="fas fa-user-plus text-white iconsize"></p>
+                                    <p class="btn-text">Studenten toevoegen</p></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12 mt-3">
+                                <a href="{{ path('slb') }}"
+                                   class="btn btn-primary btn-lg"><p
+                                            class="fas fa-list text-white iconsize"></p><br>
+                                    <p>Overzicht klassen</p></a>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mt-3">
+                                <a href="{{ path('slb_uitnodigingen') }}"
+                                   class="btn btn-primary btn-lg float-right">
+                                    <p class="fas fa-envelope-open-text text-white iconsize"></p><br>
+                                    <p>Overzicht uitnodigingen</p></a>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
             </div>
         {% else %}
-            <div class="col">
+            <div class="col-sm-4    ">
                 <h1 class="text-center p-3"><i class="fas fa-lock-open"></i> Inloggen</h1>
 
                 <div class="border rounded p-3">
