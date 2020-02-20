@@ -48,7 +48,7 @@
 			
 			$uitnodiging = $this->getDoctrine()->getRepository(Uitnodiging::class)->findOneBy([
 				
-				'invitationCode' => $request->get('id')
+				'uitnodigingsCode' => $request->get('id')
 			
 			]);
 			
@@ -66,7 +66,7 @@
 			
 			foreach ($afspraken as $afspraak => $value){
 				
-				$pickedTimes[] = $value->getTime();
+				$pickedTimes[] = $value->getTijd();
 				
 			}
 			
@@ -117,7 +117,7 @@
 			}
 			
 			$form = $this->createFormBuilder($afspraakEmpty)
-				->add('time', ChoiceType::class, [
+				->add('tijd', ChoiceType::class, [
 					'choices' => $times,
 					'choice_label' => function ($choice, $key, $value) {
 						
@@ -127,12 +127,12 @@
 					'required' => true,
 					'help' => 'Beschikbare tijden'
 				])
-				->add('phoneNumber', TextType::class, [
+				->add('telefoonNummer', TextType::class, [
 					'label' => 'Telefoonnummer:',
 					'required' => true
 				
 				])
-				->add('with_parents', CheckboxType::class, [
+				->add('metOuders', CheckboxType::class, [
 					'label' => 'Ik kom met mijn ouders',
 					'required' => false,
 					'help' => 'Studenten onder de 18 zijn verplicht met hun ouders aanwezig te zijn'
@@ -158,7 +158,7 @@
 					
 					$this->addFlash('error', 'Deze student heeft al een afspraak gemaakt');
 					
-					return $this->redirectToRoute('afspraak', array('id' => $uitnodiging->getInvitationCode()));
+					return $this->redirectToRoute('afspraak', array('id' => $uitnodiging->getUitnodigingsCode()));
 					
 				}
 				
@@ -181,7 +181,7 @@
 							. '</tr>'
 							. '<tr>'
 							. '<td style="font-weight: bold">Tijd</td>'
-							. '<td style="padding-left: 10px">' . $afspraak->getTime()->format('H:i') . '</td>'
+							. '<td style="padding-left: 10px">' . $afspraak->getTijd()->format('H:i') . '</td>'
 							. '</tr>'
 							. '<tr>'
 							. '<td style="font-weight: bold">Mentor</td>'
@@ -215,7 +215,7 @@
 					
 					$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van uw afspraak probeer het alstublieft nog eens');
 					
-					return $this->redirectToRoute('afspraak', array('id' => $uitnodiging->getInvitationCode()));
+					return $this->redirectToRoute('afspraak', array('id' => $uitnodiging->getUitnodigingsCode()));
 				}
 				
 				

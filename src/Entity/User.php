@@ -57,6 +57,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->klas = new ArrayCollection();
+        setlocale(LC_TIME, 'NL_nl');
     }
 
     public function getId(): ?int

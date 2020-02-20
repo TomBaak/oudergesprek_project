@@ -8,16 +8,15 @@
 
 {% block body %}
 
-    <h1 class="mt-2 mb-4">Nieuw SLB account</h1>
+    <div class="container w-75 mx-auto">
+
+    <h1 class="mt-2 mb-4"><i class="fas fa-user-plus"></i>  Nieuw SLB account</h1>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <input type="submit" class="form-control col btn btn-outline-success" value="Maak account aan">
     {{ form_end(form) }}
 
-
-
-
-
+    </div>
 
 {% endblock %}

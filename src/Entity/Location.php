@@ -47,6 +47,7 @@ class Location
     {
         $this->klas = new ArrayCollection();
         $this->users = new ArrayCollection();
+        setlocale(LC_TIME, 'NL_nl');
     }
 
     public function getId(): ?int

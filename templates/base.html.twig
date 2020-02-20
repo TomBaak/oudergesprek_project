@@ -15,33 +15,77 @@
     {% endblock %}
 </head>
 
-<body class="pt-0 shadow-lg" style="background-image: url({{ asset('img/bg.jpg') }}); background-attachment: fixed; background-position: center; background-repeat: no-repeat;">
-<div class="container min-vh-100 bg-white pb-5" id="wrapper" style="box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.75);">
+<body class="pt-0 shadow-lg"
+      style="background-image: url({{ asset('img/bg.jpg') }}); background-attachment: fixed; background-position: center; background-repeat: no-repeat;">
 
-    <div class="container min-vh-100 bg-white">
+<nav class="navbar navbar-expand-xl navbar-light bg-white border-bottom position-sticky" style="top: 0; z-index: 1000">
+    <a class="navbar-brand pr-5 pl-3" href="#">
+        <img src="{{ asset('img/ROC-logo.png') }}" height="65" alt="ROC Mondriaan">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-
-        <nav class="navbar navbar-light bg-light bg-transparent row">
-            <a class="navbar-brand text-center col" href="#">
-                <img src="{{ asset('img/ROC-logo.png') }}" height="65" alt="ROC Mondriaan">
-            </a>
-            <a class="navbar-link text-center col" href="{{ path('home') }}"><i class="fas fa-home"></i> Home</a>
+    <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 w-100 row text-center">
+            <li class="nav-item col">
+                <a class="nav-link text-primary" href="{{ path('home') }}"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
+            </li>
             {% if app.user %}
-                <div class="navbar-link text-center col">
-                    <a href="{{ path('profiel') }}" class="text-primary"><i class="fas fa-user"></i> Ingelogd
-                        als: {{ app.user.firstname }}</a>
-                </div>
-                <div class="navbar-link text-center col">
-                    <a title="Uitloggen" class=" text-danger clear-fix" href="{{ path('logout') }}"><i
-                                class="fas fa-user-slash"></i> Uitloggen</a>
-                </div>
 
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <li class="navbar-item col">
+                        <a href="{{ path('uitnodiging') }}" class="nav-link text-primary">Nieuwe uitnodiging</a>
+                    </li>
+                    <li class="navbar-item col">
+                        <a href="{{ path('administrator_nieuwe_sbler') }}" class="nav-link text-primary">Nieuw SLB account</a>
+                    </li>
+                    <li class="navbar-item col">
+                        <a href="{{ path('administrator_locatie_nieuw') }}" class="nav-link text-primary">Locatie toevoegen</a>
+                    </li>
+                    <li class="navbar-item col">
+                        <a href="{{ path('administrator_locatie_lijst') }}" class="nav-link text-primary">Overzicht locaties</a>
+                    </li>
+                    <li class="navbar-item col">
+                        <a href="{{ path('administrator') }}" class="nav-link text-primary">Overzicht uitnodigingen</a>
+                    </li>
+                    <li class="navbar-item col">
+                        <a href="{{ path('administrator_klassen') }}" class="nav-link text-primary">Overzicht klassen</a>
+                    </li>
+                {% elseif 'ROLE_SLB' in app.user.roles %}
+                    <li class="navbar-item col">
+                        <a href="{{ path('slb_nieuwe_klas') }}" class="nav-link text-primary"> Klas toevoegen</a>
+                    </li>
+                    <li class="navbar-item col">
+                        <a href="{{ path('slb_studenten_toevoegen') }}" class="nav-link text-primary">Studenten toevoegen</a>
+                    </li>
+                    <li class="navbar-item col">
+                        <a href="{{ path('slb') }}" class="nav-link text-primary"> Overzicht klassen</a>
+                    </li>
+                    <li class="navbar-item col">
+                        <a href="{{ path('slb_uitnodigingen') }}" class="nav-link text-primary">Overzicht uitnodigingen</a>
+                    </li>
+                {% endif %}
+                <li class="navbar-item col">
+                    <a href="{{ path('profiel') }}" class="nav-link text-primary">Profiel</a>
+                </li>
+                <li class="navbar-item col">
+                    <a href="{{ path('logout') }}" class="nav-link text-danger">Uitloggen</a>
+                </li>
             {% else %}
-                <a class="navbar-link text-center col" href="{{ path('login') }}"><i class="fas fa-sign-in-alt"></i>
-                    Inloggen</a>
+                <li class="navbar-item col" >
+                    <a class="nav-link text-primary text-primary" href="{{ path('login') }}"><i class="fas fa-sign-in-alt"></i>
+                        Inloggen</a>
+                </li>
+
             {% endif %}
-        </nav>
-        <hr class="m-0">
+        </ul>
+    </div>
+</nav>
+
+<div class="container min-vh-100 bg-white pb-5" id="wrapper" style="box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.75); z-index: -10">
+
+    <div class="container min-vh-100 p-4">
 
         {% for message in app.flashes('success') %}
             <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
@@ -71,11 +115,12 @@
         {% endfor %}
 
         {% block back %}
+            <a href="{{ path('home') }}" class="btn btn-outline-primary mt-3 mb-2"><i
+                        class="fas fa-home"></i></a>
             <a href="{% block backLink %}
                 {{ app.request.headers.get('referer') }}
-            {% endblock %}" class="btn btn-outline-primary bg-transparent text-primary mt-3 mb-2"><i
-                        class="fas fa-undo-alt"></i>
-                Terug</a>
+            {% endblock %}" class="btn btn-outline-primary mt-3 mb-2"><i
+                        class="fas fa-undo-alt"></i></a>
         {% endblock %}
 
         {% block body %}
@@ -87,8 +132,8 @@
         <footer class="bg-transparent text-center mt-5">
             <hr class="m-0 p-0 w-100">
             <p class="text-secondary p-3">Ontwikkeld door: <a target="_blank"
-                                                              href="https://www.linkedin.com/in/tom-baak/">Tom
-                    Baak</a></p>
+                                                              href="https://www.linkedin.com/in/tom-baak/">Tom Baak</a>
+            </p>
         </footer>
     {% endblock %}
 
@@ -105,6 +150,30 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
+
+    <script>
+
+        $('.table').DataTable({
+            "language": {
+                "search": "Zoeken:",
+                "lengthMenu":     "Geef _MENU_ resultaten weer",
+                "info": "Resultaten _START_ t/m _END_ van de _TOTAL_ resultaten",
+                paginate: {
+                    first:    '«',
+                    previous: '‹',
+                    next:     '›',
+                    last:     '»'
+                }
+            },
+            "paging" : true,
+            "responsive": true,
+            "info": true,
+
+        });
+
+    </script>
 {% endblock %}
 
 </html>

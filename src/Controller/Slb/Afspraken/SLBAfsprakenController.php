@@ -38,9 +38,9 @@
 			
 			usort($afspraken, function($a, $b){
 				
-				if($a->getTime() > $b->getTime()){
+				if($a->getTijd() > $b->getTijd()){
 					return 1;
-				}elseif($a->getTime() < $b->getTime()){
+				}elseif($a->getTijd() < $b->getTijd()){
 					return -1;
 				}else{
 					return 0;

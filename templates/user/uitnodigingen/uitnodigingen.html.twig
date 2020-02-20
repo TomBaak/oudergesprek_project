@@ -18,7 +18,7 @@
                     class="text-muted">van klas {{ klas.naam }}</span>{% endif %}</h1>
 
         {% if uitnodigingen %}
-            <table class="table table-bordered table-striped text-center">
+            <table class="table  table-striped text-center">
                 <thead>
                 <th><i class="far fa-calendar-alt"></i> Datum</th>
                 <th><i class="far fa-clock"></i></i> Tijden</th>
@@ -28,9 +28,9 @@
                 <tbody>
                 {% for uitnodiging in uitnodigingen %}
                     <tr>
-                        <td>{{ uitnodiging.date|date('j-M-Y') }}</td>
+                        <td>{{ uitnodiging.getDateFormatted }}</td>
                         <td>{{ uitnodiging.startTime|date('H:i') }} t/m {{ uitnodiging.stopTime|date('H:i') }}</td>
-                        <td>{{ uitnodiging.gemaaktOp|date('j-M-Y H:i') }}</td>
+                        <td>{{ uitnodiging.gemaaktOpFormatted }}</td>
 
                         <td><a href="{% if 'ROLE_SLB' in app.user.roles %}
                             {{ path('slb_afspraken',{id: uitnodiging.id}) }}

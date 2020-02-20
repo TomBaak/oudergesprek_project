@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Klas
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -48,6 +49,7 @@ class Klas
     {
         $this->uitnodiging = new ArrayCollection();
         $this->students = new ArrayCollection();
+        setlocale(LC_TIME, 'NL_nl');
     }
 
     public function getId(): ?int

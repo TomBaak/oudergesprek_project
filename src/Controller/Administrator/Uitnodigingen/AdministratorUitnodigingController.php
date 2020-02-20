@@ -58,7 +58,7 @@
 					return $this->redirectToRoute('uitnodiging');
 				}
                 
-                $uitnodiging->setInvitationCode($randomizer->getInvitationCode(
+                $uitnodiging->setUitnodigingsCode($randomizer->getUitnodigingsCode(
 
                     $uitnodiging->getStartTime()->format('Hi'),
                     $uitnodiging->getStopTime()->format('Hi'),
@@ -95,7 +95,7 @@
                     } else {
                         for ($i = 0; $i < count($klas->getStudents()); $i++) {
 
-                            $invitationLink = 'http://127.0.0.1:8000/student/afspraak?id=' . $uitnodiging->getInvitationCode() . '&student=' . $leerlingen[$i]->getEmailAdres();
+                            $invitationLink = 'http://127.0.0.1:8000/student/afspraak?id=' . $uitnodiging->getUitnodigingsCode() . '&student=' . $leerlingen[$i]->getEmailAdres();
 
                             $email->to($leerlingen[$i]->getEmailAdres());
 

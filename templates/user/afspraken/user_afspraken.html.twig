@@ -10,11 +10,11 @@
 
 
             <h1 class=""><i class="fas fa-calendar-check mt-4 mb-4"></i> Afspraken <span
-                        class="text-muted">op {{ uitnodiging.date|date('d M Y') }}</span></h1>
+                        class="text-muted">op {{ uitnodiging.getDateFormatted }}</span></h1>
 
             {% if afspraken|length > 0 %}
 
-                <table class="table table-bordered table-striped">
+                <table class="table  table-striped">
                     <thead>
                     <tr>
                         <th>Tijd:</th>
@@ -26,10 +26,10 @@
                     <tbody>
                     {% for afspraak in afspraken %}
                         <tr>
-                            <td>{{ afspraak.time|date('H:i') }}</td>
+                            <td>{{ afspraak.tijd|date('H:i') }}</td>
                             <td>{{ afspraak.student.naam }}</td>
-                            <td>{% if afspraak.withParents %}Met ouders{% else %}Alleen{% endif %}</td>
-                            <td>{{ afspraak.phoneNumber }}</td>
+                            <td>{% if afspraak.metOuders %}Met ouders{% else %}Alleen{% endif %}</td>
+                            <td>{{ afspraak.telefoonNummer }}</td>
                         </tr>
                     {% endfor %}
                 </table>

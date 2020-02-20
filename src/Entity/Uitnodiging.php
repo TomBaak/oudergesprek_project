@@ -21,7 +21,7 @@ class Uitnodiging
     /**
      * @ORM\Column(type="string", length=255)
      */
-    public $invitationCode;
+    public $uitnodigingsCode;
 
     /**
      * @ORM\Column(type="time")
@@ -63,17 +63,23 @@ class Uitnodiging
         return $this->id;
     }
 
-    public function getInvitationCode(): ?string
+    /**
+     * @return mixed
+     */
+    public function getUitnodigingsCode()
     {
-        return $this->invitationCode;
+        return $this->uitnodigingsCode;
     }
 
-    public function setInvitationCode(string $invitationCode): self
+    /**
+     * @param mixed $uitnodigingsCode
+     */
+    public function setUitnodigingsCode($uitnodigingsCode): void
     {
-        $this->invitationCode = $invitationCode;
-
-        return $this;
+        $this->uitnodigingsCode = $uitnodigingsCode;
     }
+
+
 
     public function getStartTime(): ?\DateTimeInterface
     {
@@ -99,9 +105,19 @@ class Uitnodiging
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDate()
     {
         return $this->date;
+    }
+
+    public function getDateFormatted()
+    {
+        setlocale(LC_TIME, 'NL_nl');
+
+        return strftime('%d %B %Y',$this->date->format('U'));
     }
 
     public function setDate(\DateTimeInterface $date): self
@@ -157,6 +173,13 @@ class Uitnodiging
     public function getGemaaktOp(): ?\DateTimeInterface
     {
         return $this->gemaaktOp;
+    }
+
+    public function getGemaaktOpFormatted()
+    {
+        setlocale(LC_TIME, 'NL_nl');
+
+        return strftime('%d %B %Y',$this->date->format('U'));
     }
 
     public function setGemaaktOp(\DateTimeInterface $gemaaktOp): self

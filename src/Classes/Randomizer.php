@@ -17,7 +17,7 @@
 			return $randomString;
 		}
 		
-		public function getInvitationCode($startTime, $endTime, $date, $slbId) {
+		public function getUitnodigingsCode($startTime, $endTime, $date, $slbId) {
 			$invitationCode = $startTime . $endTime . $date . $slbId;
 			
 			return $invitationCode;

@@ -37,9 +37,9 @@
 			
 			usort($afspraken, function($a, $b){
 				
-				if($a->getTime() > $b->getTime()){
+				if($a->getTijd() > $b->getTijd()){
 					return 1;
-				}elseif($a->getTime() < $b->getTime()){
+				}elseif($a->getTijd() < $b->getTijd()){
 					return -1;
 				}else{
 					return 0;
@@ -91,16 +91,16 @@
 				$pdf->SetFont('Arial','B',11);
 				$pdf->Cell(12,7,$i + 1,1,0,'C');
 				$pdf->SetFont('Arial','',10);
-				$pdf->Cell(45,7,$afspraken[$i]->getTime()->format('H:i'),1,0,'C');
+				$pdf->Cell(45,7,$afspraken[$i]->getTijd()->format('H:i'),1,0,'C');
 				$pdf->Cell(45,7,$afspraken[$i]->getStudent()->getNaam(),1,0,'C');
 				$metOuders = '';
-				if($afspraken[$i]->getWithParents()){
+				if($afspraken[$i]->getMetOuders()){
 					$metOuders = 'Met Ouders';
 				}else{
 					$metOuders = 'Alleen';
 				}
 				$pdf->Cell(45,7,$metOuders,1,0,'C');
-				$pdf->Cell(45,7,$afspraken[$i]->getPhoneNumber(),1,0,'C');
+				$pdf->Cell(45,7,$afspraken[$i]->getTelefoonNummer(),1,0,'C');
 			}
 			
 			$pdf->Output();

@@ -33,7 +33,7 @@
 				
 				$this->addFlash('success', 'Nieuwe locatie aangemaakt');
 				
-				return $this->redirectToRoute('administrator');
+				return $this->redirectToRoute('home');
 				
 			}
 			
@@ -66,7 +66,7 @@
 
                 $this->addFlash('success', 'Locatie ' . $locatie->getNaam() . ' gewijzigd');
 
-                return $this->redirectToRoute('administrator');
+                return $this->redirectToRoute('home');
 
             }
 

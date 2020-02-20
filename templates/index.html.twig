@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="rocmon-font w-100 mt-5"><i class="far fa-calendar-check"></i> Dashboard</h1>
+    <h1 class="rocmon-font w-100"><i class="far fa-calendar-check"></i> Dashboard</h1>
     {% if app.user %}
         <p>Welkom {{ app.user.firstname }} bij SimplyPlan van ROC Mondriaan.</p>
     {% else %}
@@ -28,17 +28,22 @@
 
             {% if uitnodigingen|length > 0 %}
 
-                <table class="table table-bordered table-striped text-center overflow-auto">
+                <table class="table table-striped text-center">
                     <thead>
-                    <th><i class="far fa-calendar-alt"></i> Klas</th>
-                    <th><i class="far fa-calendar-alt"></i> Wanneer</th>
-                    <th><i class="far fa-calendar-check"></i> Aantal afspraken</th>
+                    <tr>
+                        <th ><i class="far fa-calendar-alt"></i> Klas
+                        </th>
+                        <th><i class="far fa-calendar-alt"></i> Wanneer
+                        </th>
+                        <th><i class="far fa-calendar-check"></i> Aantal afspraken
+                        </th>
+                    </tr>
                     </thead>
                     <tbody>
                     {% for uitnodiging in uitnodigingen %}
                         <tr>
                             <td>{{ uitnodiging.klas.naam }}</td>
-                            <td>{{ uitnodiging.date|date('j F Y', "Europe/Amsterdam") }}
+                            <td>{{ uitnodiging.getDateFormatted}}
                                 vanaf {{ uitnodiging.startTime|date('H:i') }} </td>
                             <td>
                                 {% if app.user %}
@@ -75,71 +80,71 @@
                     {% if 'ROLE_ADMIN' in app.user.roles %}
                         <div class="row">
                             <div class="col-lg-6 col-md-12 mt-3">
-                                <a href="{{ path('uitnodiging') }}" class="btn btn-success btn-lg "><p
-                                            class="far fa-calendar-plus text-white iconsize"></p><br>
+                                <a href="{{ path('uitnodiging') }}" class="btn btn-outline-success btn-lg "><p
+                                            class="far fa-calendar-plus iconsize"></p><br>
                                     <p>Nieuwe
                                         uitnodiging</p></a>
                             </div>
                             <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('administrator_nieuwe_sbler') }}"
-                                   class="btn btn-success btn-lg"><p
-                                            class="fas fa-user-plus text-white iconsize"></p><br>
+                                   class="btn btn-outline-success btn-lg"><p
+                                            class="fas fa-user-plus iconsize"></p><br>
                                     <p>Nieuw SLB account</p></a>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('administrator_locatie_nieuw') }}"
-                                   class="btn btn-success btn-lg"><p
-                                            class="far fa-plus-square text-white iconsize"></p><br>
+                                   class="btn btn-outline-success btn-lg"><p
+                                            class="far fa-plus-square iconsize"></p><br>
                                     <p>Locatie toevoegen</p></a>
                             </div>
                             <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('administrator_locatie_lijst') }}"
-                                   class="btn btn-primary btn-lg"><p
-                                            class="fas fa-list text-white iconsize"></p><br>
+                                   class="btn btn-outline-primary btn-lg"><p
+                                            class="fas fa-list iconsize"></p><br>
                                     <p>Overzicht locaties</p></a>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('administrator') }}"
-                                   class="btn btn-primary btn-lg"><p
-                                            class="fas fa-envelope-open-text text-white iconsize"></p><br>
+                                   class="btn btn-outline-primary btn-lg"><p
+                                            class="fas fa-envelope-open-text iconsize"></p><br>
                                     <p>Overzicht uitnodigingen</p></a>
                             </div>
-                            <div class="col-lg-6 col-lg-12 mt-3">
+                            <div class="col-lg-6 col-md-12 mt-3">
                                 <a href="{{ path('administrator_klassen') }}"
-                                   class="btn btn-primary btn-lg float-right"><p
-                                            class="fas fa-list text-white iconsize"></p><br>
+                                   class="btn btn-outline-primary btn-lg float-right"><p
+                                            class="fas fa-list iconsize"></p><br>
                                     <p>Overzicht klassen</p></a>
                             </div>
                         </div>
                     {% elseif 'ROLE_SLB' in app.user.roles %}
                         <div class="row">
                             <div class="col-lg-6 col-sm-12 mt-3">
-                                <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-success btn-lg"><p
-                                            class="fas fa-user-plus text-white iconsize"></p><br>
+                                <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-outline-success btn-lg"><p
+                                            class="far fa-plus-square iconsize"></p><br>
                                     <p class="btn-text">Klas toevoegen</p></a>
                             </div>
                             <div class="col-lg-6 col-sm-12 mt-3">
                                 <a href="{{ path('slb_studenten_toevoegen') }}"
-                                   class="btn btn-success btn-lg float-right"><p
-                                            class="fas fa-user-plus text-white iconsize"></p>
+                                   class="btn btn-outline-success btn-lg float-right"><p
+                                            class="fas fa-user-plus iconsize"></p>
                                     <p class="btn-text">Studenten toevoegen</p></a>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-sm-12 mt-3">
                                 <a href="{{ path('slb') }}"
-                                   class="btn btn-primary btn-lg"><p
-                                            class="fas fa-list text-white iconsize"></p><br>
+                                   class="btn btn-outline-primary btn-lg"><p
+                                            class="fas fa-list iconsize"></p><br>
                                     <p>Overzicht klassen</p></a>
                             </div>
                             <div class="col-lg-6 col-sm-12 mt-3">
                                 <a href="{{ path('slb_uitnodigingen') }}"
-                                   class="btn btn-primary btn-lg float-right">
-                                    <p class="fas fa-envelope-open-text text-white iconsize"></p><br>
+                                   class="btn btn-outline-primary btn-lg float-right">
+                                    <p class="fas fa-envelope-open-text iconsize"></p><br>
                                     <p>Overzicht uitnodigingen</p></a>
                             </div>
                         </div>
@@ -178,3 +183,4 @@
     </div>
 
 {% endblock %}
+

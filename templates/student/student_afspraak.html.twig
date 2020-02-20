@@ -5,7 +5,7 @@
 
 {% block body %}
 
-    <h1 class="mt-2 mb-4">Afspraak maken <span class="text-muted">voor {{ uitnodiging.date|date('j F Y') }}</span></h1>
+    <h1 class="mt-2 mb-4">Afspraak maken <span class="text-muted">voor {{ uitnodiging.getDateFormatted }}</span></h1>
 
     {{ form_start(form) }}
     <div class="form-group row"><label class="col-form-label col-sm-2 required" for="student">Student</label>

@@ -51,6 +51,7 @@ class Student
     public function __construct()
     {
         $this->afspraken = new ArrayCollection();
+        setlocale(LC_TIME, 'NL_nl');
     }
 	
 	public function getNaam(): ?string

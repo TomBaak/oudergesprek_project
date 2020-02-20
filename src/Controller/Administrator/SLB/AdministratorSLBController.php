@@ -94,12 +94,12 @@
 					
 					$this->addFlash('error', 'Er ging iets mis tijdens het aanmaken van het account probeer het alstublieft nog eens');
 					
-					return $this->redirectToRoute('administrator');
+					return $this->redirectToRoute('home');
 				}
 				
 				$this->addFlash('success', 'Nieuw SLB account aan gemaakt');
 				
-				return $this->redirectToRoute('administrator');
+				return $this->redirectToRoute('home');
 			}
 			
 			return $this->render('administrator/SLB/administrator_nieuwe_slber.html.twig', [
