@@ -167,7 +167,7 @@
 				try {
 					
 					$email = (new Email())
-						->from('tomdevelop@gmail.com')
+						->from('')
 						->priority(Email::PRIORITY_HIGH)
 						->subject('Afspraak ouder gesprek')
 						->html('<div style="font-size:10pt;font-family:Segoe UI,sans-serif;">'
@@ -200,7 +200,7 @@
 					
 					$email->addTo($afspraak->getStudent()->getEmailAdres());
 					
-					$transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
+					$transport = new GmailSmtpTransport(NULL, NULL);
 					$mailer = new Mailer($transport);
 					$mailer->send($email);
 					

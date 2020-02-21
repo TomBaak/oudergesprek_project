@@ -76,7 +76,7 @@
                 $leerlingen = $klas->getStudents();
 
                 try {
-                    $transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
+                    $transport = new GmailSmtpTransport(NULL, NULL);
                     $mailer = new Mailer($transport);
 
                     $uitnodiging->setGemaaktOp(new DateTime());
@@ -84,7 +84,7 @@
                     $em->flush();
 
                     $email = (new Email())
-                        ->from('tomdevelop@gmail.com')
+                        ->from(NULL)
                         ->priority(Email::PRIORITY_HIGH)
                         ->subject('Uitnodiging ouder gesprek');
 
@@ -122,7 +122,7 @@
                     }
 
                     $emailSLBer = (new Email())
-                        ->from('tomdevelop@gmail.com')
+                        ->from(NULL)
                         ->priority(Email::PRIORITY_HIGH)
                         ->subject('Nieuwe uitnodiging ouder gesprek')
                         ->to( $uitnodiging->getKlas()->getSlb()->getEmail());

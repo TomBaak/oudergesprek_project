@@ -60,7 +60,7 @@
 					$em->flush();
 					
 					$email = (new Email())
-						->from('tomdevelop@gmail.com')
+						->from('')
 						->priority(Email::PRIORITY_HIGH)
 						->subject('Nieuw account Simply Plan')
 						->html('<div style="font-size:10pt;font-family:Segoe UI,sans-serif;">'
@@ -85,7 +85,7 @@
 					
 					$email->to($user->getEmail());
 					
-					$transport = new GmailSmtpTransport('tomdeveloping@gmail.com', 'TDevelop20032002');
+					$transport = new GmailSmtpTransport(NULL, NULL);
 					$mailer = new Mailer($transport);
 					$mailer->send($email);
 					

@@ -179,7 +179,7 @@ class Uitnodiging
     {
         setlocale(LC_TIME, 'NL_nl');
 
-        return strftime('%d %B %Y',$this->date->format('U'));
+        return strftime('%d %B %Y',$this->gemaaktOp->format('U'));
     }
 
     public function setGemaaktOp(\DateTimeInterface $gemaaktOp): self
