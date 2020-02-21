@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block backLink %}
+
+    {{ path('home') }}
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container w-75 mt-3">
+
+        {% if edit %}
+
+            <h1 class="mb-4"><i class="far fa-edit text-warning"></i> Locatie {{ locatie.naam }} wijzigen</h1>
+
+        {% else %}
+
+            <h1 class="mb-4"><i class="far fa-plus-square"></i> Locatie toevoegen</h1>
+
+        {% endif %}
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        {% if edit %}
+
+            <input type="submit" class="form-control col btn btn-outline-warning" value="Wijzigen">
+
+        {% else %}
+
+            <input type="submit" class="form-control col btn btn-outline-success" value="Toevoegen">
+
+        {% endif %}
+
+
+        {{ form_end(form) }}
+
+    </div>
+
+{% endblock %}

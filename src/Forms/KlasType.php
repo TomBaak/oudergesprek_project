@@ -3,6 +3,7 @@
 	
 	use App\Entity\Klas;
 	use App\Entity\LeerlingType;
+	use App\Entity\Location;
 	use App\Entity\User;
 	use Doctrine\ORM\EntityRepository;
 	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,18 +22,15 @@
 		{
 			parent::buildForm($builder, $options);
 			$builder
-				->add('naam', TextType::class, ['label' => 'Klas naam','required' => true])
-				->add('slb', EntityType::class, [
+				->add('naam', TextType::class, ['label' => 'Klas naam', 'required' => true])
+				->add('location', EntityType::class, [
 					
-					'class' => User::class,
-					'query_builder' => function (EntityRepository $er) {
-						return $er->createQueryBuilder('u')
-							->where('u.isAdmin = 0')
-							->orderBy('u.firstname', 'ASC');
-					},
-					'choice_label' => 'displayname',
-					'label' => 'SLBer',
-					'required' => true
+					'label' => 'Klas locatie',
+					'class' => Location::class,
+					'required' => true,
+					'choice_label' => function ($category) {
+						return $category->getNaam() . ' - ' . $category->getAdres();
+					}
 				
 				]);
 		}

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block backLink %}
+
+    {% if 'ROLE_SLB' in app.user.roles %}
+        {{ path('slb') }}
+    {% elseif 'ROLE_ADMIN' in app.user.roles %}
+        {{ path('administrator_klassen') }}
+    {% endif %}
+
+{% endblock %}
+
+{% block body %}
+
+    <div>
+
+        <h1 class="pb-3 pt-3 w-100"><i class="fas fa-calendar-alt"></i> Uitnodigingen{% if klas %} <span
+                    class="text-muted">van klas {{ klas.naam }}</span>{% endif %}</h1>
+
+        {% if uitnodigingen %}
+            <table class="table  table-striped text-center">
+                <thead>
+                <th><i class="far fa-calendar-alt"></i> Datum</th>
+                <th><i class="far fa-clock"></i></i> Tijden</th>
+                <th><i class="far fa-calendar-plus"></i> Gemaakt op:</th>
+                <th><i class="far fa-calendar-check"></i> Afspraken</th>
+                </thead>
+                <tbody>
+                {% for uitnodiging in uitnodigingen %}
+                    <tr>
+                        <td>{{ uitnodiging.getDateFormatted }}</td>
+                        <td>{{ uitnodiging.startTime|date('H:i') }} t/m {{ uitnodiging.stopTime|date('H:i') }}</td>
+                        <td>{{ uitnodiging.gemaaktOpFormatted }}</td>
+
+                        <td><a href="{% if 'ROLE_SLB' in app.user.roles %}
+                            {{ path('slb_afspraken',{id: uitnodiging.id}) }}
+                        {% elseif 'ROLE_ADMIN' in app.user.roles %}
+                            {{ path('inschrijvingen',{id: uitnodiging.id}) }}
+                        {% endif %}">Bekijk gemaakte
+                                afspraken <span
+                                        class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h3 class=""><i class="far fa-calendar-times text-warning"></i> Er zijn
+                nog geen uitnodigingen aangemaakt</h3>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

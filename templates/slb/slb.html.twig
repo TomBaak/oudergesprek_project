@@ -1,47 +1,55 @@
 {% extends 'base.html.twig' %}
 
+{% block backLink %}
+    {{ path('home') }}
+{% endblock %}
+
 {% block body %}
 
-    <div class="container w-75 m-auto">
+    <div class="container p-0">
 
-    {% if app.user.klas|length == 0 %}
-        <h1 class="text-danger text-center mt-5"><i class="fas fa-exclamation-triangle text-warning"></i> U ben niet gekoppeld aan een klas neem contact op met een administrator</h1>
+        <h1 class="mt-3 mb-4"><i class="fas fa-users"></i> Klassen</h1>
+
+        {% if klassen %}
+
+            <table class="table table-striped  overflow-auto text-center table-responsive">
+
+                <thead>
+                <tr>
+                    <th><i class="fas fa-align-left"></i> Klas naam:</th>
+                    <th><i class="fas fa-users"></i> Aantal studenten:</th>
+                    <th><i class="fas fa-map-marked"></i> Locatie:</th>
+                    <th><i class="fas fa-list-ol"></i> Student(en):</th>
+                    <th><i class="fas fa-envelope-open-text"></i> Uitnodigingen:</th>
+                    <th><i class="fas fa-trash"></i> Verwijderen:</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for klas in klassen %}
+
+                    <tr>
+                        <td class="col-sm-2 font-weight-bold">{{ klas.naam }}</td>
+                        <td class="col-sm-1">{{ klas.students|length }}</td>
+                        <td class="col-sm-6">{{ klas.location.naam }}</td>
+                        <td class="col-sm-1"><a href="{{ path('slb_studenten',{id:klas.id}) }}" class="w-100"><i
+                                        class="fas fa-list-ol"></i></a></td>
+                        <td class="col-sm-1"><a href="{{ path('slb_klas_uitnodigingen',{id:klas.id}) }}"
+                                                class="w-100"><i
+                                        class="fas fa-envelope-open-text"></i> <span
+                                        class="badge badge-pill badge-primary position-relative">{{ klas.uitnodiging|length }}</span></a>
+                        </td>
+                        <td class="col-sm-1"><a href="{{ path('slb_klas_verwijderen',{id:klas.id}) }}" class="w-100"><i
+                                        class="fas fa-trash text-danger"></i></a></td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+
+            </table>
+
         {% else %}
-
-        <div class="row">
-            <div class="col-sm-8">
-                <h1 class="text-center p-3"><i class="fas fa-calendar-alt"></i> Actieve uitnodigingen</h1>
-                {% if invitations %}
-                    <table class="table table-bordered table-striped text-center">
-                        <thead>
-                        <th><i class="fas fa-users"></i> Klas</th>
-                        <th><i class="far fa-calendar-alt"></i> Datum</th>
-                        <th><i class="far fa-calendar-check"></i> Afspraken</th>
-                        </thead>
-                        <tbody>
-                        {% for invitation in invitations %}
-                            <tr>
-                                <td>{{ invitation.klas.naam }}</td>
-                                <td>{{ invitation.date|date('j-M-Y') }}</td>
-                                <td><a href="{{path('inschrijvingen',{id: invitation.id})}}">Bekijk gemaakte afspraken</a></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <h3 class="text-center"><i class="far fa-calendar-times"></i> U heeft
-                        nog geen uitnodigingen aangemaakt</h3>
-                {% endif %}
-            </div>
-            <div class="col">
-                <h1 class="text-center p-3"><i class="fas fa-cog"></i> Opties</h1>
-                <div class="border w-100 p-3">
-                    <a href="{{ path('uitnodiging') }}" class="btn btn-success w-100"><i class="fas fa-plus"></i>&nbsp;&nbsp;Nieuwe
-                        uitnodiging</a>
-                </div>
-            </div>
-        </div>
-
+            <h3 class="text-center"><i class="fas fa-exclamation-triangle text-warning"></i> U heeft nog geen klassen
+                aangemaakt</h3>
         {% endif %}
 
     </div>

@@ -19,57 +19,56 @@ class Student
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $naam;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $studentId;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Klas", inversedBy="students")
      */
     private $klas;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Afspraak", mappedBy="student")
+     * @ORM\OneToMany(targetEntity="App\Entity\Afspraak", mappedBy="student", orphanRemoval=true)
      */
     private $afspraken;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $tussenVoegsel;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $voornaam;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $achternaam;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $emailAdres;
 
     public function __construct()
     {
         $this->afspraken = new ArrayCollection();
+        setlocale(LC_TIME, 'NL_nl');
     }
-
+	
+	public function getNaam(): ?string
+	{
+		
+		if(strlen($this->tussenVoegsel) > 0){
+			return $this->voornaam . ' ' . $this->tussenVoegsel . ' ' . $this->achternaam;
+		}else{
+			return $this->voornaam . ' ' . $this->achternaam;
+		}
+		
+		
+	}
+    
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNaam(): ?string
-    {
-        return $this->naam;
-    }
-
-    public function setNaam(string $naam): self
-    {
-        $this->naam = $naam;
-
-        return $this;
-    }
-
-    public function getStudentId(): ?string
-    {
-        return $this->studentId;
-    }
-
-    public function setStudentId(string $studentId): self
-    {
-        $this->studentId = $studentId;
-
-        return $this;
     }
 
     public function getKlas(): ?Klas
@@ -111,6 +110,54 @@ class Student
                 $afspraken->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTussenVoegsel(): ?string
+    {
+        return $this->tussenVoegsel;
+    }
+
+    public function setTussenVoegsel(string $tussenVoegsel): self
+    {
+        $this->tussenVoegsel = $tussenVoegsel;
+
+        return $this;
+    }
+
+    public function getVoornaam(): ?string
+    {
+        return $this->voornaam;
+    }
+
+    public function setVoornaam(string $voornaam): self
+    {
+        $this->voornaam = $voornaam;
+
+        return $this;
+    }
+
+    public function getAchternaam(): ?string
+    {
+        return $this->achternaam;
+    }
+
+    public function setAchternaam(string $achternaam): self
+    {
+        $this->achternaam = $achternaam;
+
+        return $this;
+    }
+
+    public function getEmailAdres(): ?string
+    {
+        return $this->emailAdres;
+    }
+
+    public function setEmailAdres(string $emailAdres): self
+    {
+        $this->emailAdres = $emailAdres;
 
         return $this;
     }

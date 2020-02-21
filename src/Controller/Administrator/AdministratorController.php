@@ -5,6 +5,8 @@
 	
 	
 	use App\Entity\Klas;
+	use App\Entity\Uitnodiging;
+	use DateTime;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\Routing\Annotation\Route;
 	
@@ -16,15 +18,17 @@
 		 */
 		public function administrator()
 		{
-			$classes = $this->getDoctrine()->getRepository(Klas::class)->findAll();
+			$uitnodigingen = $this->getDoctrine()->getRepository(Uitnodiging::class)->findAll();
 			
 			return $this->render('administrator/administrator.html.twig',[
 				
-				'classes' => $classes
+				'uitnodigingen' => $uitnodigingen,
+				'vandaag' => new DateTime()
 			
 			]);
 			
 		}
+		
 		
 		
 	}

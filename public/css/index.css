@@ -1,0 +1,61 @@
+.dash-btn {
+
+    height: 50% !important;
+    min-height: 50% !important;
+    width: 45% !important;
+    min-width: 45% !important;
+    background-color: var(--primary);
+    border-radius: 0.25rem;
+    overflow: hidden;
+
+}
+
+.dash-ml {
+    float: right;
+}
+
+.dash-mr {
+    float: left;
+}
+
+.dash-text {
+
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    color: var(--dark);
+
+}
+
+body {
+    padding-top: 20px;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.panel-body{
+
+    width: 90%;
+
+}
+
+.panel-body
+.btn:not(.btn-block) {
+    width: 100% !important;
+    height: 135px !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+    text-wrap: normal !important;
+    padding: 15px 10px 0 10px !important;
+    line-height: 90%;
+}
+
+.btn-text{
+}
+
+/* Font Size For Button Text */
+.iconsize {
+    font-size: 48px !important;
+}

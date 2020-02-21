@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block backLink %}
+    {{ path('home') }}
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="mb-4 mt-3"><i class="fas fa-list"></i> Locaties</h1>
+
+    {% if locaties %}
+        <table class="table  table-striped text-center">
+            <thead>
+            <tr class="w-100">
+                <th><i class="fas fa-align-left"></i> Naam</th>
+                <th><i class="fas fa-map-marked"></i> Adres</th>
+                <th><i class="fas fa-user-tie"></i> Directeur</th>
+                <th><i class="fas fa-edit"></i> Wijzigen</th>
+                <th><i class="fas fa-trash"></i> Verwijderen</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for locatie in locaties %}
+                <tr>
+                    <td>{{ locatie.naam }}</td>
+                    <td>{{ locatie.adres }}</td>
+                    <td>{{ locatie.directeur }}</td>
+                    <td><a href="{{ path('administrator_locatie_wijzigen', {id:locatie.id}) }}"><i
+                                    class="far fa-edit text-warning"></i></a></td>
+                    <td><a href="{{ path('administrator_locatie_verwijderen', {id:locatie.id}) }}"><i
+                                    class="fas fa-trash text-danger"></i></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h3 class="text-center "><i class="far fa-calendar-times text-warning"></i> Er zijn
+            nog geen uitnodigingen aangemaakt</h3>
+    {% endif %}
+
+{% endblock %}

@@ -1,10 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block back %}
+{% endblock %}
+
 {% block body %}
 
-    <h1 class="mt-2 mb-4">Afspraak maken <span class="text-muted">voor {{ uitnodiging.date|date('j F Y') }}</span></h1>
+    <h1 class="mt-2 mb-4">Afspraak maken <span class="text-muted">voor {{ uitnodiging.getDateFormatted }}</span></h1>
 
     {{ form_start(form) }}
+    <div class="form-group row"><label class="col-form-label col-sm-2 required" for="student">Student</label>
+        <div class="col-sm-10"><input type="text" id="student" disabled="disabled" class="form-control" value="{{ student }}"/></div>
+    </div>
     {{ form_widget(form) }}
     <input type="submit" class="form-control col btn btn-outline-success" value="Maak afspraak">
     {{ form_end(form) }}

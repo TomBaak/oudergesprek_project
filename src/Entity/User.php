@@ -50,18 +50,14 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="users")
      */
-    private $username;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isAdmin;
+    private $location;
 
     public function __construct()
     {
         $this->klas = new ArrayCollection();
+        setlocale(LC_TIME, 'NL_nl');
     }
 
     public function getId(): ?int
@@ -99,6 +95,11 @@ class User implements UserInterface
     {
         return $this->firstname;
     }
+	
+	public function getFirstLetter(): ?string
+         	{
+         		return substr($this->firstname, 0, 1) . '.';
+         	}
 
     public function setFirstname(string $firstname): self
     {
@@ -165,13 +166,13 @@ class User implements UserInterface
 	 * @return (Role|string)[] The user roles
 	 */
 	public function getRoles()
-                              	{
-									$roles = $this->roles;
-									
-									$roles[] = 'ROLE_USER';
-	  
-									return array_unique($roles);
-                              	}
+                                       	{
+         									$roles = $this->roles;
+         									
+         									$roles[] = 'ROLE_USER';
+         	  
+         									return array_unique($roles);
+                                       	}
 	
 	/**
 	 * Returns the salt that was originally used to encode the password.
@@ -181,9 +182,9 @@ class User implements UserInterface
 	 * @return string|null The salt
 	 */
 	public function getSalt()
-                              	{
-                              		// TODO: Implement getSalt() method.
-                              	}
+                                       	{
+                                       		// TODO: Implement getSalt() method.
+                                       	}
 	
 	/**
 	 * Returns the username used to authenticate the user.
@@ -191,9 +192,9 @@ class User implements UserInterface
 	 * @return string The username
 	 */
 	public function getUsername()
-                              	{
-                              		return $this->username;
-                              	}
+                                       	{
+                                       		return $this->email;
+                                       	}
 	
 	/**
 	 * Removes sensitive data from the user.
@@ -202,32 +203,13 @@ class User implements UserInterface
 	 * the plain-text password is stored on this object.
 	 */
 	public function eraseCredentials()
-                              	{
-                              		// TODO: Implement eraseCredentials() method.
-                              	}
+                                       	{
+                                       		// TODO: Implement eraseCredentials() method.
+                                       	}
 
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getIsAdmin(): ?bool
-    {
-        return $this->isAdmin;
-    }
-
-    public function setIsAdmin(bool $isAdmin): self
-    {
-        $this->isAdmin = $isAdmin;
 
         return $this;
     }
@@ -236,4 +218,16 @@ class User implements UserInterface
 	{
 		return $this->getFirstname() . ' ' . $this->getLastname();
 	}
+
+    public function getLocation(): ?location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?location $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
 }

@@ -1,14 +1,186 @@
 {% extends ('base.html.twig') %}
 
-{% block body %}
-    <h1 class="rocmon-font text-center w-100 mt-5"><i class="far fa-calendar-check"></i> SimplyPlan</h1>
+{% block stylesheets %}
 
-    {% if app.user %}
-            <p class="text-center">Welkom {{ app.user.firstname }} bij SimplyPlan van ROC Mondriaan.</p>
-    {% else %}
-        <p class="text-center">Welkom bij SimplyPlan van ROC Mondriaan. <a href="{{ path('login') }}">Log in</a> om de
-            applicatie te gebruiken.</p>
-    {% endif %}
+    {{ parent() }}
 
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 
 {% endblock %}
+
+{% block back %}
+{% endblock %}
+
+{% block body %}
+    <h1 class="rocmon-font w-100"><i class="far fa-calendar-check"></i> Dashboard</h1>
+    {% if app.user %}
+        <p>Welkom {{ app.user.firstname }} bij SimplyPlan van ROC Mondriaan.</p>
+    {% else %}
+        <p>Welkom bij SimplyPlan van ROC Mondriaan. Log in om de applicatie te gebruiken.</p>
+    {% endif %}
+    <hr class="bg-primary">
+
+    <div class="row">
+
+        <div class="col">
+
+            <h1 class="pt-3 pb-3"><i class="fas fa-calendar-alt"></i> Actieve uitnodigingen</h1>
+
+            {% if uitnodigingen|length > 0 %}
+
+                <table class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th ><i class="far fa-calendar-alt"></i> Klas
+                        </th>
+                        <th><i class="far fa-calendar-alt"></i> Wanneer
+                        </th>
+                        <th><i class="far fa-calendar-check"></i> Aantal afspraken
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for uitnodiging in uitnodigingen %}
+                        <tr>
+                            <td>{{ uitnodiging.klas.naam }}</td>
+                            <td>{{ uitnodiging.getDateFormatted}}
+                                vanaf {{ uitnodiging.startTime|date('H:i') }} </td>
+                            <td>
+                                {% if app.user %}
+                                    {% if 'ROLE_SLB' in app.user.roles %}
+                                        <a href="{{ path('slb_afspraken',{id: uitnodiging.id}) }}"><i
+                                                    class="fas fa-list"></i> Bekijk <span
+                                                    class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a>
+                                    {% elseif 'ROLE_ADMIN' in app.user.roles %}
+                                        <a href="{{ path('inschrijvingen',{id: uitnodiging.id}) }}"><i
+                                                    class="fas fa-list"></i> Bekijk <span
+                                                    class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span></a>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="badge badge-pill badge-primary position-relative">{{ uitnodiging.afspraken|length }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            {% else %}
+
+                <h2>Er zijn momenteel geen uitnodigingen</h2>
+
+            {% endif %}
+
+        </div>
+        {% if app.user %}
+            <div class="col-sm-5">
+
+                <h1 class="pb-3"><i class="fas fa-cog"></i> Opties</h1>
+                <div class="border pr-3 pl-3 pb-3 panel-body">
+                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 mt-3">
+                                <a href="{{ path('uitnodiging') }}" class="btn btn-outline-success btn-lg "><p
+                                            class="far fa-calendar-plus iconsize"></p><br>
+                                    <p>Nieuwe
+                                        uitnodiging</p></a>
+                            </div>
+                            <div class="col-lg-6 col-md-12 mt-3">
+                                <a href="{{ path('administrator_nieuwe_sbler') }}"
+                                   class="btn btn-outline-success btn-lg"><p
+                                            class="fas fa-user-plus iconsize"></p><br>
+                                    <p>Nieuw SLB account</p></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 mt-3">
+                                <a href="{{ path('administrator_locatie_nieuw') }}"
+                                   class="btn btn-outline-success btn-lg"><p
+                                            class="far fa-plus-square iconsize"></p><br>
+                                    <p>Locatie toevoegen</p></a>
+                            </div>
+                            <div class="col-lg-6 col-md-12 mt-3">
+                                <a href="{{ path('administrator_locatie_lijst') }}"
+                                   class="btn btn-outline-primary btn-lg"><p
+                                            class="fas fa-list iconsize"></p><br>
+                                    <p>Overzicht locaties</p></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 mt-3">
+                                <a href="{{ path('administrator') }}"
+                                   class="btn btn-outline-primary btn-lg"><p
+                                            class="fas fa-envelope-open-text iconsize"></p><br>
+                                    <p>Overzicht uitnodigingen</p></a>
+                            </div>
+                            <div class="col-lg-6 col-md-12 mt-3">
+                                <a href="{{ path('administrator_klassen') }}"
+                                   class="btn btn-outline-primary btn-lg float-right"><p
+                                            class="fas fa-list iconsize"></p><br>
+                                    <p>Overzicht klassen</p></a>
+                            </div>
+                        </div>
+                    {% elseif 'ROLE_SLB' in app.user.roles %}
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12 mt-3">
+                                <a href="{{ path('slb_nieuwe_klas') }}" class="btn btn-outline-success btn-lg"><p
+                                            class="far fa-plus-square iconsize"></p><br>
+                                    <p class="btn-text">Klas toevoegen</p></a>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mt-3">
+                                <a href="{{ path('slb_studenten_toevoegen') }}"
+                                   class="btn btn-outline-success btn-lg float-right"><p
+                                            class="fas fa-user-plus iconsize"></p>
+                                    <p class="btn-text">Studenten toevoegen</p></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12 mt-3">
+                                <a href="{{ path('slb') }}"
+                                   class="btn btn-outline-primary btn-lg"><p
+                                            class="fas fa-list iconsize"></p><br>
+                                    <p>Overzicht klassen</p></a>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mt-3">
+                                <a href="{{ path('slb_uitnodigingen') }}"
+                                   class="btn btn-outline-primary btn-lg float-right">
+                                    <p class="fas fa-envelope-open-text iconsize"></p><br>
+                                    <p>Overzicht uitnodigingen</p></a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="col-sm-4    ">
+                <h1 class="text-center p-3"><i class="fas fa-lock-open"></i> Inloggen</h1>
+
+                <div class="border rounded p-3">
+                    <form class="w-75 m-auto" method="post" action="{{ path('login') }}">
+                        <div class="row">
+                            <div class="col-sm-12"><label for="email">Email:</label></div>
+                            <div class="col-sm-12"><input class="form-control" type="email"
+                                                          id="email" name="email" placeholder="Email"></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-12"><label for="pw">Wachtwoord:</label></div>
+                            <div class="col-sm-12"><input class="form-control" type="password" id="pw"
+                                                          name="password"
+                                                          placeholder="Wachtwoord"></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-12"></div>
+                            <div class="col-sm-12"><input class="form-control btn btn-outline-primary" type="submit"
+                                                          value="Log in"></div>
+                        </div>
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}">
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+

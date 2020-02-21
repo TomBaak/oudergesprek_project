@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Klas
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -24,7 +25,7 @@ class Klas
     private $slb;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Uitnodiging", mappedBy="klas")
+     * @ORM\OneToMany(targetEntity="App\Entity\Uitnodiging", mappedBy="klas", orphanRemoval=true)
      */
     private $uitnodiging;
 	
@@ -34,14 +35,21 @@ class Klas
 	private $naam;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="klas")
+     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="klas", orphanRemoval=true)
      */
     private $students;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="klas")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $location;
 
     public function __construct()
     {
         $this->uitnodiging = new ArrayCollection();
         $this->students = new ArrayCollection();
+        setlocale(LC_TIME, 'NL_nl');
     }
 
     public function getId(): ?int
@@ -131,6 +139,18 @@ class Klas
                 $student->setKlas(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

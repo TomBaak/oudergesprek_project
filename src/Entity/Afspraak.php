@@ -9,6 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Afspraak
 {
+
+    public function __construct()
+    {
+        setlocale(LC_TIME, 'NL_nl');
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -19,17 +25,17 @@ class Afspraak
     /**
      * @ORM\Column(type="boolean")
      */
-    private $withParents;
+    private $metOuders;
 
     /**
      * @ORM\Column(type="time")
      */
-    private $time;
+    private $tijd;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $phoneNumber;
+    private $telefoonNummer;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Uitnodiging", inversedBy="afspraken")
@@ -45,41 +51,53 @@ class Afspraak
     {
         return $this->id;
     }
-    
-    public function getWithParents(): ?bool
+
+    /**
+     * @return mixed
+     */
+    public function getMetOuders()
     {
-        return $this->withParents;
+        return $this->metOuders;
     }
 
-    public function setWithParents(bool $withParents): self
+    /**
+     * @param mixed $metOuders
+     */
+    public function setMetOuders($metOuders): void
     {
-        $this->withParents = $withParents;
-
-        return $this;
+        $this->metOuders = $metOuders;
     }
 
-    public function getTime(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getTijd()
     {
-        return $this->time;
+        return $this->tijd;
     }
 
-    public function setTime(\DateTimeInterface $time): self
+    /**
+     * @param mixed $tijd
+     */
+    public function setTijd($tijd): void
     {
-        $this->time = $time;
-
-        return $this;
+        $this->tijd = $tijd;
     }
 
-    public function getPhoneNumber(): ?string
+    /**
+     * @return mixed
+     */
+    public function getTelefoonNummer()
     {
-        return $this->phoneNumber;
+        return $this->telefoonNummer;
     }
 
-    public function setPhoneNumber(string $phoneNumber): self
+    /**
+     * @param mixed $telefoonNummer
+     */
+    public function setTelefoonNummer($telefoonNummer): void
     {
-        $this->phoneNumber = $phoneNumber;
-
-        return $this;
+        $this->telefoonNummer = $telefoonNummer;
     }
 
     public function getUitnodiging(): ?Uitnodiging
